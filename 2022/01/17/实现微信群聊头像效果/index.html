@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="这个爱酱不太聪明">
+    
+    <meta name="description" content="技术宅改变世界">
+    
+    
+    
+    
+    
+    
+    
+      <link rel="icon" href="/imgs/favicon.ico">
+        
+    <title>实现微信群聊头像效果 | 这个爱酱不太聪明</title>
+    <link href="https://wanwan-doudou/github.io" rel="prefetch" />
+
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/js/jquery.min.js"></script>
+
+    
+<script src="/js/bootstrap.min.js"></script>
+
+    
+<script src="/js/aos.js"></script>
+
+    
+<script src="/js/highslide/highslide-full.min.js"></script>
+
+    
+<link rel="stylesheet" href="/js/highslide/highslide.css">
+
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg,preview5.jpg,preview6.jpg,preview7.jpg,preview8.jpg,preview9.jpg,preview10.jpg,preview11.jpg,preview12.jpg,preview13.jpg,preview14.jpg,preview15.jpg,preview16.jpg,preview17.jpg,preview18.jpg,preview19.jpg,preview20.jpg,preview21.jpg,preview22.jpg,preview22.jpg,preview23.jpg,preview24.jpg,preview25.jpg,preview26.jpg,preview27.jpg,preview28.jpg,preview29.jpg,preview30.jpg,preview31.jpg,preview32.jpg,preview33.jpg,preview34.jpg,preview35.jpg,preview36.jpg,preview37.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+  <body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+      <!-- 欧尼酱功能, 谁用谁知道 -->
+      
+            <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a target="_blank" rel="noopener" href="https://kwydy.cn/">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">这个爱酱不太聪明</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/categories">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/%E6%8F%92%E4%BB%B6/">插件</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/java/">java</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">并发编程</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/gallery">
+                        <i class="fa fa-tags"></i>相册
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>我和宝宝
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+<div id="sakana-widget" style="position:fixed ;bottom: 10px; right: 10px;"></div>
+<script>
+  function initSakanaWidget() {
+    new SakanaWidget().mount('#sakana-widget');
+  }
+</script>
+<script
+  async
+  onload="initSakanaWidget()"
+  src="https://cdn.jsdelivr.net/npm/sakana-widget@2.2.2/lib/sakana.min.js"
+></script>
+              <div id="gal-body">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-8 gal-right" id="mainstay">
+                      
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://wanwan-doudou/github.io">这个爱酱不太聪明</a>
+        >
+        <span>实现微信群聊头像效果</span>
+    </div>
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2022/01/17/%E5%AE%9E%E7%8E%B0%E5%BE%AE%E4%BF%A1%E7%BE%A4%E8%81%8A%E5%A4%B4%E5%83%8F%E6%95%88%E6%9E%9C/">实现微信群聊头像效果</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/uniapp/">uniapp</a>
+                
+            </span>
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2022-01-17
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2022/01/17/%E5%AE%9E%E7%8E%B0%E5%BE%AE%E4%BF%A1%E7%BE%A4%E8%81%8A%E5%A4%B4%E5%83%8F%E6%95%88%E6%9E%9C/">实现微信群聊头像效果</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2022-01-17
+            </p>
+            <p>
+                
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/uniapp/">uniapp</a>
+                
+                
+                
+            </p>
+        </center>
+    </div>
+    <div class="content-article">
+        <p>参考<a target="_blank" rel="noopener" href="https://ext.dcloud.net.cn/plugin?id=5456">群聊头像（自用） - DCloud 插件市场</a></p>
+<p>我们要实现这种效果</p>
+<p><a target="_blank" rel="noopener" href="https://kwydy.oss-cn-guangzhou.aliyuncs.com/blog/image-20220117200745476.png"><img src="https://kwydy.oss-cn-guangzhou.aliyuncs.com/blog/image-20220117200745476.png" title="点击放大"></a></p>
+<p>首先用使用HBuilderX导入插件</p>
+<p><a target="_blank" rel="noopener" href="https://kwydy.oss-cn-guangzhou.aliyuncs.com/blog/image-20220117200541243.png"><img src="https://kwydy.oss-cn-guangzhou.aliyuncs.com/blog/image-20220117200541243.png" title="点击放大"></a></p>
+<p>接着在uni_modules包下面会得到一这个这样的文件，我们要用到的是这个js文件</p>
+<p><a target="_blank" rel="noopener" href="https://kwydy.oss-cn-guangzhou.aliyuncs.com/blog/image-20220117200536376.png"><img src="https://kwydy.oss-cn-guangzhou.aliyuncs.com/blog/image-20220117200536376.png" title="点击放大"></a></p>
+<p>导入js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> createAvatar <span class="keyword">from</span> <span class="string">&#x27;@/uni_modules/ch-avatar/js_sdk/index.js&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>准备好你需要操作的图片</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> imgs = [										<span class="string">&#x27;https://img0.baidu.com/it/u=3101694723,748884042&amp;fm=26&amp;fmt=auto&amp;gp=0.jpg&#x27;</span>,		<span class="string">&#x27;https://img2.baidu.com/it/u=3566088443,3713209594&amp;fm=26&amp;fmt=auto&amp;gp=0.jpg&#x27;</span>,  </span><br><span class="line"><span class="string">&#x27;https://img1.baidu.com/it/u=1361135963,570304265&amp;fm=26&amp;fmt=auto&amp;gp=0.jpg&#x27;</span>,		<span class="string">&#x27;https://img1.baidu.com/it/u=2496571732,442429806&amp;fm=26&amp;fmt=auto&amp;gp=0.jpg&#x27;</span>,  </span><br><span class="line">	<span class="comment">//这个链接是错的，为了体现获取图片错误时会获取本地默认图片  </span></span><br><span class="line"><span class="string">&#x27;https://img2.baidu.com/it/u=4247656867,4135832390&amp;fm=11&amp;fmt=auto&amp;gp=0.jpg&#x27;</span>,  </span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>然后将值传入</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> res = <span class="keyword">await</span> <span class="title function_">createAvatar</span>(&#123;  </span><br><span class="line">	<span class="attr">canvasId</span>: <span class="variable language_">this</span>.<span class="property">canvasId</span>,  </span><br><span class="line">	<span class="attr">data</span>: imgs  </span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>完整代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">## 基本用法  </span><br><span class="line"><span class="string">``</span><span class="string">`html  </span></span><br><span class="line"><span class="string">&lt;template&gt;  </span></span><br><span class="line"><span class="string">	&lt;view&gt;  </span></span><br><span class="line"><span class="string">		&lt;button type=&quot;primary&quot; @tap=&quot;cerate&quot;&gt;创建群组头像&lt;/button&gt;  </span></span><br><span class="line"><span class="string">		&lt;canvas :canvas-id=&quot;canvasId&quot; style=&quot;width: 120px; height: 120px; margin: 36px auto;&quot;&gt;&lt;/canvas&gt;  </span></span><br><span class="line"><span class="string">	&lt;/view&gt;  </span></span><br><span class="line"><span class="string">&lt;/template&gt;  </span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">&lt;script&gt;  </span></span><br><span class="line"><span class="string">	import createAvatar from &#x27;@/uni_modules/ch-avatar/js_sdk/index.js&#x27;  </span></span><br><span class="line"><span class="string">	export default &#123;  </span></span><br><span class="line"><span class="string">		data() &#123;  </span></span><br><span class="line"><span class="string">			return &#123;  </span></span><br><span class="line"><span class="string">				canvasId: &#x27;canvas&#x27;  </span></span><br><span class="line"><span class="string">			&#125;  </span></span><br><span class="line"><span class="string">		&#125;,  </span></span><br><span class="line"><span class="string">		onLoad() &#123;&#125;,  </span></span><br><span class="line"><span class="string">		methods: &#123;  </span></span><br><span class="line"><span class="string">			async cerate() &#123;  </span></span><br><span class="line"><span class="string">				let imgs = [  </span></span><br><span class="line"><span class="string">					&#x27;https://img0.baidu.com/it/u=3101694723,748884042&amp;fm=26&amp;fmt=auto&amp;gp=0.jpg&#x27;,  </span></span><br><span class="line"><span class="string">					&#x27;https://img2.baidu.com/it/u=3566088443,3713209594&amp;fm=26&amp;fmt=auto&amp;gp=0.jpg&#x27;,  </span></span><br><span class="line"><span class="string">					&#x27;https://img1.baidu.com/it/u=1361135963,570304265&amp;fm=26&amp;fmt=auto&amp;gp=0.jpg&#x27;,  </span></span><br><span class="line"><span class="string">					&#x27;https://img1.baidu.com/it/u=2496571732,442429806&amp;fm=26&amp;fmt=auto&amp;gp=0.jpg&#x27;,  </span></span><br><span class="line"><span class="string">					//这个链接是错的，为了体现获取图片错误时会获取本地默认图片  </span></span><br><span class="line"><span class="string">					&#x27;https://img2.baidu.com/it/u=4247656867,4135832390&amp;fm=11&amp;fmt=auto&amp;gp=0.jpg&#x27;,  </span></span><br><span class="line"><span class="string">					&#x27;https://img0.baidu.com/it/u=3438413553,834879777&amp;fm=26&amp;fmt=auto&amp;gp=0.jpg&#x27;,  </span></span><br><span class="line"><span class="string">					&#x27;https://img2.baidu.com/it/u=3681880960,455182084&amp;fm=26&amp;fmt=auto&amp;gp=0.jpg&#x27;,  </span></span><br><span class="line"><span class="string">					&#x27;https://img2.baidu.com/it/u=3681880960,455182084&amp;fm=26&amp;fmt=auto&amp;gp=0.jpg&#x27;,  </span></span><br><span class="line"><span class="string">					&#x27;https://img2.baidu.com/it/u=3681880960,455182084&amp;fm=26&amp;fmt=auto&amp;gp=0.jpg&#x27;,  </span></span><br><span class="line"><span class="string">				]  </span></span><br><span class="line"><span class="string">				let res = await createAvatar(&#123;  </span></span><br><span class="line"><span class="string">					canvasId: this.canvasId,  </span></span><br><span class="line"><span class="string">					data: imgs  </span></span><br><span class="line"><span class="string">				&#125;)  </span></span><br><span class="line"><span class="string">				console.log(res);  </span></span><br><span class="line"><span class="string">			&#125;  </span></span><br><span class="line"><span class="string">		&#125;  </span></span><br><span class="line"><span class="string">	&#125;  </span></span><br><span class="line"><span class="string">&lt;/script&gt;  </span></span><br><span class="line"><span class="string">`</span><span class="string">``</span>  </span><br><span class="line">			  </span><br><span class="line">## 启动方式  </span><br><span class="line"> <span class="number">1.</span> 属性isShow被赋值为<span class="literal">true</span>  </span><br><span class="line"> <span class="number">2.</span>  <span class="string">`this.$refs.myDTPicker.show()`</span>  </span><br><span class="line">  </span><br><span class="line">## 属性  </span><br><span class="line">| 属性 | 描述 | 类型 | 默认值 |  </span><br><span class="line">|--|--|--|--|  </span><br><span class="line">| canvasId| canvas的canvas-id | <span class="title class_">String</span> | canvas|  </span><br><span class="line">| data| 图片集合 | <span class="title class_">Array</span>| [] |  </span><br><span class="line">| width| 生成图片的宽度,默认高度等于宽度 | <span class="title class_">Number</span> | <span class="number">120</span> |  </span><br><span class="line">| bgColor| 生成图片的背景色 | <span class="title class_">String</span> | #cecece |  </span><br><span class="line">| gutter| 图片中间间距 | <span class="title class_">Number</span> | <span class="number">6</span> |  </span><br><span class="line">| margin| 图片边距 | <span class="title class_">Number</span> | <span class="number">6</span> |</span><br></pre></td></tr></table></figure>
+    </div>
+</article>
+
+
+    <script src="https://giscus.app/client.js" data-repo="Myanswerdy/commit" data-repo-id="R_kgDOIcF7aw"
+        data-category="General" data-category-id="DIC_kwDOIcF7a84CSkbL" data-mapping="pathname" data-strict="0"
+        data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="zh-CN"
+        data-loading="lazy" crossorigin="anonymous" async>
+    </script>
+                        
+                    </div>
+                    <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~" autocomplete="off">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            这个爱酱不太聪明
+                <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg"
+                width="140" height="140" alt="个人头像" class="author-image">
+            <p class="author-description">
+                <p>技术宅改变世界</p>
+
+            </p>
+        </div>
+    </div>
+</aside>
+<!-- 引用Aplayer和metingjs -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script>
+<div>
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            歌单
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <div style="opacity: 0.4;font-weight: 600;" id="my-aplayer" class="aplayer" data-id="8692231711" data-server="tencent"
+            data-type="playlist" data-fixed="false" data-autoplay="false" data-order="list" data-volume="0.1"
+            data-theme="#cc543a" data-preload="auto" data-listFolded="false">
+        </div>
+    </div>
+</div>
+<br>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/04/24/Vue%E9%A1%B9%E7%9B%AE%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99%E2%80%9Cerror-0308010C-digital-envelope-routines-unsupported%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%E2%80%9D/">Vue项目启动报错“error:0308010C:digital envelope routines::unsupported解决办法”</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/12/20/java%E7%88%AC%E8%99%AB-403-%E4%BD%BF%E7%94%A8java%E7%88%AC%E8%99%AB%E8%8E%B7%E5%8F%96%E7%BD%91%E7%BB%9C%E8%B5%84%E6%BA%90403%E9%94%99%E8%AF%AF%E8%A7%A3%E5%86%B3/">java爬虫 403_使用java爬虫获取网络资源403错误解决</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/12/18/HttpClient%E8%8E%B7%E5%8F%96302%E5%93%8D%E5%BA%94%E4%B8%AD%E7%9A%84Location%E5%A4%B4%E4%BF%A1%E6%81%AF/">HttpClient获取302响应中的Location头信息</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/12/15/Vuex%E6%8C%81%E4%B9%85%E5%8C%96%E6%8F%92%E4%BB%B6-vuex-persistedstate/">Vuex持久化插件(vuex-persistedstate)</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/12/08/element-ui%E4%B8%AD%E7%9A%84el-dropdown%EF%BC%88%E4%B8%8B%E6%8B%89%E6%A1%86%EF%BC%89%E9%98%B2%E6%AD%A2%E7%82%B9%E4%B8%80%E4%B8%8B%E5%B0%B1%E9%9A%90%E8%97%8F%E7%9A%84%E9%97%AE%E9%A2%98/">element ui中的el-dropdown（下拉框）防止点一下就隐藏的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/11/08/python%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83%E7%89%B9%E6%95%88/">python实现爱心特效</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/11/05/npm%E4%BF%AE%E6%94%B9%E6%BA%90%E4%B8%BA%E5%9B%BD%E5%86%85%E9%98%BF%E9%87%8C%E4%BA%91%E6%BA%90/">npm修改源为国内阿里云源</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/11/04/Linux%E5%BF%AB%E9%80%9F%E4%B8%8A%E4%BC%A0%E5%88%B0git%E4%BB%93%E5%BA%93/">Linux快速上传到git仓库</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/11/04/centos8-%E4%B8%8A%E4%BC%A0-github/">centos8 上传 github</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/10/03/Python3-%E5%AD%97%E7%AC%A6%E4%B8%B2/">Python3 字符串</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2021/12/26/Port-8080-was-already-in-use/">Port 8080 was already in use.</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2021/12/22/git%E5%90%88%E5%B9%B6%E3%80%81%E5%8F%98%E5%9F%BA/">git合并、变基</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2021/12/16/jquery-ajax%E5%B1%9E%E6%80%A7async-%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5/">jquery ajax属性async(同步异步)</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2021/12/02/layui-content%E4%BC%A0%E5%80%BC/">layui content传值</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2021/12/07/layui%E4%B8%ADxm-select%E7%BB%84%E4%BB%B6/">layui中xm select组件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2021/12/20/layui%E5%88%86%E9%A1%B5%E6%A8%A1%E5%9D%97/">layui分页模块</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/11/08/python%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83%E7%89%B9%E6%95%88/">python实现爱心特效</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/01/26/uniapp%E9%94%AE%E7%9B%98%E5%BC%B9%E5%87%BA%EF%BC%8C%E9%A1%B5%E9%9D%A2%E5%86%85%E5%AE%B9%E8%A2%AB%E9%A1%B6%E4%B8%8A%E5%8E%BB%EF%BC%8C%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">uniapp键盘弹出，页面内容被顶上去，解决办法</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/01/30/%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/">线程间通信</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2021/12/17/%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC404-%E8%B7%AF%E7%94%B1%E9%85%8D%E7%BD%AE/">页面跳转404 路由配置</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+
+                
+                <li>
+                    <a href="/2022/01/17/%E5%AE%9E%E7%8E%B0%E5%BE%AE%E4%BF%A1%E7%BE%A4%E8%81%8A%E5%A4%B4%E5%83%8F%E6%95%88%E6%9E%9C/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                
+                
+                <li>
+                    <a href="/2022/01/17/%E5%AE%9E%E7%8E%B0%E5%BE%AE%E4%BF%A1%E7%BE%A4%E8%81%8A%E5%A4%B4%E5%83%8F%E6%95%88%E6%9E%9C/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                
+                
+                <li>
+                    <a href="/2022/01/17/%E5%AE%9E%E7%8E%B0%E5%BE%AE%E4%BF%A1%E7%BE%A4%E8%81%8A%E5%A4%B4%E5%83%8F%E6%95%88%E6%9E%9C/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+                
+            </ul>
+            <div class="tab-content">
+                
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 17.17019338542886px;" class="tag-cloud-link">插件</a>
+    
+    <a href="/tags/java/" style="font-size: 8.845262998068714px;" class="tag-cloud-link">java</a>
+    
+    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 9.450791563942076px;" class="tag-cloud-link">并发编程</a>
+    
+    <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 11.332953400240921px;" class="tag-cloud-link">前端</a>
+    
+    <a href="/tags/git/" style="font-size: 8.842840597431472px;" class="tag-cloud-link">git</a>
+    
+    <a href="/tags/Opt/" style="font-size: 16.08751818396256px;" class="tag-cloud-link">Opt</a>
+    
+    <a href="/tags/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" style="font-size: 12.550944606201792px;" class="tag-cloud-link">踩坑记录</a>
+    
+    <a href="/tags/python/" style="font-size: 9.281656511799882px;" class="tag-cloud-link">python</a>
+    
+    <a href="/tags/stream/" style="font-size: 19.066580658831306px;" class="tag-cloud-link">stream</a>
+    
+    <a href="/tags/vue/" style="font-size: 9.534426465581136px;" class="tag-cloud-link">vue</a>
+    
+    <a href="/tags/%E6%BF%80%E6%B4%BB/" style="font-size: 8.078443242374355px;" class="tag-cloud-link">激活</a>
+    
+    <a href="/tags/echarts/" style="font-size: 11.470284106735484px;" class="tag-cloud-link">echarts</a>
+    
+    <a href="/tags/element/" style="font-size: 8.12141220942113px;" class="tag-cloud-link">element</a>
+    
+    <a href="/tags/elementUI/" style="font-size: 10.5158369384994px;" class="tag-cloud-link">elementUI</a>
+    
+    <a href="/tags/es6/" style="font-size: 19.434281018504898px;" class="tag-cloud-link">es6</a>
+    
+    <a href="/tags/hutool/" style="font-size: 16.373820004327385px;" class="tag-cloud-link">hutool</a>
+    
+    <a href="/tags/jquery/" style="font-size: 13.940785765450036px;" class="tag-cloud-link">jquery</a>
+    
+    <a href="/tags/layui/" style="font-size: 13.817029982816155px;" class="tag-cloud-link">layui</a>
+    
+    <a href="/tags/linux/" style="font-size: 15.27751770183733px;" class="tag-cloud-link">linux</a>
+    
+    <a href="/tags/mybatis-plus/" style="font-size: 12.242091282196665px;" class="tag-cloud-link">mybatis-plus</a>
+    
+    <a href="/tags/npm/" style="font-size: 17.486718718146975px;" class="tag-cloud-link">npm</a>
+    
+    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.95533325746749px;" class="tag-cloud-link">数据库</a>
+    
+    <a href="/tags/uView/" style="font-size: 15.258071093199632px;" class="tag-cloud-link">uView</a>
+    
+    <a href="/tags/sa-Token/" style="font-size: 10.22534018739728px;" class="tag-cloud-link">sa-Token</a>
+    
+    <a href="/tags/uniapp/" style="font-size: 13.339310789199878px;" class="tag-cloud-link">uniapp</a>
+    
+    <a href="/tags/uni-app/" style="font-size: 9.489231474833328px;" class="tag-cloud-link">uni-app</a>
+    
+    <a href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E4%B8%AA%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 9.105931962136786px;" class="tag-cloud-link">每日一个小技巧</a>
+    
+    <a href="/tags/%E8%B8%A9%E5%9D%91/" style="font-size: 14.823393250398631px;" class="tag-cloud-link">踩坑</a>
+    
+    <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 18.670298667506543px;" class="tag-cloud-link">设计模式</a>
+    
+    <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 13.71745259197031px;" class="tag-cloud-link">博客</a>
+    
+    <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 11.140627645072499px;" class="tag-cloud-link">正则表达式</a>
+    
+    <a href="/tags/%E5%8D%9A%E5%AE%A2%E7%BE%8E%E5%8C%96/" style="font-size: 9.487390249585687px;" class="tag-cloud-link">博客美化</a>
+    
+</div>
+                
+                
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="https://jc-meet.cn/" target="_blank">倾盖</a>
+    </li>
+    
+    <li>
+        <a href="https://wangyoustudio.cn" target="_blank">忘忧studio</a>
+    </li>
+    
+    <li>
+        <a href="https://vampireachao.gitee.io/" target="_blank">阿超</a>
+    </li>
+    
+</div>
+                
+                
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="" target="_blank">Coding</a>
+    </li>
+    
+    <li>
+        <a href="" target="_blank">知乎</a>
+    </li>
+    
+</div>
+                
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+                  </div>
+                </div>
+              </div>
+              <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2022 这个爱酱不太聪明 Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a><br>
+        <a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referra"><img src="https://cdn.jsdelivr.net/gh/xingjiahui/CDN/又拍云_logo.png"align="absmiddle" width="59px" height="30px" /></a>
+<span>提供加速服务</span>
+
+    </div>
+    <div class="trm-footer-item">
+        本站总访问量<span id="busuanzi_value_site_pv" class="trm-accent-color"></span>次
+        本站访客数<span id="busuanzi_value_site_uv" class="trm-accent-color"></span>人次
+    </div>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</footer>
+
+<!-- 回到顶端 -->
+<!-- <div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div> -->
+<!-- 回到顶端 -->
+<div id="totop" style="position:fixed;bottom:150px;right:50px;cursor: pointer;">
+    <div id="gal-gotop">
+        <i class="fa fa-angle-up"></i>
+    </div>
+</div>
+    <script src="/js/totop.js"></script>
+
+
+  </body>
+  
+<script src="/js/activate-power-mode.js"></script>
+
+    <script>
+
+      // 配置highslide
+      hs.graphicsDir = '/js/highslide/graphics/'
+      hs.outlineType = "rounded-white";
+      hs.dimmingOpacity = 0.8;
+      hs.outlineWhileAnimating = true;
+      hs.showCredits = false;
+      hs.captionEval = "this.thumb.alt";
+      hs.numberPosition = "caption";
+      hs.align = "center";
+      hs.transitions = ["expand", "crossfade"];
+      hs.lang.number = '共%2张图, 当前是第%1张';
+      hs.addSlideshow({
+        interval: 5000,
+        repeat: true,
+        useControls: true,
+        fixedControls: "fit",
+        overlayOptions: {
+          opacity: 0.75,
+          position: "bottom center",
+          hideOnMouseOut: true
+        }
+      })
+
+      // 初始化aos
+      AOS.init({
+        duration: 1000,
+        delay: 0,
+        easing: 'ease-out-back'
+      });
+
+    </script>
+    <script>
+      POWERMODE.colorful = 'true';    // make power mode colorful
+      POWERMODE.shake = 'true';       // turn off shake
+      // TODO 这里根据具体情况修改
+      document.body.addEventListener('input', POWERMODE);
+    </script>
+    <script>
+      window.slideConfig = {
+        prefix: '/imgs/slide/background',
+        ext: 'jpg',
+        maxCount: '37'
+      }
+    </script>
+    
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+      
+            
+                  
+
+                        </html>
