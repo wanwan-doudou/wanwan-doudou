@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="这个爱酱不太聪明">
+    
+    <meta name="description" content="技术宅改变世界">
+    
+    
+    
+    
+    
+    
+    
+      <link rel="icon" href="/imgs/favicon.ico">
+        
+    <title>命令模式 | 这个爱酱不太聪明</title>
+    <link href="https://wanwan-doudou/github.io" rel="prefetch" />
+
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/js/jquery.min.js"></script>
+
+    
+<script src="/js/bootstrap.min.js"></script>
+
+    
+<script src="/js/aos.js"></script>
+
+    
+<script src="/js/highslide/highslide-full.min.js"></script>
+
+    
+<link rel="stylesheet" href="/js/highslide/highslide.css">
+
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg,preview5.jpg,preview6.jpg,preview7.jpg,preview8.jpg,preview9.jpg,preview10.jpg,preview11.jpg,preview12.jpg,preview13.jpg,preview14.jpg,preview15.jpg,preview16.jpg,preview17.jpg,preview18.jpg,preview19.jpg,preview20.jpg,preview21.jpg,preview22.jpg,preview22.jpg,preview23.jpg,preview24.jpg,preview25.jpg,preview26.jpg,preview27.jpg,preview28.jpg,preview29.jpg,preview30.jpg,preview31.jpg,preview32.jpg,preview33.jpg,preview34.jpg,preview35.jpg,preview36.jpg,preview37.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+      <!-- 欧尼酱功能, 谁用谁知道 -->
+      
+            <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a target="_blank" rel="noopener" href="https://kwydy.cn/">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">这个爱酱不太聪明</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/categories">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/%E6%8F%92%E4%BB%B6/">插件</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/%E7%A0%B4%E8%A7%A3/">破解</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/java/">java</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/gallery">
+                        <i class="fa fa-tags"></i>相册
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>我和宝宝
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+<div id="sakana-widget" style="position:fixed ;bottom: 10px; right: 10px;"></div>
+<script>
+  function initSakanaWidget() {
+    new SakanaWidget().mount('#sakana-widget');
+  }
+</script>
+<script
+  async
+  onload="initSakanaWidget()"
+  src="https://cdn.jsdelivr.net/npm/sakana-widget@2.2.2/lib/sakana.min.js"
+></script>
+              <div id="gal-body">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-8 gal-right" id="mainstay">
+                      
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://wanwan-doudou/github.io">这个爱酱不太聪明</a>
+        >
+        <span>命令模式</span>
+    </div>
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2021/12/05/%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/">命令模式</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+                
+            </span>
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2021-12-05
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2021/12/05/%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/">命令模式</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2021-12-05
+            </p>
+            <p>
+                
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+                
+                
+                
+            </p>
+        </center>
+    </div>
+    <div class="content-article">
+        <p><a target="_blank" rel="noopener" href="https://refactoringguru.cn/design-patterns/command">命令模式</a>的最大优势为将应用分层处理，避免各层耦合</p>
+<p>这里举个例子</p>
+<blockquote>
+<p>在市中心逛了很久的街后， 你找到了一家不错的餐厅， 坐在了临窗的座位上。 一名友善的服务员走近你， 迅速记下你点的食物， 写在一张纸上。 服务员来到厨房， 把订单贴在墙上。 过了一段时间， 厨师拿到了订单， 他根据订单来准备食物。 厨师将做好的食物和订单一起放在托盘上。 服务员看到托盘后对订单进行检查， 确保所有食物都是你要的， 然后将食物放到了你的桌上。</p>
+<p>那张纸就是一个命令， 它在厨师开始烹饪前一直位于队列中。 命令中包含与烹饪这些食物相关的所有信息。 厨师能够根据它马上开始烹饪， 而无需跑来直接和你确认订单详情。</p>
+</blockquote>
+<p>我们如果不使用命令模式，写出来的代码就如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">withoutCommandMode</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException &#123;  </span><br><span class="line">    <span class="comment">// 在市中心逛了很久的街后， 你找到了一家不错的餐厅， 坐在了临窗的座位上。  </span></span><br><span class="line">    <span class="comment">// 一名友善的服务员走近你， 迅速记下你点的食物， 写在一张纸上。  </span></span><br><span class="line">    List&lt;String&gt; order = Arrays.asList(<span class="string">&quot;牛排&quot;</span>, <span class="string">&quot;意面&quot;</span>, <span class="string">&quot;芭菲&quot;</span>, <span class="string">&quot;拉菲&quot;</span>);  </span><br><span class="line">    <span class="comment">// 服务员来到厨房， 把订单贴在墙上。  </span></span><br><span class="line">    System.out.println(<span class="string">&quot;处理订单&quot;</span>);  </span><br><span class="line">    System.out.println(order);  </span><br><span class="line">    <span class="comment">// 过了一段时间， 厨师拿到了订单， 他根据订单来准备食物。  </span></span><br><span class="line">    Thread.sleep(<span class="number">1000</span>);  </span><br><span class="line">    <span class="comment">// 厨师将做好的食物和订单一起放在托盘上。  </span></span><br><span class="line">    <span class="comment">// 服务员看到托盘后对订单进行检查， 确保所有食物都是你要的， 然后将食物放到了你的桌上。  </span></span><br><span class="line">    System.out.println(<span class="string">&quot;检查清单&quot;</span>);  </span><br><span class="line">    System.out.println(order);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里明确几个角色：</p>
+<ol>
+<li><p>发送者：此处就是顾客，在本次例子中我们省略掉了，关于发送者的定义为：</p>
+<blockquote>
+<p><strong>发送者</strong> （Sender）——亦称 “触发者 （Invoker）”——类负责对请求进行初始化， 其中必须包含一个成员变量来存储对于命令对象的引用。 发送者触发命令， 而不向接收者直接发送请求。 注意， 发送者并不负责创建命令对象： 它通常会通过构造函数从客户端处获得预先生成的命令。</p>
+</blockquote>
+</li>
+<li><p>命令：此处就是纸(<code>Paper</code>抽象类)，我们将执行命令这一操作抽取出来，并且不给它具体参数，让它从预先定义或者让其能够自行获取数据，命令的定义：</p>
+<blockquote>
+<p><strong>命令</strong> （Command） 接口通常仅声明一个执行命令的方法。</p>
+</blockquote>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.ruben.simplescaffold.desgin.behavior.command.demo.restaurant;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> lombok.AllArgsConstructor;  </span><br><span class="line">  </span><br><span class="line"><span class="comment">/**  </span></span><br><span class="line"><span class="comment"> * 那张纸就是一个命令， 它在厨师开始烹饪前一直位于队列中。  </span></span><br><span class="line"><span class="comment"> * 命令中包含与烹饪这些食物相关的所有信息。  </span></span><br><span class="line"><span class="comment"> * 厨师能够根据它马上开始烹饪， 而无需跑来直接和你确认订单详情。  </span></span><br><span class="line"><span class="comment"> *  </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> &lt;achao1441470436@gmail.com&gt;  </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 2021/12/5 0005 16:11  </span></span><br><span class="line"><span class="comment"> */</span>  </span><br><span class="line">    <span class="meta">@AllArgsConstructor</span>  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">Paper</span> &#123;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">public</span> Waiter waiter;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">/**  </span></span><br><span class="line"><span class="comment">     * 执行纸上的命令  </span></span><br><span class="line"><span class="comment">     */</span>  </span><br><span class="line">     <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title function_">execute</span><span class="params">()</span>;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li><p>具体命令：此处就是<code>PreparePaper</code>和<code>ProcessorPaper</code>，就是<code>Paper</code>的具体实现，定义：</p>
+<blockquote>
+<p><strong>具体命令</strong> （Concrete Commands） 会实现各种类型的请求。 具体命令自身并不完成工作， 而是会将调用委派给一个业务逻辑对象。 但为了简化代码， 这些类可以进行合并。</p>
+<p>接收对象执行方法所需的参数可以声明为具体命令的成员变量。 你可以将命令对象设为不可变， 仅允许通过构造函数对这些成员变量进行初始化。</p>
+</blockquote>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.ruben.simplescaffold.desgin.behavior.command.demo.restaurant;  </span><br><span class="line">  </span><br><span class="line"><span class="comment">/**  </span></span><br><span class="line"><span class="comment"> * 拿到厨房去的纸  </span></span><br><span class="line"><span class="comment"> *  </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> &lt;achao1441470436@gmail.com&gt;  </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 2021/12/5 0005 16:19  </span></span><br><span class="line"><span class="comment"> */</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PreparePaper</span> <span class="keyword">extends</span> <span class="title class_">Paper</span> &#123;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">PreparePaper</span><span class="params">(Waiter waiter)</span> &#123;  </span><br><span class="line">        <span class="built_in">super</span>(waiter);  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">/**  </span></span><br><span class="line"><span class="comment">     * 执行纸上的命令  </span></span><br><span class="line"><span class="comment">     */</span>  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">execute</span><span class="params">()</span> &#123;  </span><br><span class="line">        <span class="comment">// 处理订单，拿到厨房去  </span></span><br><span class="line">        waiter.handleOrder();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以及</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.ruben.simplescaffold.desgin.behavior.command.demo.restaurant;  </span><br><span class="line">  </span><br><span class="line"><span class="comment">/**  </span></span><br><span class="line"><span class="comment"> * 拿到顾客桌上的清单，和食物一起放到顾客桌上  </span></span><br><span class="line"><span class="comment"> *  </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> &lt;achao1441470436@gmail.com&gt;  </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 2021/12/5 0005 16:21  </span></span><br><span class="line"><span class="comment"> */</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ProcessorPaper</span> <span class="keyword">extends</span> <span class="title class_">Paper</span> &#123;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ProcessorPaper</span><span class="params">(Waiter waiter)</span> &#123;  </span><br><span class="line">        <span class="built_in">super</span>(waiter);  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">/**  </span></span><br><span class="line"><span class="comment">     * 执行纸上的命令  </span></span><br><span class="line"><span class="comment">     */</span>  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">execute</span><span class="params">()</span> &#123;  </span><br><span class="line">        <span class="comment">// 服务员对订单进行检查， 确保所有食物都是顾客要的， 然后将食物放到顾客的桌上  </span></span><br><span class="line">        waiter.checkList();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li><p>接收者，这里就是我们的服务员(<code>Waiter</code>类)，定义：</p>
+<blockquote>
+<p><strong>接收者</strong> （Receiver） 类包含部分业务逻辑。 几乎任何对象都可以作为接收者。 绝大部分命令只处理如何将请求传递到接收者的细节， 接收者自己会完成实际的工作。</p>
+</blockquote>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.ruben.simplescaffold.desgin.behavior.command.demo.restaurant;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> java.util.List;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> lombok.AllArgsConstructor;  </span><br><span class="line">  </span><br><span class="line"><span class="comment">/**  </span></span><br><span class="line"><span class="comment"> * 服务员，接受命令的接收者  </span></span><br><span class="line"><span class="comment"> *  </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> &lt;achao1441470436@gmail.com&gt;  </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 2021/12/5 0005 16:23  </span></span><br><span class="line"><span class="comment"> */</span>  </span><br><span class="line"><span class="meta">@AllArgsConstructor</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Waiter</span> &#123;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">public</span> List&lt;String&gt; order;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">handleOrder</span><span class="params">()</span> &#123;  </span><br><span class="line">        <span class="comment">// 处理订单  </span></span><br><span class="line">        System.out.println(<span class="string">&quot;处理订单&quot;</span>);  </span><br><span class="line">        System.out.println(order);  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">checkList</span><span class="params">()</span> &#123;  </span><br><span class="line">        <span class="comment">// 检查清单  </span></span><br><span class="line">        System.out.println(<span class="string">&quot;检查清单&quot;</span>);  </span><br><span class="line">        System.out.println(order);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li><p>客户端，这里就是启动类，定义：</p>
+<blockquote>
+<p><strong>客户端</strong> （Client） 会创建并配置具体命令对象。 客户端必须将包括接收者实体在内的所有请求参数传递给命令的构造函数。 此后， 生成的命令就可以与一个或多个发送者相关联了。</p>
+</blockquote>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.ruben.simplescaffold.desgin.behavior.command.demo.restaurant;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;  </span><br><span class="line"><span class="keyword">import</span> java.util.List;  </span><br><span class="line">  </span><br><span class="line"><span class="comment">/**  </span></span><br><span class="line"><span class="comment"> * 在市中心逛了很久的街后， 你找到了一家不错的餐厅， 坐在了临窗的座位上。  </span></span><br><span class="line"><span class="comment"> * 一名友善的服务员走近你， 迅速记下你点的食物， 写在一张纸上。  </span></span><br><span class="line"><span class="comment"> * 服务员来到厨房， 把订单贴在墙上。  </span></span><br><span class="line"><span class="comment"> * 过了一段时间， 厨师拿到了订单， 他根据订单来准备食物。  </span></span><br><span class="line"><span class="comment"> * 厨师将做好的食物和订单一起放在托盘上。  </span></span><br><span class="line"><span class="comment"> * 服务员看到托盘后对订单进行检查， 确保所有食物都是你要的， 然后将食物放到了你的桌上。  </span></span><br><span class="line"><span class="comment"> *  </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> &lt;achao1441470436@gmail.com&gt;  </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> 2021/12/5 0005 16:09  </span></span><br><span class="line"><span class="comment"> */</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RestaurantApplication</span> &#123;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException &#123;  </span><br><span class="line">        useCommandMode();  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">useCommandMode</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException &#123;  </span><br><span class="line">        <span class="comment">// 在市中心逛了很久的街后， 你找到了一家不错的餐厅， 坐在了临窗的座位上。  </span></span><br><span class="line">        <span class="comment">// 一名友善的服务员走近你， 迅速记下你点的食物， 写在一张纸上。  </span></span><br><span class="line">        <span class="type">Waiter</span> <span class="variable">waiter</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Waiter</span>(Arrays.asList(<span class="string">&quot;牛排&quot;</span>, <span class="string">&quot;意面&quot;</span>, <span class="string">&quot;芭菲&quot;</span>, <span class="string">&quot;拉菲&quot;</span>));  </span><br><span class="line">        <span class="type">Paper</span> <span class="variable">paper</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PreparePaper</span>(waiter);  </span><br><span class="line">        <span class="comment">// 服务员来到厨房， 把订单贴在墙上。  </span></span><br><span class="line">        paper.execute();  </span><br><span class="line">        <span class="comment">// 过了一段时间， 厨师拿到了订单， 他根据订单来准备食物。  </span></span><br><span class="line">        Thread.sleep(<span class="number">1000</span>);  </span><br><span class="line">        <span class="comment">// 厨师将做好的食物和订单一起放在托盘上。  </span></span><br><span class="line">        <span class="comment">// 服务员看到托盘后对订单进行检查， 确保所有食物都是你要的， 然后将食物放到了你的桌上。  </span></span><br><span class="line">        paper = <span class="keyword">new</span> <span class="title class_">ProcessorPaper</span>(waiter);  </span><br><span class="line">        paper.execute();  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+</article>
+
+
+    <script src="https://giscus.app/client.js" data-repo="Myanswerdy/commit" data-repo-id="R_kgDOIcF7aw"
+        data-category="General" data-category-id="DIC_kwDOIcF7a84CSkbL" data-mapping="pathname" data-strict="0"
+        data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="zh-CN"
+        data-loading="lazy" crossorigin="anonymous" async>
+    </script>
+                        
+                    </div>
+                    <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~" autocomplete="off">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            这个爱酱不太聪明
+                <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg"
+                width="140" height="140" alt="个人头像" class="author-image">
+            <p class="author-description">
+                <p>技术宅改变世界</p>
+
+            </p>
+        </div>
+    </div>
+</aside>
+<!-- 引用Aplayer和metingjs -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script>
+<div>
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            歌单
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <div style="opacity: 0.4;font-weight: 600;" id="my-aplayer" class="aplayer" data-id="8692231711" data-server="tencent"
+            data-type="playlist" data-fixed="false" data-autoplay="false" data-order="list" data-volume="0.1"
+            data-theme="#cc543a" data-preload="auto" data-listFolded="false">
+        </div>
+    </div>
+</div>
+<br>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/09/25/RabbitMQ-Web-%E7%95%8C%E9%9D%A2%E9%85%8D%E7%BD%AE%E8%A7%A3%E6%9E%90/">RabbitMQ Web 界面配置解析</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/09/11/%E8%A7%A3%E5%86%B3-Python-%E5%BC%82%E6%AD%A5-Socket-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%B6%88%E6%81%AF%E5%A0%86%E7%A7%AF%E9%97%AE%E9%A2%98/">解决 Python 异步 Socket 服务器消息堆积问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/09/05/go%E5%A4%84%E7%90%86JSON%E6%95%B0%E6%8D%AE/">go处理JSON数据</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/08/02/FinalShell%E6%BF%80%E6%B4%BB/">FinalShell激活</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/04/24/Vue%E9%A1%B9%E7%9B%AE%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99%E2%80%9Cerror-0308010C-digital-envelope-routines-unsupported%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%E2%80%9D/">Vue项目启动报错“error:0308010C:digital envelope routines::unsupported解决办法”</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/12/20/java%E7%88%AC%E8%99%AB-403-%E4%BD%BF%E7%94%A8java%E7%88%AC%E8%99%AB%E8%8E%B7%E5%8F%96%E7%BD%91%E7%BB%9C%E8%B5%84%E6%BA%90403%E9%94%99%E8%AF%AF%E8%A7%A3%E5%86%B3/">java爬虫 403_使用java爬虫获取网络资源403错误解决</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/12/18/HttpClient%E8%8E%B7%E5%8F%96302%E5%93%8D%E5%BA%94%E4%B8%AD%E7%9A%84Location%E5%A4%B4%E4%BF%A1%E6%81%AF/">HttpClient获取302响应中的Location头信息</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/12/15/Vuex%E6%8C%81%E4%B9%85%E5%8C%96%E6%8F%92%E4%BB%B6-vuex-persistedstate/">Vuex持久化插件(vuex-persistedstate)</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/12/08/element-ui%E4%B8%AD%E7%9A%84el-dropdown%EF%BC%88%E4%B8%8B%E6%8B%89%E6%A1%86%EF%BC%89%E9%98%B2%E6%AD%A2%E7%82%B9%E4%B8%80%E4%B8%8B%E5%B0%B1%E9%9A%90%E8%97%8F%E7%9A%84%E9%97%AE%E9%A2%98/">element ui中的el-dropdown（下拉框）防止点一下就隐藏的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/11/08/python%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83%E7%89%B9%E6%95%88/">python实现爱心特效</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/08/02/FinalShell%E6%BF%80%E6%B4%BB/">FinalShell激活</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2021/12/26/Port-8080-was-already-in-use/">Port 8080 was already in use.</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/09/20/Python3-%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Python3 基本数据类型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/09/19/Python3-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Python3 基础语法</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/09/25/RabbitMQ-Web-%E7%95%8C%E9%9D%A2%E9%85%8D%E7%BD%AE%E8%A7%A3%E6%9E%90/">RabbitMQ Web 界面配置解析</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/11/08/python%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83%E7%89%B9%E6%95%88/">python实现爱心特效</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/01/08/uni-app-%E7%9B%91%E5%90%AC%E5%92%8C%E8%A7%A6%E5%8F%91%E5%85%A8%E5%B1%80%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BA%8B%E4%BB%B6/">uni-app 监听和触发全局自定义事件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2021/12/15/vue%E8%8E%B7%E5%8F%96ajax%E6%95%B0%E6%8D%AE%E5%B9%B6%E5%8A%A8%E6%80%81%E6%B8%B2%E6%9F%93/">vue获取ajax数据并动态渲染</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/01/17/%E5%AE%9E%E7%8E%B0%E5%BE%AE%E4%BF%A1%E7%BE%A4%E8%81%8A%E5%A4%B4%E5%83%8F%E6%95%88%E6%9E%9C/">实现微信群聊头像效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/09/01/%E7%9F%B3%E8%92%9C%E6%A8%A1%E6%8B%9F%E5%99%A8-%E4%B8%BA%E4%BD%A0%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%88%96%E7%BD%91%E7%AB%99%E5%8A%A0%E4%B8%8A%E9%B1%BC%E5%90%A7/">石蒜模拟器-为你的博客或网站加上🐟吧</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+
+                
+                <li>
+                    <a href="/2021/12/05/%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                
+                
+                <li>
+                    <a href="/2021/12/05/%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                
+                
+                <li>
+                    <a href="/2021/12/05/%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+                
+            </ul>
+            <div class="tab-content">
+                
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 19.29600768391723px;" class="tag-cloud-link">插件</a>
+    
+    <a href="/tags/%E7%A0%B4%E8%A7%A3/" style="font-size: 13.784328055232372px;" class="tag-cloud-link">破解</a>
+    
+    <a href="/tags/java/" style="font-size: 12.364813572739578px;" class="tag-cloud-link">java</a>
+    
+    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 11.782039829533346px;" class="tag-cloud-link">并发编程</a>
+    
+    <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13.671987232020744px;" class="tag-cloud-link">前端</a>
+    
+    <a href="/tags/git/" style="font-size: 17.8579406508445px;" class="tag-cloud-link">git</a>
+    
+    <a href="/tags/Opt/" style="font-size: 15.519160332967424px;" class="tag-cloud-link">Opt</a>
+    
+    <a href="/tags/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" style="font-size: 18.615241380308188px;" class="tag-cloud-link">踩坑记录</a>
+    
+    <a href="/tags/python/" style="font-size: 8.915823915484392px;" class="tag-cloud-link">python</a>
+    
+    <a href="/tags/RabbitMQ/" style="font-size: 10.134722034246757px;" class="tag-cloud-link">RabbitMQ</a>
+    
+    <a href="/tags/stream/" style="font-size: 19.538429424971028px;" class="tag-cloud-link">stream</a>
+    
+    <a href="/tags/vue/" style="font-size: 16.529360910949016px;" class="tag-cloud-link">vue</a>
+    
+    <a href="/tags/%E6%BF%80%E6%B4%BB/" style="font-size: 16.926700579404503px;" class="tag-cloud-link">激活</a>
+    
+    <a href="/tags/echarts/" style="font-size: 8.49292994169901px;" class="tag-cloud-link">echarts</a>
+    
+    <a href="/tags/element/" style="font-size: 14.514897216635115px;" class="tag-cloud-link">element</a>
+    
+    <a href="/tags/elementUI/" style="font-size: 12.325849332978109px;" class="tag-cloud-link">elementUI</a>
+    
+    <a href="/tags/es6/" style="font-size: 18.49618201725405px;" class="tag-cloud-link">es6</a>
+    
+    <a href="/tags/go/" style="font-size: 19.707160679926293px;" class="tag-cloud-link">go</a>
+    
+    <a href="/tags/hutool/" style="font-size: 18.153072628961674px;" class="tag-cloud-link">hutool</a>
+    
+    <a href="/tags/jquery/" style="font-size: 10.349743450699268px;" class="tag-cloud-link">jquery</a>
+    
+    <a href="/tags/layui/" style="font-size: 19.87687028887897px;" class="tag-cloud-link">layui</a>
+    
+    <a href="/tags/linux/" style="font-size: 19.379440175785472px;" class="tag-cloud-link">linux</a>
+    
+    <a href="/tags/mybatis-plus/" style="font-size: 17.413953941064975px;" class="tag-cloud-link">mybatis-plus</a>
+    
+    <a href="/tags/npm/" style="font-size: 12.330496406852205px;" class="tag-cloud-link">npm</a>
+    
+    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 11.605240600412746px;" class="tag-cloud-link">数据库</a>
+    
+    <a href="/tags/sa-Token/" style="font-size: 10.940189142881204px;" class="tag-cloud-link">sa-Token</a>
+    
+    <a href="/tags/uView/" style="font-size: 10.627601085425027px;" class="tag-cloud-link">uView</a>
+    
+    <a href="/tags/uniapp/" style="font-size: 16.64138900637609px;" class="tag-cloud-link">uniapp</a>
+    
+    <a href="/tags/uni-app/" style="font-size: 16.242113855735255px;" class="tag-cloud-link">uni-app</a>
+    
+    <a href="/tags/%E8%B8%A9%E5%9D%91/" style="font-size: 17.73695208249809px;" class="tag-cloud-link">踩坑</a>
+    
+    <a href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E4%B8%AA%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 13.919076134445715px;" class="tag-cloud-link">每日一个小技巧</a>
+    
+    <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 8.542957393940135px;" class="tag-cloud-link">设计模式</a>
+    
+    <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 13.244999078388295px;" class="tag-cloud-link">博客</a>
+    
+    <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 12.755001550570459px;" class="tag-cloud-link">正则表达式</a>
+    
+    <a href="/tags/%E5%8D%9A%E5%AE%A2%E7%BE%8E%E5%8C%96/" style="font-size: 8.198437772800798px;" class="tag-cloud-link">博客美化</a>
+    
+</div>
+                
+                
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="https://jc-meet.cn/" target="_blank">倾盖</a>
+    </li>
+    
+    <li>
+        <a href="https://wangyoustudio.cn" target="_blank">忘忧studio</a>
+    </li>
+    
+    <li>
+        <a href="https://vampireachao.gitee.io/" target="_blank">阿超</a>
+    </li>
+    
+</div>
+                
+                
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="" target="_blank">Coding</a>
+    </li>
+    
+    <li>
+        <a href="" target="_blank">知乎</a>
+    </li>
+    
+</div>
+                
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+                  </div>
+                </div>
+              </div>
+              <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2022 这个爱酱不太聪明 Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a><br>
+        <a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referra"><img src="https://cdn.jsdelivr.net/gh/xingjiahui/CDN/又拍云_logo.png"align="absmiddle" width="59px" height="30px" /></a>
+<span>提供加速服务</span>
+
+    </div>
+    <div class="trm-footer-item">
+        本站总访问量<span id="busuanzi_value_site_pv" class="trm-accent-color"></span>次
+        本站访客数<span id="busuanzi_value_site_uv" class="trm-accent-color"></span>人次
+    </div>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</footer>
+
+<!-- 回到顶端 -->
+<!-- <div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div> -->
+<!-- 回到顶端 -->
+<div id="totop" style="position:fixed;bottom:150px;right:50px;cursor: pointer;">
+    <div id="gal-gotop">
+        <i class="fa fa-angle-up"></i>
+    </div>
+</div>
+    <script src="/js/totop.js"></script>
+
+
+  </body>
+  
+<script src="/js/activate-power-mode.js"></script>
+
+    <script>
+
+      // 配置highslide
+      hs.graphicsDir = '/js/highslide/graphics/'
+      hs.outlineType = "rounded-white";
+      hs.dimmingOpacity = 0.8;
+      hs.outlineWhileAnimating = true;
+      hs.showCredits = false;
+      hs.captionEval = "this.thumb.alt";
+      hs.numberPosition = "caption";
+      hs.align = "center";
+      hs.transitions = ["expand", "crossfade"];
+      hs.lang.number = '共%2张图, 当前是第%1张';
+      hs.addSlideshow({
+        interval: 5000,
+        repeat: true,
+        useControls: true,
+        fixedControls: "fit",
+        overlayOptions: {
+          opacity: 0.75,
+          position: "bottom center",
+          hideOnMouseOut: true
+        }
+      })
+
+      // 初始化aos
+      AOS.init({
+        duration: 1000,
+        delay: 0,
+        easing: 'ease-out-back'
+      });
+
+    </script>
+    <script>
+      POWERMODE.colorful = 'true';    // make power mode colorful
+      POWERMODE.shake = 'true';       // turn off shake
+      // TODO 这里根据具体情况修改
+      document.body.addEventListener('input', POWERMODE);
+    </script>
+    <script>
+      window.slideConfig = {
+        prefix: '/imgs/slide/background',
+        ext: 'jpg',
+        maxCount: '37'
+      }
+    </script>
+    
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+      
+            
+                  
+
+                        </html>

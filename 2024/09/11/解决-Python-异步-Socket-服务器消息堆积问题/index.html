@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="这个爱酱不太聪明">
+    
+    <meta name="description" content="技术宅改变世界">
+    
+    
+    
+    
+    
+    
+    
+      <link rel="icon" href="/imgs/favicon.ico">
+        
+    <title>解决 Python 异步 Socket 服务器消息堆积问题 | 这个爱酱不太聪明</title>
+    <link href="https://wanwan-doudou/github.io" rel="prefetch" />
+
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/js/jquery.min.js"></script>
+
+    
+<script src="/js/bootstrap.min.js"></script>
+
+    
+<script src="/js/aos.js"></script>
+
+    
+<script src="/js/highslide/highslide-full.min.js"></script>
+
+    
+<link rel="stylesheet" href="/js/highslide/highslide.css">
+
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg,preview5.jpg,preview6.jpg,preview7.jpg,preview8.jpg,preview9.jpg,preview10.jpg,preview11.jpg,preview12.jpg,preview13.jpg,preview14.jpg,preview15.jpg,preview16.jpg,preview17.jpg,preview18.jpg,preview19.jpg,preview20.jpg,preview21.jpg,preview22.jpg,preview22.jpg,preview23.jpg,preview24.jpg,preview25.jpg,preview26.jpg,preview27.jpg,preview28.jpg,preview29.jpg,preview30.jpg,preview31.jpg,preview32.jpg,preview33.jpg,preview34.jpg,preview35.jpg,preview36.jpg,preview37.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+      <!-- 欧尼酱功能, 谁用谁知道 -->
+      
+            <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a target="_blank" rel="noopener" href="https://kwydy.cn/">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">这个爱酱不太聪明</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/categories">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/%E6%8F%92%E4%BB%B6/">插件</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/%E7%A0%B4%E8%A7%A3/">破解</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/java/">java</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/gallery">
+                        <i class="fa fa-tags"></i>相册
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>我和宝宝
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+<div id="sakana-widget" style="position:fixed ;bottom: 10px; right: 10px;"></div>
+<script>
+  function initSakanaWidget() {
+    new SakanaWidget().mount('#sakana-widget');
+  }
+</script>
+<script
+  async
+  onload="initSakanaWidget()"
+  src="https://cdn.jsdelivr.net/npm/sakana-widget@2.2.2/lib/sakana.min.js"
+></script>
+              <div id="gal-body">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-8 gal-right" id="mainstay">
+                      
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://wanwan-doudou/github.io">这个爱酱不太聪明</a>
+        >
+        <span>解决 Python 异步 Socket 服务器消息堆积问题</span>
+    </div>
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2024/09/11/%E8%A7%A3%E5%86%B3-Python-%E5%BC%82%E6%AD%A5-Socket-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%B6%88%E6%81%AF%E5%A0%86%E7%A7%AF%E9%97%AE%E9%A2%98/">解决 Python 异步 Socket 服务器消息堆积问题</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/python/">python</a>
+                
+            </span>
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2024-09-11
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2024/09/11/%E8%A7%A3%E5%86%B3-Python-%E5%BC%82%E6%AD%A5-Socket-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%B6%88%E6%81%AF%E5%A0%86%E7%A7%AF%E9%97%AE%E9%A2%98/">解决 Python 异步 Socket 服务器消息堆积问题</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2024-09-11
+            </p>
+            <p>
+                
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/python/">python</a>
+                
+                
+                
+            </p>
+        </center>
+    </div>
+    <div class="content-article">
+        <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>在开发一个 Python 异步 Socket 服务器时，遇到了消息堆积的问题。服务器包含一个 TCP 服务和一个键盘监听服务。当检测到特定的键盘操作时，服务器应该通过 TCP 向客户端发送消息。然而，这些消息并没有立即发送出去，而是在心跳消息发送时才一起发出，导致消息堆积。</p>
+<h2 id="原始代码"><a href="#原始代码" class="headerlink" title="原始代码"></a>原始代码</h2><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">### socket<span class="emphasis">_server.py</span></span></span><br><span class="line"><span class="emphasis"><span class="section"></span></span></span><br><span class="line"><span class="emphasis"><span class="section">```python</span></span></span><br><span class="line"><span class="emphasis"><span class="section">import asyncio</span></span></span><br><span class="line"><span class="emphasis"><span class="section">import socket</span></span></span><br><span class="line"><span class="emphasis"><span class="section"></span></span></span><br><span class="line"><span class="emphasis"><span class="section">SERVER_</span>ADDRESS = &#x27;0.0.0.0&#x27;</span></span><br><span class="line">SERVER<span class="emphasis">_PORT = 12345</span></span><br><span class="line"><span class="emphasis">client_</span>socket = None</span><br><span class="line"></span><br><span class="line">async def handle<span class="emphasis">_client(socket, client_</span>address):</span><br><span class="line"><span class="code">    global client_socket</span></span><br><span class="line"><span class="code">    print(f&quot;设备已连接: &#123;client_address&#125;&quot;)</span></span><br><span class="line"><span class="code">    client_socket = socket</span></span><br><span class="line"><span class="code">    loop = asyncio.get_event_loop()</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="code">    try:</span></span><br><span class="line"><span class="code">        while True:</span></span><br><span class="line"><span class="code">            message = await loop.sock_recv(client_socket, 1024)</span></span><br><span class="line"><span class="code">            if not message:</span></span><br><span class="line"><span class="code">                break</span></span><br><span class="line"><span class="code">            message = message.decode()</span></span><br><span class="line"><span class="code">            print(f&quot;收到消息: &#123;message&#125;&quot;)</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="code">            if message == &quot;HEARTBEAT&quot;:</span></span><br><span class="line"><span class="code">                print(&quot;收到心跳消息&quot;)</span></span><br><span class="line"><span class="code">                continue</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="code">            reply = f&quot;服务器收到: &#123;message&#125;&quot;</span></span><br><span class="line"><span class="code">            await loop.sock_sendall(client_socket, reply.encode())</span></span><br><span class="line"><span class="code">            await asyncio.sleep(0)</span></span><br><span class="line"><span class="code">            print(f&quot;发送回复: &#123;reply&#125;&quot;)</span></span><br><span class="line"><span class="code">    except ConnectionResetError:</span></span><br><span class="line"><span class="code">        print(&quot;连接已关闭&quot;)</span></span><br><span class="line"><span class="code">    finally:</span></span><br><span class="line"><span class="code">        client_socket = None</span></span><br><span class="line"><span class="code">        socket.close()</span></span><br><span class="line"><span class="code"></span></span><br><span class="line">async def send<span class="emphasis">_message(client_</span>socket, message):</span><br><span class="line"><span class="code">    print(f&quot;准备发送消息: &#123;message&#125;&quot;)</span></span><br><span class="line"><span class="code">    loop = asyncio.get_event_loop()</span></span><br><span class="line"><span class="code">    try:</span></span><br><span class="line"><span class="code">        await loop.sock_sendall(client_socket, message.encode())</span></span><br><span class="line"><span class="code">        print(f&quot;消息发送成功: &#123;message&#125;&quot;)</span></span><br><span class="line"><span class="code">    except Exception as e:</span></span><br><span class="line"><span class="code">        print(f&quot;发送消息出错: &#123;e&#125;&quot;)</span></span><br><span class="line"><span class="code"></span></span><br><span class="line">async def start<span class="emphasis">_server():</span></span><br><span class="line"><span class="emphasis">    server_</span>socket = socket.socket(socket.AF<span class="emphasis">_INET, socket.SOCK_</span>STREAM)</span><br><span class="line"><span class="code">    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)</span></span><br><span class="line"><span class="code">    server_socket.bind((SERVER_ADDRESS, SERVER_PORT))</span></span><br><span class="line"><span class="code">    server_socket.listen(1)</span></span><br><span class="line"><span class="code">    print(&quot;等待设备连接&quot;)</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="code">    loop = asyncio.get_event_loop()</span></span><br><span class="line"><span class="code">    server_socket.setblocking(False)</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="code">    while True:</span></span><br><span class="line"><span class="code">        client_socket, client_address = await loop.sock_accept(server_socket)</span></span><br><span class="line"><span class="code">        await asyncio.create_task(handle_client(client_socket, client_address))</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="keyboard-listener-py-部分代码"><a href="#keyboard-listener-py-部分代码" class="headerlink" title="keyboard_listener.py (部分代码)"></a>keyboard_listener.py (部分代码)</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">process_messages</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        message = <span class="keyword">await</span> message_queue.get()</span><br><span class="line">        <span class="keyword">if</span> socket_server.client_socket <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">await</span> socket_server.send_message(socket_server.client_socket, message)</span><br></pre></td></tr></table></figure>
+
+<h2 id="原始代码中的问题"><a href="#原始代码中的问题" class="headerlink" title="原始代码中的问题"></a>原始代码中的问题</h2><ol>
+<li><code>send_message</code> 函数没有在消息末尾添加换行符，可能导致客户端无法正确分割消息。</li>
+<li><code>handle_client</code> 函数在发送回复后使用了 <code>await asyncio.sleep(0)</code>，这可能导致不必要的延迟。</li>
+<li><code>process_messages</code> 函数没有在处理完一条消息后让出控制权给事件循环。</li>
+</ol>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><h3 id="1-修改-send-message-函数"><a href="#1-修改-send-message-函数" class="headerlink" title="1. 修改 send_message 函数"></a>1. 修改 <code>send_message</code> 函数</h3><p>在 <code>socket_server.py</code> 中，将 <code>send_message</code> 函数修改如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">send_message</span>(<span class="params">client_socket, message</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;准备发送消息: <span class="subst">&#123;message&#125;</span>&quot;</span>)</span><br><span class="line">    loop = asyncio.get_running_loop()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">await</span> loop.sock_sendall(client_socket, (message + <span class="string">&#x27;\n&#x27;</span>).encode())</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;消息发送成功: <span class="subst">&#123;message&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;发送消息出错: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-优化-handle-client-函数"><a href="#2-优化-handle-client-函数" class="headerlink" title="2. 优化 handle_client 函数"></a>2. 优化 <code>handle_client</code> 函数</h3><p>在 <code>socket_server.py</code> 中，修改 <code>handle_client</code> 函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">handle_client</span>(<span class="params">socket, client_address</span>):</span><br><span class="line">    <span class="keyword">global</span> client_socket</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;设备已连接: <span class="subst">&#123;client_address&#125;</span>&quot;</span>)</span><br><span class="line">    client_socket = socket</span><br><span class="line">    loop = asyncio.get_running_loop()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            message = <span class="keyword">await</span> loop.sock_recv(client_socket, <span class="number">1024</span>)</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> message:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            message = message.decode().strip()	<span class="comment"># 去除可能的换行符</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;收到消息: <span class="subst">&#123;message&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> message == <span class="string">&quot;HEARTBEAT&quot;</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;收到心跳消息&quot;</span>)</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">            reply = <span class="string">f&quot;服务器收到: <span class="subst">&#123;message&#125;</span>&quot;</span></span><br><span class="line">            <span class="keyword">await</span> send_message(client_socket, reply)</span><br><span class="line">    <span class="keyword">except</span> ConnectionResetError:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;连接已关闭&quot;</span>)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        client_socket = <span class="literal">None</span></span><br><span class="line">        socket.close()</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-优化-process-messages-函数"><a href="#3-优化-process-messages-函数" class="headerlink" title="3. 优化 process_messages 函数"></a>3. 优化 <code>process_messages</code> 函数</h3><p>在 <code>keyboard_listener.py</code> 中，修改 <code>process_messages</code> 函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">process_messages</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        message = <span class="keyword">await</span> message_queue.get()</span><br><span class="line">        <span class="keyword">if</span> socket_server.client_socket <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">await</span> socket_server.send_message(socket_server.client_socket, message)</span><br><span class="line">        <span class="keyword">await</span> asyncio.sleep(<span class="number">0</span>)  <span class="comment"># 让出控制权给事件循环</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>通过以上修改，解决了消息堆积的问题，使服务器能够及时将消息发送给客户端。关键改进包括：</p>
+<ol>
+<li>在发送消息时添加换行符，确保客户端能正确接收和分割消息。</li>
+<li>移除了 <code>handle_client</code> 函数中不必要的 <code>asyncio.sleep(0)</code>。</li>
+<li>在 <code>process_messages</code> 函数中添加了 <code>await asyncio.sleep(0)</code>，以确保在处理完一条消息后让出控制权。</li>
+<li>确保所有异步操作都正确使用 <code>await</code>。</li>
+</ol>
+<h2 id="这是修改后完整的代码"><a href="#这是修改后完整的代码" class="headerlink" title="这是修改后完整的代码"></a>这是修改后完整的代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># main.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"><span class="keyword">import</span> keyboard_listener</span><br><span class="line"><span class="keyword">import</span> socket_server</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="comment"># 启动TCP服务器</span></span><br><span class="line">    server_task = asyncio.create_task(socket_server.start_server())</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 启动键盘监听器</span></span><br><span class="line">    listener_task = asyncio.create_task(keyboard_listener.start_listener())</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 启动消息处理任务</span></span><br><span class="line">    message_task = asyncio.create_task(keyboard_listener.process_messages())</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 保持主线程运行，直到所有任务完成</span></span><br><span class="line">    <span class="keyword">await</span> asyncio.gather(</span><br><span class="line">        server_task,</span><br><span class="line">        listener_task,</span><br><span class="line">        message_task</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    asyncio.run(main())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># socket_server.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line">SERVER_ADDRESS = <span class="string">&#x27;0.0.0.0&#x27;</span>  <span class="comment"># 监听所有IP地址</span></span><br><span class="line">SERVER_PORT = <span class="number">12345</span></span><br><span class="line">client_socket = <span class="literal">None</span>  <span class="comment"># 全局变量保存唯一的客户端连接</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">handle_client</span>(<span class="params">socket, client_address</span>):</span><br><span class="line">    <span class="keyword">global</span> client_socket</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;设备已连接: <span class="subst">&#123;client_address&#125;</span>&quot;</span>)</span><br><span class="line">    client_socket = socket  <span class="comment"># 保存客户端连接</span></span><br><span class="line">    loop = asyncio.get_running_loop()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            message = <span class="keyword">await</span> loop.sock_recv(client_socket, <span class="number">1024</span>)</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> message:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            message = message.decode().strip()  <span class="comment"># 去除可能的换行符</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;收到消息: <span class="subst">&#123;message&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 处理心跳消息</span></span><br><span class="line">            <span class="keyword">if</span> message == <span class="string">&quot;HEARTBEAT&quot;</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;收到心跳消息&quot;</span>)</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">            <span class="comment"># 处理其他消息</span></span><br><span class="line">            reply = <span class="string">f&quot;服务器收到: <span class="subst">&#123;message&#125;</span>&quot;</span></span><br><span class="line">            <span class="keyword">await</span> send_message(client_socket, reply)</span><br><span class="line">    <span class="keyword">except</span> ConnectionResetError:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;连接已关闭&quot;</span>)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        client_socket = <span class="literal">None</span>  <span class="comment"># 客户端断开时重置全局变量</span></span><br><span class="line">        socket.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">send_message</span>(<span class="params">client_socket, message</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;准备发送消息: <span class="subst">&#123;message&#125;</span>&quot;</span>)</span><br><span class="line">    loop = asyncio.get_running_loop()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">await</span> loop.sock_sendall(client_socket, (message + <span class="string">&#x27;\n&#x27;</span>).encode())</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;消息发送成功: <span class="subst">&#123;message&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;发送消息出错: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">start_server</span>():</span><br><span class="line">    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, <span class="number">1</span>)</span><br><span class="line">    server_socket.bind((SERVER_ADDRESS, SERVER_PORT))</span><br><span class="line">    server_socket.listen(<span class="number">1</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;等待设备连接&quot;</span>)</span><br><span class="line"></span><br><span class="line">    loop = asyncio.get_event_loop()</span><br><span class="line">    server_socket.setblocking(<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        client_socket, client_address = <span class="keyword">await</span> loop.sock_accept(server_socket)</span><br><span class="line">        <span class="keyword">await</span> asyncio.create_task(handle_client(client_socket, client_address))</span><br><span class="line">        </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># keyboard_listener.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"><span class="keyword">from</span> pynput <span class="keyword">import</span> keyboard</span><br><span class="line"><span class="keyword">import</span> socket_server</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化变量，用于跟踪Ctrl键的状态和按下c键的次数</span></span><br><span class="line">is_ctrl_pressed = <span class="literal">False</span></span><br><span class="line">c_press_count = <span class="number">0</span></span><br><span class="line">message_queue = asyncio.Queue()  <span class="comment"># 创建消息队列</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">on_press</span>(<span class="params">key, loop</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    按键按下时调用的函数</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">global</span> is_ctrl_pressed, c_press_count  <span class="comment"># 声明使用全局变量</span></span><br><span class="line">    <span class="comment"># 检测左ctrl或右ctrl键按下</span></span><br><span class="line">    <span class="keyword">if</span> key == keyboard.Key.ctrl_l <span class="keyword">or</span> key == keyboard.Key.ctrl_r:</span><br><span class="line">        is_ctrl_pressed = <span class="literal">True</span>  <span class="comment"># 设置Ctrl键状态为按下</span></span><br><span class="line">    <span class="comment"># 如果ctrl键被按住，检测c键按下</span></span><br><span class="line">    <span class="keyword">elif</span> is_ctrl_pressed <span class="keyword">and</span> <span class="built_in">hasattr</span>(key, <span class="string">&#x27;char&#x27;</span>):</span><br><span class="line">        <span class="comment"># 检测 Ctrl + c 的组合</span></span><br><span class="line">        <span class="keyword">if</span> key.char == <span class="string">&#x27;\x03&#x27;</span>:  <span class="comment"># &#x27;\x03&#x27; 是 Ctrl + c 的控制字符</span></span><br><span class="line">            c_press_count += <span class="number">1</span>  <span class="comment"># 计数器增加</span></span><br><span class="line">            <span class="keyword">if</span> c_press_count == <span class="number">3</span>:</span><br><span class="line">                c_press_count = <span class="number">0</span>  <span class="comment"># 达到三次后重置计数器</span></span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;我按住ctrl然后连续按了三次c&quot;</span>)</span><br><span class="line">                <span class="keyword">if</span> socket_server.client_socket <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:  <span class="comment"># 确保client_socket不为None</span></span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&quot;确保client_socket不为None&quot;</span>)</span><br><span class="line">                    asyncio.run_coroutine_threadsafe(</span><br><span class="line">                        message_queue.put(<span class="string">&quot;123456789&quot;</span>),  <span class="comment"># 将消息放入队列</span></span><br><span class="line">                        loop</span><br><span class="line">                    )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">on_release</span>(<span class="params">key</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    按键释放时调用的函数</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">global</span> is_ctrl_pressed, c_press_count  <span class="comment"># 声明使用全局变量</span></span><br><span class="line">    <span class="comment"># 检测左ctrl或右ctrl键释放</span></span><br><span class="line">    <span class="keyword">if</span> key == keyboard.Key.ctrl_l <span class="keyword">or</span> key == keyboard.Key.ctrl_r:</span><br><span class="line">        is_ctrl_pressed = <span class="literal">False</span>  <span class="comment"># 设置Ctrl键状态为释放</span></span><br><span class="line">        c_press_count = <span class="number">0</span>  <span class="comment"># 重置计数器</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">start_listener_sync</span>(<span class="params">loop</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    启动键盘监听器（同步方式）</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    listener = keyboard.Listener(on_press=<span class="keyword">lambda</span> key: on_press(key, loop), on_release=on_release)  <span class="comment"># 创建监听器</span></span><br><span class="line">    listener.start()  <span class="comment"># 启动监听器</span></span><br><span class="line">    listener.join()  <span class="comment"># 等待监听器线程结束</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">start_listener</span>():</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    启动键盘监听器（异步方式）</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    loop = asyncio.get_running_loop()</span><br><span class="line">    <span class="keyword">await</span> loop.run_in_executor(<span class="literal">None</span>, start_listener_sync, loop)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">process_messages</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        message = <span class="keyword">await</span> message_queue.get()  <span class="comment"># 从队列中获取消息</span></span><br><span class="line">        <span class="keyword">if</span> socket_server.client_socket <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">await</span> socket_server.send_message(socket_server.client_socket, message)</span><br><span class="line">        <span class="keyword">await</span> asyncio.sleep(<span class="number">0.1</span>)  <span class="comment"># 添加短暂延迟，让其他协程有机会运行</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="这是前端代码"><a href="#这是前端代码" class="headerlink" title="这是前端代码"></a>这是前端代码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.aijiang.myapplication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.BufferedReader;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStreamReader;</span><br><span class="line"><span class="keyword">import</span> java.io.PrintWriter;</span><br><span class="line"><span class="keyword">import</span> java.net.Socket;</span><br><span class="line"><span class="keyword">import</span> java.net.SocketTimeoutException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"></span><br><span class="line"><span class="comment">// TcpClient.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TcpClient</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">TAG</span> <span class="operator">=</span> <span class="string">&quot;TcpClient&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String serverAddress;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> serverPort;</span><br><span class="line">    <span class="keyword">private</span> Socket socket;</span><br><span class="line">    <span class="keyword">private</span> PrintWriter out;</span><br><span class="line">    <span class="keyword">private</span> BufferedReader in;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 构造函数，初始化服务器地址和端口</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">TcpClient</span><span class="params">(String serverAddress, <span class="type">int</span> serverPort)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.serverAddress = serverAddress;</span><br><span class="line">        <span class="built_in">this</span>.serverPort = serverPort;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 连接到服务器</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">connect</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        Log.v(TAG, <span class="string">&quot;Connecting to server...&quot;</span>);</span><br><span class="line">        socket = <span class="keyword">new</span> <span class="title class_">Socket</span>(serverAddress, serverPort);</span><br><span class="line">        out = <span class="keyword">new</span> <span class="title class_">PrintWriter</span>(socket.getOutputStream(), <span class="literal">true</span>);</span><br><span class="line">        in = <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(socket.getInputStream()));</span><br><span class="line">        Log.v(TAG, <span class="string">&quot;Connected to server.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 向服务器发送消息</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sendMessage</span><span class="params">(String message)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (out != <span class="literal">null</span> &amp;&amp; !out.checkError()) &#123;</span><br><span class="line">            Log.v(TAG, <span class="string">&quot;Sending message: &quot;</span> + message);</span><br><span class="line">            out.println(message);</span><br><span class="line">            out.flush();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 接收来自服务器的消息</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">receiveMessage</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        socket.setSoTimeout(<span class="number">60000</span>); <span class="comment">// 设置超时时间为60秒，可以根据需求调整</span></span><br><span class="line">        <span class="keyword">if</span> (in != <span class="literal">null</span>) &#123;</span><br><span class="line">            String response;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                response = in.readLine();</span><br><span class="line">                <span class="keyword">if</span> (response != <span class="literal">null</span>) &#123;</span><br><span class="line">                    Log.v(TAG, <span class="string">&quot;我接受到的消息 message: &quot;</span> + response);</span><br><span class="line">                    <span class="keyword">return</span> response;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    Log.v(TAG, <span class="string">&quot;No message received.&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (SocketTimeoutException e) &#123;</span><br><span class="line">                Log.v(TAG, <span class="string">&quot;Socket timeout, no message received.&quot;</span>);</span><br><span class="line">                <span class="comment">// 这里可以发送心跳包</span></span><br><span class="line">                sendMessage(<span class="string">&quot;HEARTBEAT&quot;</span>); <span class="comment">// 发送心跳消息</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 关闭连接</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="keyword">if</span> (socket != <span class="literal">null</span>) &#123;</span><br><span class="line">            socket.close();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (out != <span class="literal">null</span>) &#123;</span><br><span class="line">            out.close();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (in != <span class="literal">null</span>) &#123;</span><br><span class="line">            in.close();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.aijiang.myapplication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"><span class="keyword">import</span> android.widget.TextView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> androidx.activity.EdgeToEdge;</span><br><span class="line"><span class="keyword">import</span> androidx.appcompat.app.AppCompatActivity;</span><br><span class="line"><span class="keyword">import</span> androidx.core.graphics.Insets;</span><br><span class="line"><span class="keyword">import</span> androidx.core.view.ViewCompat;</span><br><span class="line"><span class="keyword">import</span> androidx.core.view.WindowInsetsCompat;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.net.SocketTimeoutException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MainActivity</span> <span class="keyword">extends</span> <span class="title class_">AppCompatActivity</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">TAG</span> <span class="operator">=</span> <span class="string">&quot;MainActivity&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">SERVER_ADDRESS</span> <span class="operator">=</span> <span class="string">&quot;192.168.43.57&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">SERVER_PORT</span> <span class="operator">=</span> <span class="number">12345</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">HEARTBEAT_INTERVAL</span> <span class="operator">=</span> <span class="number">30000</span>; <span class="comment">// 30秒发送一次心跳</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> TextView textView; <span class="comment">// 用于显示服务器回复的TextView</span></span><br><span class="line">    <span class="keyword">private</span> TcpClient tcpClient;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        EdgeToEdge.enable(<span class="built_in">this</span>);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -&gt; &#123;</span><br><span class="line">            <span class="type">Insets</span> <span class="variable">systemBars</span> <span class="operator">=</span> insets.getInsets(WindowInsetsCompat.Type.systemBars());</span><br><span class="line">            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);</span><br><span class="line">            <span class="keyword">return</span> insets;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        textView = findViewById(R.id.textView); <span class="comment">// 初始化TextView</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 开始连接服务器</span></span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(<span class="keyword">new</span> <span class="title class_">TcpClientTask</span>()).start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onDestroy</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onDestroy();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (tcpClient != <span class="literal">null</span>) &#123;</span><br><span class="line">                tcpClient.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            Log.e(TAG, <span class="string">&quot;Error closing TcpClient&quot;</span>, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">class</span> <span class="title class_">TcpClientTask</span> <span class="keyword">implements</span> <span class="title class_">Runnable</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">            tcpClient = <span class="keyword">new</span> <span class="title class_">TcpClient</span>(SERVER_ADDRESS, SERVER_PORT);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                tcpClient.connect();</span><br><span class="line">                tcpClient.sendMessage(<span class="string">&quot;Hello, Server!&quot;</span>);</span><br><span class="line">                <span class="type">String</span> <span class="variable">response</span> <span class="operator">=</span> tcpClient.receiveMessage();</span><br><span class="line">                <span class="keyword">if</span> (response != <span class="literal">null</span>) &#123;</span><br><span class="line">                    Log.v(TAG, <span class="string">&quot;初始化连接时接收到的值: &quot;</span> + response);</span><br><span class="line">                    runOnUiThread(() -&gt; &#123;</span><br><span class="line">                        textView.setText(response); <span class="comment">// 更新TextView的文本</span></span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    Log.d(TAG, <span class="string">&quot;No response from server&quot;</span>);</span><br><span class="line">                    runOnUiThread(() -&gt; &#123;</span><br><span class="line">                        textView.setText(<span class="string">&quot;No response from server&quot;</span>);</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 启动心跳线程</span></span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">Thread</span>(<span class="keyword">new</span> <span class="title class_">HeartbeatTask</span>()).start();</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 保持连接状态，不关闭</span></span><br><span class="line">                <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="type">String</span> <span class="variable">serverMessage</span> <span class="operator">=</span> tcpClient.receiveMessage();</span><br><span class="line">                        <span class="keyword">if</span> (serverMessage != <span class="literal">null</span>) &#123;</span><br><span class="line">                            Log.v(TAG, <span class="string">&quot;后续收到的消息: &quot;</span> + serverMessage);</span><br><span class="line">                            runOnUiThread(() -&gt; &#123;</span><br><span class="line">                                <span class="comment">// 如果包含多个消息，拆分并逐个显示</span></span><br><span class="line">                                <span class="keyword">for</span> (String msg : serverMessage.split(<span class="string">&quot;服务器收到: &quot;</span>)) &#123;</span><br><span class="line">                                    <span class="keyword">if</span> (!msg.isEmpty()) &#123;</span><br><span class="line">                                        textView.append(<span class="string">&quot;\n&quot;</span> + msg); <span class="comment">// 更新TextView的文本</span></span><br><span class="line">                                    &#125;</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (SocketTimeoutException e) &#123;</span><br><span class="line">                        Log.v(TAG, <span class="string">&quot;Socket timeout, no message received.&quot;</span>);</span><br><span class="line">                        <span class="comment">// 这里可以处理超时逻辑，但不要发送心跳消息</span></span><br><span class="line">                    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                        Log.e(TAG, <span class="string">&quot;Error receiving message&quot;</span>, e);</span><br><span class="line">                        <span class="comment">// 处理重连逻辑</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                Log.e(TAG, <span class="string">&quot;Error in TcpClientTask&quot;</span>, e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">class</span> <span class="title class_">HeartbeatTask</span> <span class="keyword">implements</span> <span class="title class_">Runnable</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Thread.sleep(HEARTBEAT_INTERVAL);</span><br><span class="line">                    <span class="keyword">if</span> (tcpClient != <span class="literal">null</span>) &#123;</span><br><span class="line">                        tcpClient.sendMessage(<span class="string">&quot;HEARTBEAT&quot;</span>);</span><br><span class="line">                        Log.v(TAG, <span class="string">&quot;发送心跳消息&quot;</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    Log.e(TAG, <span class="string">&quot;Heartbeat interval interrupted&quot;</span>, e);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- activity_main.xml --&gt;</span></span><br><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">androidx.constraintlayout.widget.ConstraintLayout</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:app</span>=<span class="string">&quot;http://schemas.android.com/apk/res-auto&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">&quot;http://schemas.android.com/tools&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:id</span>=<span class="string">&quot;@+id/main&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">tools:context</span>=<span class="string">&quot;.MainActivity&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">&quot;@+id/textView&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">&quot;wrap_content&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">&quot;Hello World!&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintBottom_toBottomOf</span>=<span class="string">&quot;parent&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintEnd_toEndOf</span>=<span class="string">&quot;parent&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintStart_toStartOf</span>=<span class="string">&quot;parent&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintTop_toTopOf</span>=<span class="string">&quot;parent&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- AndroidManifest.xml --&gt;</span></span><br><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">&quot;http://schemas.android.com/tools&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 添加网络权限 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.INTERNET&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:allowBackup</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:dataExtractionRules</span>=<span class="string">&quot;@xml/data_extraction_rules&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:fullBackupContent</span>=<span class="string">&quot;@xml/backup_rules&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:icon</span>=<span class="string">&quot;@mipmap/ic_launcher&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:label</span>=<span class="string">&quot;@string/app_name&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:roundIcon</span>=<span class="string">&quot;@mipmap/ic_launcher_round&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:supportsRtl</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:theme</span>=<span class="string">&quot;@style/Theme.MyApplication&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">tools:targetApi</span>=<span class="string">&quot;31&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:name</span>=<span class="string">&quot;.MainActivity&quot;</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:exported</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.action.MAIN&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">                <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.category.LAUNCHER&quot;</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+    </div>
+</article>
+
+
+    <script src="https://giscus.app/client.js" data-repo="Myanswerdy/commit" data-repo-id="R_kgDOIcF7aw"
+        data-category="General" data-category-id="DIC_kwDOIcF7a84CSkbL" data-mapping="pathname" data-strict="0"
+        data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="zh-CN"
+        data-loading="lazy" crossorigin="anonymous" async>
+    </script>
+                        
+                    </div>
+                    <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~" autocomplete="off">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            这个爱酱不太聪明
+                <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg"
+                width="140" height="140" alt="个人头像" class="author-image">
+            <p class="author-description">
+                <p>技术宅改变世界</p>
+
+            </p>
+        </div>
+    </div>
+</aside>
+<!-- 引用Aplayer和metingjs -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script>
+<div>
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            歌单
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <div style="opacity: 0.4;font-weight: 600;" id="my-aplayer" class="aplayer" data-id="8692231711" data-server="tencent"
+            data-type="playlist" data-fixed="false" data-autoplay="false" data-order="list" data-volume="0.1"
+            data-theme="#cc543a" data-preload="auto" data-listFolded="false">
+        </div>
+    </div>
+</div>
+<br>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/09/25/RabbitMQ-Web-%E7%95%8C%E9%9D%A2%E9%85%8D%E7%BD%AE%E8%A7%A3%E6%9E%90/">RabbitMQ Web 界面配置解析</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/09/11/%E8%A7%A3%E5%86%B3-Python-%E5%BC%82%E6%AD%A5-Socket-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%B6%88%E6%81%AF%E5%A0%86%E7%A7%AF%E9%97%AE%E9%A2%98/">解决 Python 异步 Socket 服务器消息堆积问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/09/05/go%E5%A4%84%E7%90%86JSON%E6%95%B0%E6%8D%AE/">go处理JSON数据</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/08/02/FinalShell%E6%BF%80%E6%B4%BB/">FinalShell激活</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/04/24/Vue%E9%A1%B9%E7%9B%AE%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99%E2%80%9Cerror-0308010C-digital-envelope-routines-unsupported%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%E2%80%9D/">Vue项目启动报错“error:0308010C:digital envelope routines::unsupported解决办法”</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/12/20/java%E7%88%AC%E8%99%AB-403-%E4%BD%BF%E7%94%A8java%E7%88%AC%E8%99%AB%E8%8E%B7%E5%8F%96%E7%BD%91%E7%BB%9C%E8%B5%84%E6%BA%90403%E9%94%99%E8%AF%AF%E8%A7%A3%E5%86%B3/">java爬虫 403_使用java爬虫获取网络资源403错误解决</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/12/18/HttpClient%E8%8E%B7%E5%8F%96302%E5%93%8D%E5%BA%94%E4%B8%AD%E7%9A%84Location%E5%A4%B4%E4%BF%A1%E6%81%AF/">HttpClient获取302响应中的Location头信息</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/12/15/Vuex%E6%8C%81%E4%B9%85%E5%8C%96%E6%8F%92%E4%BB%B6-vuex-persistedstate/">Vuex持久化插件(vuex-persistedstate)</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/12/08/element-ui%E4%B8%AD%E7%9A%84el-dropdown%EF%BC%88%E4%B8%8B%E6%8B%89%E6%A1%86%EF%BC%89%E9%98%B2%E6%AD%A2%E7%82%B9%E4%B8%80%E4%B8%8B%E5%B0%B1%E9%9A%90%E8%97%8F%E7%9A%84%E9%97%AE%E9%A2%98/">element ui中的el-dropdown（下拉框）防止点一下就隐藏的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/11/08/python%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83%E7%89%B9%E6%95%88/">python实现爱心特效</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/08/02/FinalShell%E6%BF%80%E6%B4%BB/">FinalShell激活</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2021/12/11/Java-%E7%88%AC%E8%99%AB/">Java 爬虫</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/01/04/Opt%E9%9D%9E%E7%A9%BA%E5%88%A4%E6%96%AD/">Opt非空判断</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/09/20/Python3-%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Python3 基本数据类型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/09/28/Python3-%E8%BF%90%E7%AE%97%E7%AC%A6/">Python3 运算符</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/01/08/uni-app-%E7%9B%91%E5%90%AC%E5%92%8C%E8%A7%A6%E5%8F%91%E5%85%A8%E5%B1%80%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BA%8B%E4%BB%B6/">uni-app 监听和触发全局自定义事件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/01/10/vue%E4%BD%BF%E7%94%A8%E8%B8%A9%E5%9D%91/">vue使用踩坑</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/01/06/%E4%BD%BF%E7%94%A8uni-navigateTo-%E4%BC%A0%E9%80%92%E5%AF%B9%E8%B1%A1/">使用uni.navigateTo()传递对象</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/01/17/%E5%AE%9E%E7%8E%B0%E5%BE%AE%E4%BF%A1%E7%BE%A4%E8%81%8A%E5%A4%B4%E5%83%8F%E6%95%88%E6%9E%9C/">实现微信群聊头像效果</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/01/30/%E7%BA%BF%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/">线程间通信</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+
+                
+                <li>
+                    <a href="/2024/09/11/%E8%A7%A3%E5%86%B3-Python-%E5%BC%82%E6%AD%A5-Socket-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%B6%88%E6%81%AF%E5%A0%86%E7%A7%AF%E9%97%AE%E9%A2%98/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                
+                
+                <li>
+                    <a href="/2024/09/11/%E8%A7%A3%E5%86%B3-Python-%E5%BC%82%E6%AD%A5-Socket-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%B6%88%E6%81%AF%E5%A0%86%E7%A7%AF%E9%97%AE%E9%A2%98/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                
+                
+                <li>
+                    <a href="/2024/09/11/%E8%A7%A3%E5%86%B3-Python-%E5%BC%82%E6%AD%A5-Socket-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%B6%88%E6%81%AF%E5%A0%86%E7%A7%AF%E9%97%AE%E9%A2%98/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+                
+            </ul>
+            <div class="tab-content">
+                
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 17.177154751132353px;" class="tag-cloud-link">插件</a>
+    
+    <a href="/tags/%E7%A0%B4%E8%A7%A3/" style="font-size: 10.282434281100656px;" class="tag-cloud-link">破解</a>
+    
+    <a href="/tags/java/" style="font-size: 18.12588000732834px;" class="tag-cloud-link">java</a>
+    
+    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 11.615560026352718px;" class="tag-cloud-link">并发编程</a>
+    
+    <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 17.323746672656842px;" class="tag-cloud-link">前端</a>
+    
+    <a href="/tags/git/" style="font-size: 17.9841137484551px;" class="tag-cloud-link">git</a>
+    
+    <a href="/tags/Opt/" style="font-size: 14.260242355662516px;" class="tag-cloud-link">Opt</a>
+    
+    <a href="/tags/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" style="font-size: 19.63673829214295px;" class="tag-cloud-link">踩坑记录</a>
+    
+    <a href="/tags/python/" style="font-size: 8.63847080055401px;" class="tag-cloud-link">python</a>
+    
+    <a href="/tags/RabbitMQ/" style="font-size: 18.84097538849154px;" class="tag-cloud-link">RabbitMQ</a>
+    
+    <a href="/tags/stream/" style="font-size: 12.354605262574662px;" class="tag-cloud-link">stream</a>
+    
+    <a href="/tags/vue/" style="font-size: 19.96355810355766px;" class="tag-cloud-link">vue</a>
+    
+    <a href="/tags/%E6%BF%80%E6%B4%BB/" style="font-size: 18.963530478492995px;" class="tag-cloud-link">激活</a>
+    
+    <a href="/tags/echarts/" style="font-size: 12.088000189128405px;" class="tag-cloud-link">echarts</a>
+    
+    <a href="/tags/element/" style="font-size: 13.60663192701858px;" class="tag-cloud-link">element</a>
+    
+    <a href="/tags/elementUI/" style="font-size: 15.316839795891791px;" class="tag-cloud-link">elementUI</a>
+    
+    <a href="/tags/es6/" style="font-size: 13.194220810733043px;" class="tag-cloud-link">es6</a>
+    
+    <a href="/tags/go/" style="font-size: 8.784409357543957px;" class="tag-cloud-link">go</a>
+    
+    <a href="/tags/hutool/" style="font-size: 18.604756283560327px;" class="tag-cloud-link">hutool</a>
+    
+    <a href="/tags/jquery/" style="font-size: 11.636830776111685px;" class="tag-cloud-link">jquery</a>
+    
+    <a href="/tags/layui/" style="font-size: 8.083374044484845px;" class="tag-cloud-link">layui</a>
+    
+    <a href="/tags/linux/" style="font-size: 14.399776128130927px;" class="tag-cloud-link">linux</a>
+    
+    <a href="/tags/mybatis-plus/" style="font-size: 13.521459560146837px;" class="tag-cloud-link">mybatis-plus</a>
+    
+    <a href="/tags/npm/" style="font-size: 18.041916136454454px;" class="tag-cloud-link">npm</a>
+    
+    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 11.455001232778132px;" class="tag-cloud-link">数据库</a>
+    
+    <a href="/tags/sa-Token/" style="font-size: 11.936979005777328px;" class="tag-cloud-link">sa-Token</a>
+    
+    <a href="/tags/uView/" style="font-size: 13.219746767027138px;" class="tag-cloud-link">uView</a>
+    
+    <a href="/tags/uniapp/" style="font-size: 16.930040133085374px;" class="tag-cloud-link">uniapp</a>
+    
+    <a href="/tags/uni-app/" style="font-size: 17.687677082275606px;" class="tag-cloud-link">uni-app</a>
+    
+    <a href="/tags/%E8%B8%A9%E5%9D%91/" style="font-size: 17.579614261900165px;" class="tag-cloud-link">踩坑</a>
+    
+    <a href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E4%B8%AA%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 8.339494737522841px;" class="tag-cloud-link">每日一个小技巧</a>
+    
+    <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 13.834419319859052px;" class="tag-cloud-link">设计模式</a>
+    
+    <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 12.280023276962986px;" class="tag-cloud-link">博客</a>
+    
+    <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 11.299048967721806px;" class="tag-cloud-link">正则表达式</a>
+    
+    <a href="/tags/%E5%8D%9A%E5%AE%A2%E7%BE%8E%E5%8C%96/" style="font-size: 16.363203074440662px;" class="tag-cloud-link">博客美化</a>
+    
+</div>
+                
+                
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="https://jc-meet.cn/" target="_blank">倾盖</a>
+    </li>
+    
+    <li>
+        <a href="https://wangyoustudio.cn" target="_blank">忘忧studio</a>
+    </li>
+    
+    <li>
+        <a href="https://vampireachao.gitee.io/" target="_blank">阿超</a>
+    </li>
+    
+</div>
+                
+                
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="" target="_blank">Coding</a>
+    </li>
+    
+    <li>
+        <a href="" target="_blank">知乎</a>
+    </li>
+    
+</div>
+                
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+                  </div>
+                </div>
+              </div>
+              <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2022 这个爱酱不太聪明 Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a><br>
+        <a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referra"><img src="https://cdn.jsdelivr.net/gh/xingjiahui/CDN/又拍云_logo.png"align="absmiddle" width="59px" height="30px" /></a>
+<span>提供加速服务</span>
+
+    </div>
+    <div class="trm-footer-item">
+        本站总访问量<span id="busuanzi_value_site_pv" class="trm-accent-color"></span>次
+        本站访客数<span id="busuanzi_value_site_uv" class="trm-accent-color"></span>人次
+    </div>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</footer>
+
+<!-- 回到顶端 -->
+<!-- <div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div> -->
+<!-- 回到顶端 -->
+<div id="totop" style="position:fixed;bottom:150px;right:50px;cursor: pointer;">
+    <div id="gal-gotop">
+        <i class="fa fa-angle-up"></i>
+    </div>
+</div>
+    <script src="/js/totop.js"></script>
+
+
+  </body>
+  
+<script src="/js/activate-power-mode.js"></script>
+
+    <script>
+
+      // 配置highslide
+      hs.graphicsDir = '/js/highslide/graphics/'
+      hs.outlineType = "rounded-white";
+      hs.dimmingOpacity = 0.8;
+      hs.outlineWhileAnimating = true;
+      hs.showCredits = false;
+      hs.captionEval = "this.thumb.alt";
+      hs.numberPosition = "caption";
+      hs.align = "center";
+      hs.transitions = ["expand", "crossfade"];
+      hs.lang.number = '共%2张图, 当前是第%1张';
+      hs.addSlideshow({
+        interval: 5000,
+        repeat: true,
+        useControls: true,
+        fixedControls: "fit",
+        overlayOptions: {
+          opacity: 0.75,
+          position: "bottom center",
+          hideOnMouseOut: true
+        }
+      })
+
+      // 初始化aos
+      AOS.init({
+        duration: 1000,
+        delay: 0,
+        easing: 'ease-out-back'
+      });
+
+    </script>
+    <script>
+      POWERMODE.colorful = 'true';    // make power mode colorful
+      POWERMODE.shake = 'true';       // turn off shake
+      // TODO 这里根据具体情况修改
+      document.body.addEventListener('input', POWERMODE);
+    </script>
+    <script>
+      window.slideConfig = {
+        prefix: '/imgs/slide/background',
+        ext: 'jpg',
+        maxCount: '37'
+      }
+    </script>
+    
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+      
+            
+                  
+
+                        </html>

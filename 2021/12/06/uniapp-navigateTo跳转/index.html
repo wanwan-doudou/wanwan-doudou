@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="这个爱酱不太聪明">
+    
+    <meta name="description" content="技术宅改变世界">
+    
+    
+    
+    
+    
+    
+    
+      <link rel="icon" href="/imgs/favicon.ico">
+        
+    <title>uniapp navigateTo跳转 | 这个爱酱不太聪明</title>
+    <link href="https://wanwan-doudou/github.io" rel="prefetch" />
+
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/js/jquery.min.js"></script>
+
+    
+<script src="/js/bootstrap.min.js"></script>
+
+    
+<script src="/js/aos.js"></script>
+
+    
+<script src="/js/highslide/highslide-full.min.js"></script>
+
+    
+<link rel="stylesheet" href="/js/highslide/highslide.css">
+
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg,preview5.jpg,preview6.jpg,preview7.jpg,preview8.jpg,preview9.jpg,preview10.jpg,preview11.jpg,preview12.jpg,preview13.jpg,preview14.jpg,preview15.jpg,preview16.jpg,preview17.jpg,preview18.jpg,preview19.jpg,preview20.jpg,preview21.jpg,preview22.jpg,preview22.jpg,preview23.jpg,preview24.jpg,preview25.jpg,preview26.jpg,preview27.jpg,preview28.jpg,preview29.jpg,preview30.jpg,preview31.jpg,preview32.jpg,preview33.jpg,preview34.jpg,preview35.jpg,preview36.jpg,preview37.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+      <!-- 欧尼酱功能, 谁用谁知道 -->
+      
+            <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a target="_blank" rel="noopener" href="https://kwydy.cn/">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">这个爱酱不太聪明</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/categories">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/%E6%8F%92%E4%BB%B6/">插件</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/%E7%A0%B4%E8%A7%A3/">破解</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/java/">java</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/gallery">
+                        <i class="fa fa-tags"></i>相册
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>我和宝宝
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+<div id="sakana-widget" style="position:fixed ;bottom: 10px; right: 10px;"></div>
+<script>
+  function initSakanaWidget() {
+    new SakanaWidget().mount('#sakana-widget');
+  }
+</script>
+<script
+  async
+  onload="initSakanaWidget()"
+  src="https://cdn.jsdelivr.net/npm/sakana-widget@2.2.2/lib/sakana.min.js"
+></script>
+              <div id="gal-body">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-8 gal-right" id="mainstay">
+                      
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://wanwan-doudou/github.io">这个爱酱不太聪明</a>
+        >
+        <span>uniapp navigateTo跳转</span>
+    </div>
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2021/12/06/uniapp-navigateTo%E8%B7%B3%E8%BD%AC/">uniapp navigateTo跳转</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/uniapp/">uniapp</a>
+                
+            </span>
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2021-12-06
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2021/12/06/uniapp-navigateTo%E8%B7%B3%E8%BD%AC/">uniapp navigateTo跳转</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2021-12-06
+            </p>
+            <p>
+                
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/uniapp/">uniapp</a>
+                
+                
+                
+            </p>
+        </center>
+    </div>
+    <div class="content-article">
+        <p>uni.navigateTo(OBJECT)</p>
+<p>保留当前页面，跳转到应用内的某个页面，使用<code>uni.navigateBack</code>可以返回到原页面。</p>
+<p>参考代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;view <span class="keyword">class</span>=<span class="string">&quot;square-like-user&quot;</span> @tap=<span class="string">&quot;navigateTo(&#x27;/pages/contact/contact-detail/contact-detail?id=&#x27; + itemRe.id)&quot;</span>&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://kwydy.oss-cn-guangzhou.aliyuncs.com/blog/20220830221642.png"><br><img src="https://kwydy.oss-cn-guangzhou.aliyuncs.com/blog/20220830221722.png"><br><strong>示例</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在起始页面跳转到test.vue页面并传递参数  </span></span><br><span class="line">uni.<span class="title function_">navigateTo</span>(&#123;  </span><br><span class="line">    <span class="attr">url</span>: <span class="string">&#x27;test?id=1&amp;name=uniapp&#x27;</span>  </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在test.vue页面接受参数  </span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;  </span><br><span class="line">    <span class="attr">onLoad</span>: <span class="keyword">function</span> (<span class="params">option</span>) &#123; <span class="comment">//option为object类型，会序列化上个页面传递的参数  </span></span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(option.<span class="property">id</span>); <span class="comment">//打印出上个页面传递的参数。  </span></span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(option.<span class="property">name</span>); <span class="comment">//打印出上个页面传递的参数。  </span></span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在起始页面跳转到test.vue页面，并监听test.vue发送过来的事件数据  </span></span><br><span class="line">uni.<span class="title function_">navigateTo</span>(&#123;  </span><br><span class="line">  <span class="attr">url</span>: <span class="string">&#x27;pages/test?id=1&#x27;</span>,  </span><br><span class="line">  <span class="attr">events</span>: &#123;  </span><br><span class="line">    <span class="comment">// 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据  </span></span><br><span class="line">    <span class="attr">acceptDataFromOpenedPage</span>: <span class="keyword">function</span>(<span class="params">data</span>) &#123;  </span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(data)  </span><br><span class="line">    &#125;,  </span><br><span class="line">    <span class="attr">someEvent</span>: <span class="keyword">function</span>(<span class="params">data</span>) &#123;  </span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(data)  </span><br><span class="line">    &#125;  </span><br><span class="line">    ...  </span><br><span class="line">  &#125;,  </span><br><span class="line">  <span class="attr">success</span>: <span class="keyword">function</span>(<span class="params">res</span>) &#123;  </span><br><span class="line">    <span class="comment">// 通过eventChannel向被打开页面传送数据  </span></span><br><span class="line">    res.<span class="property">eventChannel</span>.<span class="title function_">emit</span>(<span class="string">&#x27;acceptDataFromOpenerPage&#x27;</span>, &#123; <span class="attr">data</span>: <span class="string">&#x27;data from starter page&#x27;</span> &#125;)  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;)  </span><br><span class="line">  </span><br><span class="line"><span class="comment">// 在test.vue页面，向起始页通过事件传递数据  </span></span><br><span class="line"><span class="attr">onLoad</span>: <span class="keyword">function</span>(<span class="params">option</span>) &#123;  </span><br><span class="line">  <span class="comment">// #ifdef APP-NVUE  </span></span><br><span class="line">  <span class="keyword">const</span> eventChannel = <span class="variable language_">this</span>.<span class="property">$scope</span>.<span class="property">eventChannel</span>; <span class="comment">// 兼容APP-NVUE  </span></span><br><span class="line">  <span class="comment">// #endif  </span></span><br><span class="line">  <span class="comment">// #ifndef APP-NVUE  </span></span><br><span class="line">  <span class="keyword">const</span> eventChannel = <span class="variable language_">this</span>.<span class="title function_">getOpenerEventChannel</span>();  </span><br><span class="line">  <span class="comment">// #endif  </span></span><br><span class="line">  eventChannel.<span class="title function_">emit</span>(<span class="string">&#x27;acceptDataFromOpenedPage&#x27;</span>, &#123;<span class="attr">data</span>: <span class="string">&#x27;data from test page&#x27;</span>&#125;);  </span><br><span class="line">  eventChannel.<span class="title function_">emit</span>(<span class="string">&#x27;someEvent&#x27;</span>, &#123;<span class="attr">data</span>: <span class="string">&#x27;data from test page for someEvent&#x27;</span>&#125;);  </span><br><span class="line">  <span class="comment">// 监听acceptDataFromOpenerPage事件，获取上一页面通过eventChannel传送到当前页面的数据  </span></span><br><span class="line">  eventChannel.<span class="title function_">on</span>(<span class="string">&#x27;acceptDataFromOpenerPage&#x27;</span>, <span class="keyword">function</span>(<span class="params">data</span>) &#123;  </span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(data)  </span><br><span class="line">  &#125;)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>url有长度限制，太长的字符串会传递失败，可改用<a target="_blank" rel="noopener" href="https://uniapp.dcloud.io/collocation/frame/communication">窗体通信</a>、<a target="_blank" rel="noopener" href="https://ask.dcloud.net.cn/article/35021">全局变量</a>，另外参数中出现空格等特殊字符时需要对参数进行编码，如下为使用<code>encodeURIComponent</code>对参数进行编码的示例。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;navigator :url=<span class="string">&quot;&#x27;/pages/test/test?item=&#x27;+ encodeURIComponent(JSON.stringify(item))&quot;</span>&gt;&lt;/navigator&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;navigator :url=<span class="string">&quot;&#x27;/pages/test/test?item=&#x27;+ encodeURIComponent(JSON.stringify(item))&quot;</span>&gt;&lt;/navigator&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong></p>
+<ul>
+<li>页面跳转路径有层级限制，不能无限制跳转新页面</li>
+<li>跳转到 tabBar 页面只能使用 switchTab 跳转</li>
+<li>路由API的目标页面必须是在pages.json里注册的vue页面。如果想打开web url，在App平台可以使用 <a target="_blank" rel="noopener" href="http://www.html5plus.org/doc/zh_cn/runtime.html#plus.runtime.openURL">plus.runtime.openURL</a>或web-view组件；H5平台使用 window.open；小程序平台使用web-view组件（url需在小程序的联网白名单中）。在hello uni-app中有个组件ulink.vue已对多端进行封装，可参考。</li>
+<li>APP-NVUE平台暂不支持以<code>this.getOpenerEventChannel()</code>方式获取<code>eventChannel</code>，请换用<code>this.$scope.eventChannel</code>来获取，具体方式请参考上述示例。</li>
+</ul>
+
+    </div>
+</article>
+
+
+    <script src="https://giscus.app/client.js" data-repo="Myanswerdy/commit" data-repo-id="R_kgDOIcF7aw"
+        data-category="General" data-category-id="DIC_kwDOIcF7a84CSkbL" data-mapping="pathname" data-strict="0"
+        data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="zh-CN"
+        data-loading="lazy" crossorigin="anonymous" async>
+    </script>
+                        
+                    </div>
+                    <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~" autocomplete="off">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            这个爱酱不太聪明
+                <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg"
+                width="140" height="140" alt="个人头像" class="author-image">
+            <p class="author-description">
+                <p>技术宅改变世界</p>
+
+            </p>
+        </div>
+    </div>
+</aside>
+<!-- 引用Aplayer和metingjs -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script>
+<div>
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            歌单
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <div style="opacity: 0.4;font-weight: 600;" id="my-aplayer" class="aplayer" data-id="8692231711" data-server="tencent"
+            data-type="playlist" data-fixed="false" data-autoplay="false" data-order="list" data-volume="0.1"
+            data-theme="#cc543a" data-preload="auto" data-listFolded="false">
+        </div>
+    </div>
+</div>
+<br>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/09/25/RabbitMQ-Web-%E7%95%8C%E9%9D%A2%E9%85%8D%E7%BD%AE%E8%A7%A3%E6%9E%90/">RabbitMQ Web 界面配置解析</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/09/11/%E8%A7%A3%E5%86%B3-Python-%E5%BC%82%E6%AD%A5-Socket-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%B6%88%E6%81%AF%E5%A0%86%E7%A7%AF%E9%97%AE%E9%A2%98/">解决 Python 异步 Socket 服务器消息堆积问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/09/05/go%E5%A4%84%E7%90%86JSON%E6%95%B0%E6%8D%AE/">go处理JSON数据</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/08/02/FinalShell%E6%BF%80%E6%B4%BB/">FinalShell激活</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/04/24/Vue%E9%A1%B9%E7%9B%AE%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99%E2%80%9Cerror-0308010C-digital-envelope-routines-unsupported%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%E2%80%9D/">Vue项目启动报错“error:0308010C:digital envelope routines::unsupported解决办法”</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/12/20/java%E7%88%AC%E8%99%AB-403-%E4%BD%BF%E7%94%A8java%E7%88%AC%E8%99%AB%E8%8E%B7%E5%8F%96%E7%BD%91%E7%BB%9C%E8%B5%84%E6%BA%90403%E9%94%99%E8%AF%AF%E8%A7%A3%E5%86%B3/">java爬虫 403_使用java爬虫获取网络资源403错误解决</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/12/18/HttpClient%E8%8E%B7%E5%8F%96302%E5%93%8D%E5%BA%94%E4%B8%AD%E7%9A%84Location%E5%A4%B4%E4%BF%A1%E6%81%AF/">HttpClient获取302响应中的Location头信息</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/12/15/Vuex%E6%8C%81%E4%B9%85%E5%8C%96%E6%8F%92%E4%BB%B6-vuex-persistedstate/">Vuex持久化插件(vuex-persistedstate)</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/12/08/element-ui%E4%B8%AD%E7%9A%84el-dropdown%EF%BC%88%E4%B8%8B%E6%8B%89%E6%A1%86%EF%BC%89%E9%98%B2%E6%AD%A2%E7%82%B9%E4%B8%80%E4%B8%8B%E5%B0%B1%E9%9A%90%E8%97%8F%E7%9A%84%E9%97%AE%E9%A2%98/">element ui中的el-dropdown（下拉框）防止点一下就隐藏的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/11/08/python%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83%E7%89%B9%E6%95%88/">python实现爱心特效</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/09/20/Python3-%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Python3 基本数据类型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/10/03/Python3-%E5%AD%97%E7%AC%A6%E4%B8%B2/">Python3 字符串</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/12/15/Vuex%E6%8C%81%E4%B9%85%E5%8C%96%E6%8F%92%E4%BB%B6-vuex-persistedstate/">Vuex持久化插件(vuex-persistedstate)</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2021/12/16/hutool-Opt%E5%B7%A5%E5%85%B7/">hutool Opt工具</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2021/12/20/layui%E5%88%86%E9%A1%B5%E6%A8%A1%E5%9D%97/">layui分页模块</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/01/23/sa-Token%E5%85%A5%E9%97%A8/">sa-Token入门</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/01/08/uni-app-%E7%9B%91%E5%90%AC%E5%92%8C%E8%A7%A6%E5%8F%91%E5%85%A8%E5%B1%80%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BA%8B%E4%BB%B6/">uni-app 监听和触发全局自定义事件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/01/07/uni-app%E6%95%B0%E6%8D%AE%E7%BC%93%E5%AD%98/">uni-app数据缓存</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2021/12/09/%E5%9F%BA%E4%BA%8Elayui%E8%A1%A8%E6%A0%BC%E7%9A%84%E6%A0%91%E5%BD%A2%E6%89%A9%E5%B1%95/">基于layui表格的树形扩展</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2021/12/04/%E5%A6%82%E4%BD%95%E7%BB%99%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E7%9C%8B%E6%9D%BF%E5%A8%98/">如何给博客添加看板娘</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+
+                
+                <li>
+                    <a href="/2021/12/06/uniapp-navigateTo%E8%B7%B3%E8%BD%AC/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                
+                
+                <li>
+                    <a href="/2021/12/06/uniapp-navigateTo%E8%B7%B3%E8%BD%AC/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                
+                
+                <li>
+                    <a href="/2021/12/06/uniapp-navigateTo%E8%B7%B3%E8%BD%AC/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+                
+            </ul>
+            <div class="tab-content">
+                
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 8.661747764752572px;" class="tag-cloud-link">插件</a>
+    
+    <a href="/tags/%E7%A0%B4%E8%A7%A3/" style="font-size: 19.832524403420585px;" class="tag-cloud-link">破解</a>
+    
+    <a href="/tags/java/" style="font-size: 9.245686401850712px;" class="tag-cloud-link">java</a>
+    
+    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 10.3175399427768px;" class="tag-cloud-link">并发编程</a>
+    
+    <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 18.619242839942793px;" class="tag-cloud-link">前端</a>
+    
+    <a href="/tags/git/" style="font-size: 10.723523493192673px;" class="tag-cloud-link">git</a>
+    
+    <a href="/tags/Opt/" style="font-size: 10.886189786787366px;" class="tag-cloud-link">Opt</a>
+    
+    <a href="/tags/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" style="font-size: 11.904076572996939px;" class="tag-cloud-link">踩坑记录</a>
+    
+    <a href="/tags/python/" style="font-size: 8.560892670445197px;" class="tag-cloud-link">python</a>
+    
+    <a href="/tags/RabbitMQ/" style="font-size: 18.315400388245493px;" class="tag-cloud-link">RabbitMQ</a>
+    
+    <a href="/tags/stream/" style="font-size: 12.49766616548957px;" class="tag-cloud-link">stream</a>
+    
+    <a href="/tags/vue/" style="font-size: 12.56906779030159px;" class="tag-cloud-link">vue</a>
+    
+    <a href="/tags/%E6%BF%80%E6%B4%BB/" style="font-size: 12.440542758583884px;" class="tag-cloud-link">激活</a>
+    
+    <a href="/tags/echarts/" style="font-size: 8.487186731686897px;" class="tag-cloud-link">echarts</a>
+    
+    <a href="/tags/element/" style="font-size: 8.885913287615121px;" class="tag-cloud-link">element</a>
+    
+    <a href="/tags/elementUI/" style="font-size: 10.583041933892016px;" class="tag-cloud-link">elementUI</a>
+    
+    <a href="/tags/es6/" style="font-size: 17.932450239158907px;" class="tag-cloud-link">es6</a>
+    
+    <a href="/tags/go/" style="font-size: 10.144615344209434px;" class="tag-cloud-link">go</a>
+    
+    <a href="/tags/hutool/" style="font-size: 9.78402496968796px;" class="tag-cloud-link">hutool</a>
+    
+    <a href="/tags/jquery/" style="font-size: 11.395038982667469px;" class="tag-cloud-link">jquery</a>
+    
+    <a href="/tags/layui/" style="font-size: 9.744430486095538px;" class="tag-cloud-link">layui</a>
+    
+    <a href="/tags/linux/" style="font-size: 17.970952119266066px;" class="tag-cloud-link">linux</a>
+    
+    <a href="/tags/mybatis-plus/" style="font-size: 17.252941904006104px;" class="tag-cloud-link">mybatis-plus</a>
+    
+    <a href="/tags/npm/" style="font-size: 15.37289841064235px;" class="tag-cloud-link">npm</a>
+    
+    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 15.724987966244957px;" class="tag-cloud-link">数据库</a>
+    
+    <a href="/tags/sa-Token/" style="font-size: 18.374029007743594px;" class="tag-cloud-link">sa-Token</a>
+    
+    <a href="/tags/uView/" style="font-size: 19.39545661132921px;" class="tag-cloud-link">uView</a>
+    
+    <a href="/tags/uniapp/" style="font-size: 12.215745163977303px;" class="tag-cloud-link">uniapp</a>
+    
+    <a href="/tags/uni-app/" style="font-size: 9.966542022440668px;" class="tag-cloud-link">uni-app</a>
+    
+    <a href="/tags/%E8%B8%A9%E5%9D%91/" style="font-size: 12.922548911300211px;" class="tag-cloud-link">踩坑</a>
+    
+    <a href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E4%B8%AA%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 18.807799792160957px;" class="tag-cloud-link">每日一个小技巧</a>
+    
+    <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 8.227024379756834px;" class="tag-cloud-link">设计模式</a>
+    
+    <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 10.476454026500347px;" class="tag-cloud-link">博客</a>
+    
+    <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 19.39371599486087px;" class="tag-cloud-link">正则表达式</a>
+    
+    <a href="/tags/%E5%8D%9A%E5%AE%A2%E7%BE%8E%E5%8C%96/" style="font-size: 13.078597073876264px;" class="tag-cloud-link">博客美化</a>
+    
+</div>
+                
+                
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="https://jc-meet.cn/" target="_blank">倾盖</a>
+    </li>
+    
+    <li>
+        <a href="https://wangyoustudio.cn" target="_blank">忘忧studio</a>
+    </li>
+    
+    <li>
+        <a href="https://vampireachao.gitee.io/" target="_blank">阿超</a>
+    </li>
+    
+</div>
+                
+                
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="" target="_blank">Coding</a>
+    </li>
+    
+    <li>
+        <a href="" target="_blank">知乎</a>
+    </li>
+    
+</div>
+                
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+                  </div>
+                </div>
+              </div>
+              <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2022 这个爱酱不太聪明 Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a><br>
+        <a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referra"><img src="https://cdn.jsdelivr.net/gh/xingjiahui/CDN/又拍云_logo.png"align="absmiddle" width="59px" height="30px" /></a>
+<span>提供加速服务</span>
+
+    </div>
+    <div class="trm-footer-item">
+        本站总访问量<span id="busuanzi_value_site_pv" class="trm-accent-color"></span>次
+        本站访客数<span id="busuanzi_value_site_uv" class="trm-accent-color"></span>人次
+    </div>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</footer>
+
+<!-- 回到顶端 -->
+<!-- <div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div> -->
+<!-- 回到顶端 -->
+<div id="totop" style="position:fixed;bottom:150px;right:50px;cursor: pointer;">
+    <div id="gal-gotop">
+        <i class="fa fa-angle-up"></i>
+    </div>
+</div>
+    <script src="/js/totop.js"></script>
+
+
+  </body>
+  
+<script src="/js/activate-power-mode.js"></script>
+
+    <script>
+
+      // 配置highslide
+      hs.graphicsDir = '/js/highslide/graphics/'
+      hs.outlineType = "rounded-white";
+      hs.dimmingOpacity = 0.8;
+      hs.outlineWhileAnimating = true;
+      hs.showCredits = false;
+      hs.captionEval = "this.thumb.alt";
+      hs.numberPosition = "caption";
+      hs.align = "center";
+      hs.transitions = ["expand", "crossfade"];
+      hs.lang.number = '共%2张图, 当前是第%1张';
+      hs.addSlideshow({
+        interval: 5000,
+        repeat: true,
+        useControls: true,
+        fixedControls: "fit",
+        overlayOptions: {
+          opacity: 0.75,
+          position: "bottom center",
+          hideOnMouseOut: true
+        }
+      })
+
+      // 初始化aos
+      AOS.init({
+        duration: 1000,
+        delay: 0,
+        easing: 'ease-out-back'
+      });
+
+    </script>
+    <script>
+      POWERMODE.colorful = 'true';    // make power mode colorful
+      POWERMODE.shake = 'true';       // turn off shake
+      // TODO 这里根据具体情况修改
+      document.body.addEventListener('input', POWERMODE);
+    </script>
+    <script>
+      window.slideConfig = {
+        prefix: '/imgs/slide/background',
+        ext: 'jpg',
+        maxCount: '37'
+      }
+    </script>
+    
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+      
+            
+                  
+
+                        </html>
