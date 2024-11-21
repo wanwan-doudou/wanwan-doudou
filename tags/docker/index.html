@@ -15,7 +15,7 @@
     
       <link rel="icon" href="/imgs/favicon.ico">
         
-    <title>Map实现连表查询 | 这个爱酱不太聪明</title>
+    <title>tags: docker | 这个爱酱不太聪明</title>
     <link href="https://wanwan-doudou/github.io" rel="prefetch" />
 
     
@@ -199,34 +199,19 @@
                 <div class="container">
                   <div class="row">
                     <div class="col-md-8 gal-right" id="mainstay">
-                      
-<article class="article well article-body" id="article">
+                      <article class="article well article-body" id="article-tag">
     <div class="breadcrumb">
         <i class="fa fa-home"></i>
         <a href="https://wanwan-doudou/github.io">这个爱酱不太聪明</a>
         >
-        <span>Map实现连表查询</span>
+        <span>标签</span>
     </div>
     <!-- 大型设备详细文章 -->
     <div class="hidden-xs">
         <div class="title-article">
             <h1>
-                <a href="/2021/12/01/Map%E5%AE%9E%E7%8E%B0%E8%BF%9E%E8%A1%A8%E6%9F%A5%E8%AF%A2/">Map实现连表查询</a>
+                <a href="/tags/docker/index.html">docker</a>
             </h1>
-        </div>
-        <div class="tag-article">
-            
-            <span class="label label-gal">
-                <i class="fa fa-tags"></i>
-                
-                <a href="/tags/java/">java</a>
-                
-            </span>
-            
-            <span class="label label-gal">
-                <i class="fa fa-calendar"></i> 2021-12-01
-            </span>
-            
         </div>
     </div>
     <!-- 小型设备详细文章 -->
@@ -234,35 +219,21 @@
         <center>
             <div class="title-article">
                 <h4>
-                    <a href="/2021/12/01/Map%E5%AE%9E%E7%8E%B0%E8%BF%9E%E8%A1%A8%E6%9F%A5%E8%AF%A2/">Map实现连表查询</a>
+                    <a href="/tags/docker/index.html">docker</a>
                 </h4>
             </div>
-            <p>
-                <i class="fa fa-calendar"></i> 2021-12-01
-            </p>
-            <p>
-                
-                <i class="fa fa-tags"></i>
-                
-                <a href="/tags/java/">java</a>
-                
-                
-                
-            </p>
         </center>
     </div>
-    <div class="content-article">
-        <p>通过Map实现连表查询</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;product/edit&quot;)</span>  </span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">productEdit</span><span class="params">(String id, Model model)</span> &#123;  </span><br><span class="line">    <span class="type">ProjectInfo</span> <span class="variable">projectInfo</span> <span class="operator">=</span> Opt.ofNullable(id).map(ProjectInfo.builder().build()::selectById).orElseGet(() -&gt; ProjectInfo.builder().build());  </span><br><span class="line">    List&lt;MemberInfo&gt; members = MemberInfo.builder().build().selectList(Wrappers.lambdaQuery(MemberInfo.builder().status(MemberInfoStatusEnum.AUTHORIZED).build()));  </span><br><span class="line">    List&lt;ProjectCategory&gt; categories = ProjectCategory.builder().build().selectAll();  </span><br><span class="line">    Map&lt;Long, MemberInfo&gt; memberMap = SimpleQuery.list2Map(members, MemberInfo::getId, Function.identity());  </span><br><span class="line">    Map&lt;Long, ProjectCategory&gt; projects = SimpleQuery.list2Map(categories, ProjectCategory::getId, Function.identity());  </span><br><span class="line">    <span class="type">ProjectVO</span> <span class="variable">vo</span> <span class="operator">=</span> BeanUtils.copyProperties(projectInfo, ProjectVO::<span class="keyword">new</span>);  </span><br><span class="line">    vo.setMemberInfo(memberMap.get(projectInfo.getMemberId()));  </span><br><span class="line">    vo.setCategory(projects.get(projectInfo.getCategoryId()));  </span><br><span class="line">    model.addAttribute(AttrKeyConst.MEMBERS, members);  </span><br><span class="line">    model.addAttribute(AttrKeyConst.CATEGORIES, projects);  </span><br><span class="line">    model.addAttribute(AttrKeyConst.DETAIL, vo);  </span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;admin/product/edit&quot;</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <div class="content-article" style="margin-top: 30px;">
+        <div class="alert alert-info" style="font-size: 14px; line-height: 2; font-weight: bold;">
+            
+            <a href="/2024/11/21/%E4%BD%BF%E7%94%A8docker%E5%AE%89%E8%A3%85%E5%B8%B8%E7%94%A8%E7%8E%AF%E5%A2%83/">使用docker安装常用环境</a>
+            <br>
+            
+            
+        </div>
     </div>
 </article>
-
-
-    <script src="https://giscus.app/client.js" data-repo="Myanswerdy/commit" data-repo-id="R_kgDOIcF7aw"
-        data-category="General" data-category-id="DIC_kwDOIcF7a84CSkbL" data-mapping="pathname" data-strict="0"
-        data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="zh-CN"
-        data-loading="lazy" crossorigin="anonymous" async>
-    </script>
                         
                     </div>
                     <aside class="col-md-4 gal-left" id="sidebar">
@@ -406,7 +377,13 @@
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2022/01/29/JUC%E6%A6%82%E8%BF%B0/">JUC概述</a>
+                    <a href="/2022/12/18/HttpClient%E8%8E%B7%E5%8F%96302%E5%93%8D%E5%BA%94%E4%B8%AD%E7%9A%84Location%E5%A4%B4%E4%BF%A1%E6%81%AF/">HttpClient获取302响应中的Location头信息</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/11/04/Linux%E5%BF%AB%E9%80%9F%E4%B8%8A%E4%BC%A0%E5%88%B0git%E4%BB%93%E5%BA%93/">Linux快速上传到git仓库</a>
                 </span>
             </li>
             
@@ -424,43 +401,37 @@
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2021/12/27/hutool-LocalDateTime%E5%B7%A5%E5%85%B7/">hutool LocalDateTime工具</a>
+                    <a href="/2022/09/18/Python3%E5%AE%89%E8%A3%85/">Python安装</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2021/12/07/layui%E4%B8%ADxm-select%E7%BB%84%E4%BB%B6/">layui中xm select组件</a>
+                    <a href="/2021/12/29/element-Carousel%E8%B5%B0%E9%A9%AC%E7%81%AF/">element Carousel走马灯</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2022/09/01/linux%E6%9F%A5%E7%9C%8B%E5%8D%A0%E7%94%A8%E7%AB%AF%E5%8F%A3%E7%9A%84%E8%BF%9B%E7%A8%8B%E5%B9%B6%E6%9D%80%E6%AD%BB%E8%AF%A5%E8%BF%9B%E7%A8%8B/">linux查看占用端口的进程并杀死该进程</a>
+                    <a href="/2021/12/16/jquery-ajax%E5%B1%9E%E6%80%A7async-%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5/">jquery ajax属性async(同步异步)</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2022/01/21/mybatis-plus-%E6%A0%B9%E6%8D%AE%E6%9D%A1%E4%BB%B6%E5%8A%A8%E6%80%81%E4%BF%AE%E6%94%B9%E6%9D%A1%E4%BB%B6%E6%9E%84%E9%80%A0%E5%99%A8%E5%8F%82%E6%95%B0/">mybatis-plus 根据条件动态修改条件构造器参数</a>
+                    <a href="/2021/12/16/js%E5%8F%96%E5%8A%A8%E6%80%81key%E5%8F%82%E6%95%B0/">js取动态key参数</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2022/01/13/vm.$nextTick(%20%5Bcallback%5D%20)/">vm.$nextTick( [callback] )</a>
+                    <a href="/2022/01/26/uniapp%E9%94%AE%E7%9B%98%E5%BC%B9%E5%87%BA%EF%BC%8C%E9%A1%B5%E9%9D%A2%E5%86%85%E5%AE%B9%E8%A2%AB%E9%A1%B6%E4%B8%8A%E5%8E%BB%EF%BC%8C%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">uniapp键盘弹出，页面内容被顶上去，解决办法</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2022/01/21/vue-%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">vue 数据绑定注意事项</a>
-                </span>
-            </li>
-            
-            <li class="list-group-item">
-                <span class="post-title">
-                    <a href="/2024/09/11/%E8%A7%A3%E5%86%B3-Python-%E5%BC%82%E6%AD%A5-Socket-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%B6%88%E6%81%AF%E5%A0%86%E7%A7%AF%E9%97%AE%E9%A2%98/">解决 Python 异步 Socket 服务器消息堆积问题</a>
+                    <a href="/2024/11/21/%E4%BD%BF%E7%94%A8docker%E5%AE%89%E8%A3%85%E5%B8%B8%E7%94%A8%E7%8E%AF%E5%A2%83/">使用docker安装常用环境</a>
                 </span>
             </li>
             
@@ -475,17 +446,17 @@
 
                 
                 <li>
-                    <a href="/2021/12/01/Map%E5%AE%9E%E7%8E%B0%E8%BF%9E%E8%A1%A8%E6%9F%A5%E8%AF%A2/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                    <a href="/tags/docker/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
                 </li>
                 
                 
                 <li>
-                    <a href="/2021/12/01/Map%E5%AE%9E%E7%8E%B0%E8%BF%9E%E8%A1%A8%E6%9F%A5%E8%AF%A2/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                    <a href="/tags/docker/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
                 </li>
                 
                 
                 <li>
-                    <a href="/2021/12/01/Map%E5%AE%9E%E7%8E%B0%E8%BF%9E%E8%A1%A8%E6%9F%A5%E8%AF%A2/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                    <a href="/tags/docker/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
                 </li>
                 
             </ul>
@@ -493,81 +464,81 @@
                 
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 10.11023411890415px;" class="tag-cloud-link">插件</a>
+    <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 19.496006344415328px;" class="tag-cloud-link">插件</a>
     
-    <a href="/tags/%E7%A0%B4%E8%A7%A3/" style="font-size: 17.16608792235037px;" class="tag-cloud-link">破解</a>
+    <a href="/tags/%E7%A0%B4%E8%A7%A3/" style="font-size: 8.07600995117727px;" class="tag-cloud-link">破解</a>
     
-    <a href="/tags/java/" style="font-size: 11.043421289248728px;" class="tag-cloud-link">java</a>
+    <a href="/tags/java/" style="font-size: 18.470912224186208px;" class="tag-cloud-link">java</a>
     
-    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 15.96921514753709px;" class="tag-cloud-link">并发编程</a>
+    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 13.107314627855818px;" class="tag-cloud-link">并发编程</a>
     
-    <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 18.127944277594693px;" class="tag-cloud-link">前端</a>
+    <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 15.775529510101546px;" class="tag-cloud-link">前端</a>
     
-    <a href="/tags/git/" style="font-size: 10.202124161125967px;" class="tag-cloud-link">git</a>
+    <a href="/tags/git/" style="font-size: 19.766553681715852px;" class="tag-cloud-link">git</a>
     
-    <a href="/tags/Opt/" style="font-size: 10.42714992078875px;" class="tag-cloud-link">Opt</a>
+    <a href="/tags/Opt/" style="font-size: 17.211320309373846px;" class="tag-cloud-link">Opt</a>
     
-    <a href="/tags/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" style="font-size: 15.942984634865876px;" class="tag-cloud-link">踩坑记录</a>
+    <a href="/tags/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" style="font-size: 14.474897922857888px;" class="tag-cloud-link">踩坑记录</a>
     
-    <a href="/tags/python/" style="font-size: 18.556780551612523px;" class="tag-cloud-link">python</a>
+    <a href="/tags/python/" style="font-size: 14.446591059561168px;" class="tag-cloud-link">python</a>
     
-    <a href="/tags/RabbitMQ/" style="font-size: 13.906665151630186px;" class="tag-cloud-link">RabbitMQ</a>
+    <a href="/tags/RabbitMQ/" style="font-size: 9.43959967643518px;" class="tag-cloud-link">RabbitMQ</a>
     
-    <a href="/tags/stream/" style="font-size: 17.78145453123996px;" class="tag-cloud-link">stream</a>
+    <a href="/tags/stream/" style="font-size: 9.075801143972726px;" class="tag-cloud-link">stream</a>
     
-    <a href="/tags/vue/" style="font-size: 16.452683599561365px;" class="tag-cloud-link">vue</a>
+    <a href="/tags/vue/" style="font-size: 15.592297548838612px;" class="tag-cloud-link">vue</a>
     
-    <a href="/tags/%E6%BF%80%E6%B4%BB/" style="font-size: 15.643710299841993px;" class="tag-cloud-link">激活</a>
+    <a href="/tags/%E6%BF%80%E6%B4%BB/" style="font-size: 11.674581967856515px;" class="tag-cloud-link">激活</a>
     
-    <a href="/tags/echarts/" style="font-size: 14.028027429373118px;" class="tag-cloud-link">echarts</a>
+    <a href="/tags/echarts/" style="font-size: 10.237279535190932px;" class="tag-cloud-link">echarts</a>
     
-    <a href="/tags/element/" style="font-size: 10.374381638217361px;" class="tag-cloud-link">element</a>
+    <a href="/tags/element/" style="font-size: 19.156841605150152px;" class="tag-cloud-link">element</a>
     
-    <a href="/tags/elementUI/" style="font-size: 18.972378269838146px;" class="tag-cloud-link">elementUI</a>
+    <a href="/tags/elementUI/" style="font-size: 18.776128972134657px;" class="tag-cloud-link">elementUI</a>
     
-    <a href="/tags/es6/" style="font-size: 8.82492559316842px;" class="tag-cloud-link">es6</a>
+    <a href="/tags/es6/" style="font-size: 15.552246095490187px;" class="tag-cloud-link">es6</a>
     
-    <a href="/tags/go/" style="font-size: 8.815294148008478px;" class="tag-cloud-link">go</a>
+    <a href="/tags/go/" style="font-size: 13.980396602831593px;" class="tag-cloud-link">go</a>
     
-    <a href="/tags/hutool/" style="font-size: 14.135786605806725px;" class="tag-cloud-link">hutool</a>
+    <a href="/tags/hutool/" style="font-size: 15.29893198554438px;" class="tag-cloud-link">hutool</a>
     
-    <a href="/tags/jquery/" style="font-size: 9.235750664763849px;" class="tag-cloud-link">jquery</a>
+    <a href="/tags/jquery/" style="font-size: 11.793585833964496px;" class="tag-cloud-link">jquery</a>
     
-    <a href="/tags/layui/" style="font-size: 9.387262134608129px;" class="tag-cloud-link">layui</a>
+    <a href="/tags/layui/" style="font-size: 15.280522793768025px;" class="tag-cloud-link">layui</a>
     
-    <a href="/tags/linux/" style="font-size: 16.229434476944654px;" class="tag-cloud-link">linux</a>
+    <a href="/tags/linux/" style="font-size: 16.135270689782114px;" class="tag-cloud-link">linux</a>
     
-    <a href="/tags/mybatis-plus/" style="font-size: 12.841974973826224px;" class="tag-cloud-link">mybatis-plus</a>
+    <a href="/tags/mybatis-plus/" style="font-size: 11.61922190290197px;" class="tag-cloud-link">mybatis-plus</a>
     
-    <a href="/tags/npm/" style="font-size: 13.212713226331328px;" class="tag-cloud-link">npm</a>
+    <a href="/tags/npm/" style="font-size: 16.546000489448446px;" class="tag-cloud-link">npm</a>
     
-    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 9.408707744149204px;" class="tag-cloud-link">数据库</a>
+    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 17.80885433857511px;" class="tag-cloud-link">数据库</a>
     
-    <a href="/tags/sa-Token/" style="font-size: 18.428401019000884px;" class="tag-cloud-link">sa-Token</a>
+    <a href="/tags/sa-Token/" style="font-size: 8.039574249398942px;" class="tag-cloud-link">sa-Token</a>
     
-    <a href="/tags/uView/" style="font-size: 10.241820244030915px;" class="tag-cloud-link">uView</a>
+    <a href="/tags/uView/" style="font-size: 8.974645763606006px;" class="tag-cloud-link">uView</a>
     
-    <a href="/tags/uniapp/" style="font-size: 9.25307786687343px;" class="tag-cloud-link">uniapp</a>
+    <a href="/tags/uniapp/" style="font-size: 13.066109851030124px;" class="tag-cloud-link">uniapp</a>
     
-    <a href="/tags/uni-app/" style="font-size: 9.238339686827391px;" class="tag-cloud-link">uni-app</a>
+    <a href="/tags/uni-app/" style="font-size: 8.107776850006584px;" class="tag-cloud-link">uni-app</a>
     
-    <a href="/tags/%E8%B8%A9%E5%9D%91/" style="font-size: 11.728259529993135px;" class="tag-cloud-link">踩坑</a>
+    <a href="/tags/%E8%B8%A9%E5%9D%91/" style="font-size: 10.357676543711952px;" class="tag-cloud-link">踩坑</a>
     
-    <a href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E4%B8%AA%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 14.756866129732117px;" class="tag-cloud-link">每日一个小技巧</a>
+    <a href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E4%B8%AA%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 19.502826840011874px;" class="tag-cloud-link">每日一个小技巧</a>
     
-    <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 18.48140192150233px;" class="tag-cloud-link">设计模式</a>
+    <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 14.119666965557547px;" class="tag-cloud-link">设计模式</a>
     
-    <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 11.505316764884107px;" class="tag-cloud-link">博客</a>
+    <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 19.02571527400368px;" class="tag-cloud-link">博客</a>
     
-    <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 8.988622905453072px;" class="tag-cloud-link">正则表达式</a>
+    <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 9.683859763697548px;" class="tag-cloud-link">正则表达式</a>
     
-    <a href="/tags/%E5%8D%9A%E5%AE%A2%E7%BE%8E%E5%8C%96/" style="font-size: 9.374543084817422px;" class="tag-cloud-link">博客美化</a>
+    <a href="/tags/%E5%8D%9A%E5%AE%A2%E7%BE%8E%E5%8C%96/" style="font-size: 18.125735377181222px;" class="tag-cloud-link">博客美化</a>
     
-    <a href="/tags/PaddleOCR/" style="font-size: 12.34560680170799px;" class="tag-cloud-link">PaddleOCR</a>
+    <a href="/tags/PaddleOCR/" style="font-size: 16.838365480590102px;" class="tag-cloud-link">PaddleOCR</a>
     
-    <a href="/tags/Vue/" style="font-size: 12.511354158695656px;" class="tag-cloud-link">Vue</a>
+    <a href="/tags/Vue/" style="font-size: 19.01536636088699px;" class="tag-cloud-link">Vue</a>
     
-    <a href="/tags/docker/" style="font-size: 12.731018083565914px;" class="tag-cloud-link">docker</a>
+    <a href="/tags/docker/" style="font-size: 17.67815198013819px;" class="tag-cloud-link">docker</a>
     
 </div>
                 

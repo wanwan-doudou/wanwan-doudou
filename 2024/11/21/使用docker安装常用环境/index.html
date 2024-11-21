@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="这个爱酱不太聪明">
+    
+    <meta name="description" content="技术宅改变世界">
+    
+    
+    
+    
+    
+    
+    
+      <link rel="icon" href="/imgs/favicon.ico">
+        
+    <title>使用docker安装常用环境 | 这个爱酱不太聪明</title>
+    <link href="https://wanwan-doudou/github.io" rel="prefetch" />
+
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/js/jquery.min.js"></script>
+
+    
+<script src="/js/bootstrap.min.js"></script>
+
+    
+<script src="/js/aos.js"></script>
+
+    
+<script src="/js/highslide/highslide-full.min.js"></script>
+
+    
+<link rel="stylesheet" href="/js/highslide/highslide.css">
+
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg,preview5.jpg,preview6.jpg,preview7.jpg,preview8.jpg,preview9.jpg,preview10.jpg,preview11.jpg,preview12.jpg,preview13.jpg,preview14.jpg,preview15.jpg,preview16.jpg,preview17.jpg,preview18.jpg,preview19.jpg,preview20.jpg,preview21.jpg,preview22.jpg,preview22.jpg,preview23.jpg,preview24.jpg,preview25.jpg,preview26.jpg,preview27.jpg,preview28.jpg,preview29.jpg,preview30.jpg,preview31.jpg,preview32.jpg,preview33.jpg,preview34.jpg,preview35.jpg,preview36.jpg,preview37.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+      <!-- 欧尼酱功能, 谁用谁知道 -->
+      
+            <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a target="_blank" rel="noopener" href="https://kwydy.cn/">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">这个爱酱不太聪明</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/categories">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/%E6%8F%92%E4%BB%B6/">插件</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/%E7%A0%B4%E8%A7%A3/">破解</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/java/">java</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/gallery">
+                        <i class="fa fa-tags"></i>相册
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>我和宝宝
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+<div id="sakana-widget" style="position:fixed ;bottom: 10px; right: 10px;"></div>
+<script>
+  function initSakanaWidget() {
+    new SakanaWidget().mount('#sakana-widget');
+  }
+</script>
+<script
+  async
+  onload="initSakanaWidget()"
+  src="https://cdn.jsdelivr.net/npm/sakana-widget@2.2.2/lib/sakana.min.js"
+></script>
+              <div id="gal-body">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-8 gal-right" id="mainstay">
+                      
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://wanwan-doudou/github.io">这个爱酱不太聪明</a>
+        >
+        <span>使用docker安装常用环境</span>
+    </div>
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2024/11/21/%E4%BD%BF%E7%94%A8docker%E5%AE%89%E8%A3%85%E5%B8%B8%E7%94%A8%E7%8E%AF%E5%A2%83/">使用docker安装常用环境</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/docker/">docker</a>
+                
+            </span>
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2024-11-21
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2024/11/21/%E4%BD%BF%E7%94%A8docker%E5%AE%89%E8%A3%85%E5%B8%B8%E7%94%A8%E7%8E%AF%E5%A2%83/">使用docker安装常用环境</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2024-11-21
+            </p>
+            <p>
+                
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/docker/">docker</a>
+                
+                
+                
+            </p>
+        </center>
+    </div>
+    <div class="content-article">
+        <h1 id="安装redis"><a href="#安装redis" class="headerlink" title="安装redis"></a>安装redis</h1><h3 id="1-拉取-Redis-镜像"><a href="#1-拉取-Redis-镜像" class="headerlink" title="1. 拉取 Redis 镜像"></a>1. 拉取 Redis 镜像</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull redis:latest</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-创建挂载目录"><a href="#2-创建挂载目录" class="headerlink" title="2. 创建挂载目录"></a>2. 创建挂载目录</h3><p>Redis 的数据需要持久化到本地文件系统，因此需要创建挂载目录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /mydata/redis/data</span><br><span class="line">mkdir -p /mydata/redis/conf</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-准备配置文件"><a href="#3-准备配置文件" class="headerlink" title="3.准备配置文件"></a>3.准备配置文件</h3><p>以下是一个完整的 Redis 配置文件 <code>redis.conf</code> 示例，针对你要求的持久化、密码配置和常用设置已经做好调整。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"># Redis 通用配置</span><br><span class="line"></span><br><span class="line"># 监听地址，允许所有 IP 访问（不建议在生产环境中使用）</span><br><span class="line">bind 0.0.0.0</span><br><span class="line"></span><br><span class="line"># 端口号</span><br><span class="line">port 6379</span><br><span class="line"></span><br><span class="line"># 设置 Redis 密码</span><br><span class="line">requirepass 123456</span><br><span class="line"></span><br><span class="line"># 关闭保护模式（允许外部访问）</span><br><span class="line">protected-mode no</span><br><span class="line"></span><br><span class="line"># 持久化配置</span><br><span class="line"></span><br><span class="line"># 快照持久化（RDB 配置）</span><br><span class="line"># 按时间间隔和操作次数保存数据，示例为：</span><br><span class="line"># - 每 900 秒（15 分钟）至少有 1 次修改</span><br><span class="line"># - 每 300 秒（5 分钟）至少有 10 次修改</span><br><span class="line"># - 每 60 秒（1 分钟）至少有 10000 次修改</span><br><span class="line">save 900 1</span><br><span class="line">save 300 10</span><br><span class="line">save 60 10000</span><br><span class="line"></span><br><span class="line"># 持久化文件名</span><br><span class="line">dbfilename dump.rdb</span><br><span class="line"></span><br><span class="line"># 持久化文件保存目录</span><br><span class="line">dir /data</span><br><span class="line"></span><br><span class="line"># AOF 持久化（日志追加模式）</span><br><span class="line"># 启用 AOF（默认关闭）</span><br><span class="line">appendonly yes</span><br><span class="line"></span><br><span class="line"># AOF 文件名</span><br><span class="line">appendfilename &quot;appendonly.aof&quot;</span><br><span class="line"></span><br><span class="line"># AOF 的文件同步策略</span><br><span class="line"># - always: 每次写入都同步（性能差，最安全）</span><br><span class="line"># - everysec: 每秒同步一次（推荐，权衡性能和安全性）</span><br><span class="line"># - no: 由操作系统决定同步时间（性能最好，安全性低）</span><br><span class="line">appendfsync everysec</span><br><span class="line"></span><br><span class="line"># 性能优化</span><br><span class="line"></span><br><span class="line"># 指定最大客户端连接数，0 表示无限制</span><br><span class="line">maxclients 10000</span><br><span class="line"></span><br><span class="line"># 限制内存大小，单位字节（示例为 1GB，生产环境建议配置）</span><br><span class="line"># maxmemory 1073741824</span><br><span class="line"></span><br><span class="line"># 内存超出限制时的淘汰策略</span><br><span class="line"># 可选值：</span><br><span class="line"># - noeviction: 不再接受写入操作（默认）</span><br><span class="line"># - allkeys-lru: 淘汰最少使用的键</span><br><span class="line"># - volatile-lru: 在设置过期时间的键中淘汰最少使用的键</span><br><span class="line"># - allkeys-random: 随机淘汰键</span><br><span class="line"># - volatile-random: 在设置过期时间的键中随机淘汰</span><br><span class="line"># - volatile-ttl: 在设置过期时间的键中淘汰存活时间最短的键</span><br><span class="line"># maxmemory-policy allkeys-lru</span><br><span class="line"></span><br><span class="line"># 日志配置</span><br><span class="line"></span><br><span class="line"># 日志级别（可选：debug、verbose、notice、warning）</span><br><span class="line">loglevel notice</span><br><span class="line"></span><br><span class="line"># 日志文件路径（默认输出到标准输出）</span><br><span class="line"># logfile &quot;/data/redis.log&quot;</span><br><span class="line"></span><br><span class="line"># 后台运行</span><br><span class="line"># 注意：在 Docker 中，不需要开启此选项，保持为 no 即可</span><br><span class="line">daemonize no</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h3><ol>
+<li><p><strong>文件保存位置</strong><br> 将以上内容保存到 <code>/mydata/redis/conf/redis.conf</code> 文件中。</p>
+</li>
+<li><p><strong>启动 Redis 容器</strong><br> 使用以下命令运行容器，并挂载配置文件和数据目录</p>
+</li>
+</ol>
+<figure class="highlight docker"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">run</span><span class="language-bash"> -d \</span></span><br><span class="line"><span class="language-bash">  --name redis \</span></span><br><span class="line"><span class="language-bash">  --restart=always \</span></span><br><span class="line"><span class="language-bash">  -p 6379:6379 \</span></span><br><span class="line"><span class="language-bash">  -v /mydata/redis/data:/data \</span></span><br><span class="line"><span class="language-bash">  -v /mydata/redis/conf/redis.conf:/usr/local/etc/redis/redis.conf \</span></span><br><span class="line"><span class="language-bash">  redis:latest \</span></span><br><span class="line"><span class="language-bash">  redis-server /usr/local/etc/redis/redis.conf</span></span><br></pre></td></tr></table></figure>
+
+
+<h1 id="安装-clickhouse"><a href="#安装-clickhouse" class="headerlink" title="安装  clickhouse"></a>安装  clickhouse</h1><h3 id="1-拉取-ClickHouse-镜像"><a href="#1-拉取-ClickHouse-镜像" class="headerlink" title="1. 拉取 ClickHouse 镜像"></a>1. 拉取 ClickHouse 镜像</h3><p>首先从 Docker Hub 拉取最新的 ClickHouse 镜像：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull clickhouse/clickhouse-server:latest</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-创建挂载目录-1"><a href="#2-创建挂载目录-1" class="headerlink" title="2. 创建挂载目录"></a>2. 创建挂载目录</h3><p>创建本地目录，用于挂载 ClickHouse 的数据和配置文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /mydata/clickhouse/data</span><br><span class="line">mkdir -p /mydata/clickhouse/config</span><br><span class="line">mkdir -p /mydata/clickhouse/log</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-准备配置文件-1"><a href="#3-准备配置文件-1" class="headerlink" title="3. 准备配置文件"></a>3. 准备配置文件</h3><p>生成默认配置文件（可选）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run --rm clickhouse/clickhouse-server cat /etc/clickhouse-server/config.xml &gt; /mydata/clickhouse/config/config.xml</span><br><span class="line">docker run --rm clickhouse/clickhouse-server cat /etc/clickhouse-server/users.xml &gt; /mydata/clickhouse/config/users.xml</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置说明："><a href="#配置说明：" class="headerlink" title="配置说明："></a>配置说明：</h4><ol>
+<li><code>config.xml</code> 是主配置文件，用于配置存储路径、监听端口等。</li>
+<li><code>users.xml</code> 是用户配置文件，用于设置用户权限、默认密码等。<br>&#96;&#96;<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># config.xml 开启远程登录</span><br><span class="line">&lt;listen_host&gt;0.0.0.0&lt;/listen_host&gt; </span><br><span class="line"># users.xml 配置密码</span><br><span class="line">&lt;password&gt;123456&lt;/password&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="4-启动clickhouse容器"><a href="#4-启动clickhouse容器" class="headerlink" title="4. 启动clickhouse容器"></a>4. 启动clickhouse容器</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># 添加 CAP_SYS_NICE 容器权限，不然可能会出现这个错误get_mempolicy: Operation not permitted</span><br><span class="line"></span><br><span class="line">docker run -d \</span><br><span class="line">  --name clickhouse \</span><br><span class="line">  --restart=always \</span><br><span class="line">  --cap-add=SYS_NICE \</span><br><span class="line">  -p 8123:8123 \</span><br><span class="line">  -p 9000:9000 \</span><br><span class="line">  -p 9009:9009 \</span><br><span class="line">  -v /mydata/clickhouse/data:/var/lib/clickhouse \</span><br><span class="line">  -v /mydata/clickhouse/config/config.xml:/etc/clickhouse-server/config.xml \</span><br><span class="line">  -v /mydata/clickhouse/config/users.xml:/etc/clickhouse-server/users.xml \</span><br><span class="line">  -v /mydata/clickhouse/log:/var/log/clickhouse-server \</span><br><span class="line">  clickhouse/clickhouse-server:latest</span><br></pre></td></tr></table></figure>
+
+<h1 id="安装-MySql"><a href="#安装-MySql" class="headerlink" title="安装  MySql"></a>安装  MySql</h1><h3 id="1-MySql-镜像"><a href="#1-MySql-镜像" class="headerlink" title="1. MySql 镜像"></a>1. MySql 镜像</h3><p>首先从 Docker Hub 拉取最新的 MySql 镜像：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull mysql</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-创建目录结构"><a href="#2-创建目录结构" class="headerlink" title="2. 创建目录结构"></a>2. 创建目录结构</h4><p>在 <code>/mydata</code> 下为 MySQL 创建独立的目录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /mydata/mysql/data</span><br><span class="line">sudo mkdir -p /mydata/mysql/config</span><br><span class="line">sudo mkdir -p /mydata/mysql/logs</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-挂载目录授权"><a href="#3-挂载目录授权" class="headerlink" title="3. 挂载目录授权"></a>3. 挂载目录授权</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chown -R 999:999 /mydata/mysql/data</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-准备-MySQL-配置文件（可选）"><a href="#3-准备-MySQL-配置文件（可选）" class="headerlink" title="3. 准备 MySQL 配置文件（可选）"></a>3. 准备 MySQL 配置文件（可选）</h4><p>MySQL 容器允许自定义配置文件。如果需要，可以创建一个配置文件，例如 <code>/mydata/mysql/config/my.cnf</code>，内容如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">bind-address = 0.0.0.0</span><br><span class="line">port = 3306</span><br><span class="line">datadir = /var/lib/mysql</span><br><span class="line">log-error = /var/log/mysql/error.log</span><br><span class="line">max_connections = 200</span><br><span class="line">sql_mode = &quot;STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-启动-MySQL-容器"><a href="#4-启动-MySQL-容器" class="headerlink" title="4. 启动 MySQL 容器"></a>4. 启动 MySQL 容器</h4><p>运行以下命令启动 MySQL 容器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">  --name mysql \</span><br><span class="line">  --restart=always \</span><br><span class="line">  -p 3306:3306 \</span><br><span class="line">  -e MYSQL_ROOT_PASSWORD=123456 \</span><br><span class="line">  -v /mydata/mysql/data:/var/lib/mysql \</span><br><span class="line">  -v /mydata/mysql/config/my.cnf:/etc/mysql/my.cnf \</span><br><span class="line">  -v /mydata/mysql/logs:/var/log/mysql \</span><br><span class="line">  mysql:latest</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-配置远程访问"><a href="#5-配置远程访问" class="headerlink" title="5. 配置远程访问"></a>5. 配置远程访问</h4><p><strong>1. 进入容器并连接到MySQL：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it mysql mysql -u root -p</span><br></pre></td></tr></table></figure>
+
+<p>在 MySQL 命令行中执行以下操作：</p>
+<p><strong>2. 检查权限用户</strong><br>验证<code>root</code>用户的主机限制：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT host, user FROM mysql.user WHERE user = &#x27;root&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3. 设置远程权限</strong><br>添加<code>root</code>用户的远程访问权限：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER &#x27;root&#x27;@&#x27;%&#x27; IDENTIFIED BY &#x27;your_root_password&#x27;;</span><br><span class="line">GRANT ALL PRIVILEGES ON *.* TO &#x27;root&#x27;@&#x27;%&#x27; WITH GRANT OPTION;</span><br><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+
+<p><strong>4. 测试远程用户</strong><br>确保创建远程用户可以访问：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT host, user FROM mysql.user;</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="安装-rabbitmq"><a href="#安装-rabbitmq" class="headerlink" title="安装  rabbitmq"></a>安装  rabbitmq</h1><h3 id="1-创建所需目录"><a href="#1-创建所需目录" class="headerlink" title="1. 创建所需目录"></a>1. <strong>创建所需目录</strong></h3><p>在宿主机上创建用于存储 RabbitMQ 配置和数据的目录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /mydata/rabbitmq/data /mydata/rabbitmq/log /mydata/rabbitmq/config</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-创建配置文件"><a href="#2-创建配置文件" class="headerlink" title="2. 创建配置文件"></a>2. <strong>创建配置文件</strong></h3><p>RabbitMQ 可以通过 <code>rabbitmq.conf</code> 或 <code>advanced.config</code> 文件进行配置。这里使用 <code>rabbitmq.conf</code> 文件。</p>
+<p>创建 <code>/mydata/rabbitmq/config/rabbitmq.conf</code> 文件并添加以下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># RabbitMQ Configuration File</span><br><span class="line"></span><br><span class="line"># 默认用户配置</span><br><span class="line">default_user = admin</span><br><span class="line">default_pass = 123456</span><br><span class="line"></span><br><span class="line"># 持久化路径（数据和日志）</span><br><span class="line">log.dir = /var/log/rabbitmq</span><br><span class="line">raft.data_dir = /var/lib/rabbitmq/mnesia</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-启动-RabbitMQ-容器"><a href="#3-启动-RabbitMQ-容器" class="headerlink" title="3. 启动 RabbitMQ 容器"></a>3. <strong>启动 RabbitMQ 容器</strong></h3><p>运行以下命令启动 RabbitMQ 容器，并将配置和数据挂载到宿主机：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">  --name rabbitmq \</span><br><span class="line">  --restart=always \</span><br><span class="line">  -p 5672:5672 \</span><br><span class="line">  -p 15672:15672 \</span><br><span class="line">  -v /mydata/rabbitmq/data:/var/lib/rabbitmq/mnesia \</span><br><span class="line">  -v /mydata/rabbitmq/log:/var/log/rabbitmq \</span><br><span class="line">  -v /mydata/rabbitmq/config/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf \</span><br><span class="line">  rabbitmq:management</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="4、进入容器内部"><a href="#4、进入容器内部" class="headerlink" title="4、进入容器内部"></a>4、进入容器内部</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it 容器id /bin/bssh</span><br><span class="line">rabbitmq-plugins enable rabbitmq_management</span><br></pre></td></tr></table></figure>
+    </div>
+</article>
+
+
+    <script src="https://giscus.app/client.js" data-repo="Myanswerdy/commit" data-repo-id="R_kgDOIcF7aw"
+        data-category="General" data-category-id="DIC_kwDOIcF7a84CSkbL" data-mapping="pathname" data-strict="0"
+        data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="zh-CN"
+        data-loading="lazy" crossorigin="anonymous" async>
+    </script>
+                        
+                    </div>
+                    <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~" autocomplete="off">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            这个爱酱不太聪明
+                <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg"
+                width="140" height="140" alt="个人头像" class="author-image">
+            <p class="author-description">
+                <p>技术宅改变世界</p>
+
+            </p>
+        </div>
+    </div>
+</aside>
+<!-- 引用Aplayer和metingjs -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script>
+<div>
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            歌单
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <div style="opacity: 0.4;font-weight: 600;" id="my-aplayer" class="aplayer" data-id="8692231711" data-server="tencent"
+            data-type="playlist" data-fixed="false" data-autoplay="false" data-order="list" data-volume="0.1"
+            data-theme="#cc543a" data-preload="auto" data-listFolded="false">
+        </div>
+    </div>
+</div>
+<br>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/11/21/%E4%BD%BF%E7%94%A8docker%E5%AE%89%E8%A3%85%E5%B8%B8%E7%94%A8%E7%8E%AF%E5%A2%83/">使用docker安装常用环境</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/11/05/%E4%BD%BF%E7%94%A8-Element-Plus-%E5%AE%9E%E7%8E%B0%E6%B7%BB%E5%8A%A0%E8%A1%8C%E6%97%B6%E5%8D%95%E5%85%83%E6%A0%BC%E5%90%88%E5%B9%B6/">使用 Element Plus 实现添加行时单元格合并</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/09/29/%E4%BD%BF%E7%94%A8docker%E5%AE%89%E8%A3%85CPU%E7%89%88%E6%9C%AC%E7%9A%84PaddleOCR/">使用docker安装PaddleOCR</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/09/25/go%E4%BD%BF%E7%94%A8%E5%8E%9F%E7%94%9Fmysql%E8%B7%A8%E5%BA%93%E6%93%8D%E4%BD%9C%E6%97%B6%E4%BF%9D%E8%AF%81%E4%BA%8B%E5%8A%A1%E4%B8%80%E8%87%B4%E6%80%A7/">go使用原生mysql跨库操作保证事务一致性</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/09/25/RabbitMQ-Web-%E7%95%8C%E9%9D%A2%E9%85%8D%E7%BD%AE%E8%A7%A3%E6%9E%90/">RabbitMQ Web 界面配置解析</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/09/11/%E8%A7%A3%E5%86%B3-Python-%E5%BC%82%E6%AD%A5-Socket-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%B6%88%E6%81%AF%E5%A0%86%E7%A7%AF%E9%97%AE%E9%A2%98/">解决 Python 异步 Socket 服务器消息堆积问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/09/05/go%E5%A4%84%E7%90%86JSON%E6%95%B0%E6%8D%AE/">go处理JSON数据</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/08/02/FinalShell%E6%BF%80%E6%B4%BB/">FinalShell激活</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2023/04/24/Vue%E9%A1%B9%E7%9B%AE%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99%E2%80%9Cerror-0308010C-digital-envelope-routines-unsupported%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%E2%80%9D/">Vue项目启动报错“error:0308010C:digital envelope routines::unsupported解决办法”</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/12/20/java%E7%88%AC%E8%99%AB-403-%E4%BD%BF%E7%94%A8java%E7%88%AC%E8%99%AB%E8%8E%B7%E5%8F%96%E7%BD%91%E7%BB%9C%E8%B5%84%E6%BA%90403%E9%94%99%E8%AF%AF%E8%A7%A3%E5%86%B3/">java爬虫 403_使用java爬虫获取网络资源403错误解决</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2021/12/10/CamelCase%E9%A9%BC%E5%B3%B0%E6%8F%92%E4%BB%B6/">CamelCase驼峰插件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/01/29/Lock%E6%8E%A5%E5%8F%A3/">Lock接口</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/09/28/Python3-%E8%BF%90%E7%AE%97%E7%AC%A6/">Python3 运算符</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2021/12/29/element-Carousel%E8%B5%B0%E9%A9%AC%E7%81%AF/">element Carousel走马灯</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2021/12/28/element-Pagination-%E5%88%86%E9%A1%B5/">element Pagination 分页</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2021/12/16/hutool-Opt%E5%B7%A5%E5%85%B7/">hutool Opt工具</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2021/12/15/vue%E8%8E%B7%E5%8F%96ajax%E6%95%B0%E6%8D%AE%E5%B9%B6%E5%8A%A8%E6%80%81%E6%B8%B2%E6%9F%93/">vue获取ajax数据并动态渲染</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/01/06/%E4%BD%BF%E7%94%A8uni-navigateTo-%E4%BC%A0%E9%80%92%E5%AF%B9%E8%B1%A1/">使用uni.navigateTo()传递对象</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/01/02/%E5%9B%BE%E7%89%87%E6%87%92%E5%8A%A0%E8%BD%BD/">图片懒加载</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/09/01/%E8%AE%A9hexo%E5%9C%A8%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C/">让hexo在后台运行</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+
+                
+                <li>
+                    <a href="/2024/11/21/%E4%BD%BF%E7%94%A8docker%E5%AE%89%E8%A3%85%E5%B8%B8%E7%94%A8%E7%8E%AF%E5%A2%83/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                
+                
+                <li>
+                    <a href="/2024/11/21/%E4%BD%BF%E7%94%A8docker%E5%AE%89%E8%A3%85%E5%B8%B8%E7%94%A8%E7%8E%AF%E5%A2%83/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                
+                
+                <li>
+                    <a href="/2024/11/21/%E4%BD%BF%E7%94%A8docker%E5%AE%89%E8%A3%85%E5%B8%B8%E7%94%A8%E7%8E%AF%E5%A2%83/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+                
+            </ul>
+            <div class="tab-content">
+                
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 11.114547152201737px;" class="tag-cloud-link">插件</a>
+    
+    <a href="/tags/%E7%A0%B4%E8%A7%A3/" style="font-size: 9.051202795581256px;" class="tag-cloud-link">破解</a>
+    
+    <a href="/tags/java/" style="font-size: 16.793547061386164px;" class="tag-cloud-link">java</a>
+    
+    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 18.660061798734226px;" class="tag-cloud-link">并发编程</a>
+    
+    <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 15.876142894593631px;" class="tag-cloud-link">前端</a>
+    
+    <a href="/tags/git/" style="font-size: 11.281065545454194px;" class="tag-cloud-link">git</a>
+    
+    <a href="/tags/Opt/" style="font-size: 16.540523088291277px;" class="tag-cloud-link">Opt</a>
+    
+    <a href="/tags/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" style="font-size: 14.022978952300733px;" class="tag-cloud-link">踩坑记录</a>
+    
+    <a href="/tags/python/" style="font-size: 14.119012412285048px;" class="tag-cloud-link">python</a>
+    
+    <a href="/tags/RabbitMQ/" style="font-size: 11.144590745937448px;" class="tag-cloud-link">RabbitMQ</a>
+    
+    <a href="/tags/stream/" style="font-size: 13.52357202185189px;" class="tag-cloud-link">stream</a>
+    
+    <a href="/tags/vue/" style="font-size: 14.752342679408613px;" class="tag-cloud-link">vue</a>
+    
+    <a href="/tags/%E6%BF%80%E6%B4%BB/" style="font-size: 13.232888995498396px;" class="tag-cloud-link">激活</a>
+    
+    <a href="/tags/echarts/" style="font-size: 11.284638489059336px;" class="tag-cloud-link">echarts</a>
+    
+    <a href="/tags/element/" style="font-size: 9.80944689640967px;" class="tag-cloud-link">element</a>
+    
+    <a href="/tags/elementUI/" style="font-size: 9.490002866415963px;" class="tag-cloud-link">elementUI</a>
+    
+    <a href="/tags/es6/" style="font-size: 9.970526803369047px;" class="tag-cloud-link">es6</a>
+    
+    <a href="/tags/go/" style="font-size: 19.248245981783228px;" class="tag-cloud-link">go</a>
+    
+    <a href="/tags/hutool/" style="font-size: 19.903679684116508px;" class="tag-cloud-link">hutool</a>
+    
+    <a href="/tags/jquery/" style="font-size: 11.0793738274713px;" class="tag-cloud-link">jquery</a>
+    
+    <a href="/tags/layui/" style="font-size: 12.114312534339648px;" class="tag-cloud-link">layui</a>
+    
+    <a href="/tags/linux/" style="font-size: 13.097410888174522px;" class="tag-cloud-link">linux</a>
+    
+    <a href="/tags/mybatis-plus/" style="font-size: 16.82612637724738px;" class="tag-cloud-link">mybatis-plus</a>
+    
+    <a href="/tags/npm/" style="font-size: 19.31949729598613px;" class="tag-cloud-link">npm</a>
+    
+    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 11.981930745233829px;" class="tag-cloud-link">数据库</a>
+    
+    <a href="/tags/sa-Token/" style="font-size: 13.507415085515728px;" class="tag-cloud-link">sa-Token</a>
+    
+    <a href="/tags/uView/" style="font-size: 15.825739663973348px;" class="tag-cloud-link">uView</a>
+    
+    <a href="/tags/uniapp/" style="font-size: 17.67168395513123px;" class="tag-cloud-link">uniapp</a>
+    
+    <a href="/tags/uni-app/" style="font-size: 8.120722887348975px;" class="tag-cloud-link">uni-app</a>
+    
+    <a href="/tags/%E8%B8%A9%E5%9D%91/" style="font-size: 13.829928908096285px;" class="tag-cloud-link">踩坑</a>
+    
+    <a href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E4%B8%AA%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 11.966485259983294px;" class="tag-cloud-link">每日一个小技巧</a>
+    
+    <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 19.531514458824542px;" class="tag-cloud-link">设计模式</a>
+    
+    <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 15.696094550343949px;" class="tag-cloud-link">博客</a>
+    
+    <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 18.85207706882078px;" class="tag-cloud-link">正则表达式</a>
+    
+    <a href="/tags/%E5%8D%9A%E5%AE%A2%E7%BE%8E%E5%8C%96/" style="font-size: 13.37764624365817px;" class="tag-cloud-link">博客美化</a>
+    
+    <a href="/tags/PaddleOCR/" style="font-size: 10.353315333246094px;" class="tag-cloud-link">PaddleOCR</a>
+    
+    <a href="/tags/Vue/" style="font-size: 19.564617698442138px;" class="tag-cloud-link">Vue</a>
+    
+    <a href="/tags/docker/" style="font-size: 18.77175874247707px;" class="tag-cloud-link">docker</a>
+    
+</div>
+                
+                
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="https://jc-meet.cn/" target="_blank">倾盖</a>
+    </li>
+    
+    <li>
+        <a href="https://wangyoustudio.cn" target="_blank">忘忧studio</a>
+    </li>
+    
+    <li>
+        <a href="https://vampireachao.gitee.io/" target="_blank">阿超</a>
+    </li>
+    
+</div>
+                
+                
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="" target="_blank">Coding</a>
+    </li>
+    
+    <li>
+        <a href="" target="_blank">知乎</a>
+    </li>
+    
+</div>
+                
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+                  </div>
+                </div>
+              </div>
+              <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2022 这个爱酱不太聪明 Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a><br>
+        <a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referra"><img src="https://cdn.jsdelivr.net/gh/xingjiahui/CDN/又拍云_logo.png"align="absmiddle" width="59px" height="30px" /></a>
+<span>提供加速服务</span>
+
+    </div>
+    <div class="trm-footer-item">
+        本站总访问量<span id="busuanzi_value_site_pv" class="trm-accent-color"></span>次
+        本站访客数<span id="busuanzi_value_site_uv" class="trm-accent-color"></span>人次
+    </div>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</footer>
+
+<!-- 回到顶端 -->
+<!-- <div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div> -->
+<!-- 回到顶端 -->
+<div id="totop" style="position:fixed;bottom:150px;right:50px;cursor: pointer;">
+    <div id="gal-gotop">
+        <i class="fa fa-angle-up"></i>
+    </div>
+</div>
+    <script src="/js/totop.js"></script>
+
+
+  </body>
+  
+<script src="/js/activate-power-mode.js"></script>
+
+    <script>
+
+      // 配置highslide
+      hs.graphicsDir = '/js/highslide/graphics/'
+      hs.outlineType = "rounded-white";
+      hs.dimmingOpacity = 0.8;
+      hs.outlineWhileAnimating = true;
+      hs.showCredits = false;
+      hs.captionEval = "this.thumb.alt";
+      hs.numberPosition = "caption";
+      hs.align = "center";
+      hs.transitions = ["expand", "crossfade"];
+      hs.lang.number = '共%2张图, 当前是第%1张';
+      hs.addSlideshow({
+        interval: 5000,
+        repeat: true,
+        useControls: true,
+        fixedControls: "fit",
+        overlayOptions: {
+          opacity: 0.75,
+          position: "bottom center",
+          hideOnMouseOut: true
+        }
+      })
+
+      // 初始化aos
+      AOS.init({
+        duration: 1000,
+        delay: 0,
+        easing: 'ease-out-back'
+      });
+
+    </script>
+    <script>
+      POWERMODE.colorful = 'true';    // make power mode colorful
+      POWERMODE.shake = 'true';       // turn off shake
+      // TODO 这里根据具体情况修改
+      document.body.addEventListener('input', POWERMODE);
+    </script>
+    <script>
+      window.slideConfig = {
+        prefix: '/imgs/slide/background',
+        ext: 'jpg',
+        maxCount: '37'
+      }
+    </script>
+    
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+      
+            
+                  
+
+                        </html>
