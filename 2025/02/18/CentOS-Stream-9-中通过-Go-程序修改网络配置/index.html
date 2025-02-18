@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="这个爱酱不太聪明">
+    
+    <meta name="description" content="技术宅改变世界">
+    
+    
+    
+    
+    
+    
+    
+      <link rel="icon" href="/imgs/favicon.ico">
+        
+    <title>CentOS Stream 9 中通过 Go 程序修改网络配置 | 这个爱酱不太聪明</title>
+    <link href="https://wanwan-doudou/github.io" rel="prefetch" />
+
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/js/jquery.min.js"></script>
+
+    
+<script src="/js/bootstrap.min.js"></script>
+
+    
+<script src="/js/aos.js"></script>
+
+    
+<script src="/js/highslide/highslide-full.min.js"></script>
+
+    
+<link rel="stylesheet" href="/js/highslide/highslide.css">
+
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg,preview5.jpg,preview6.jpg,preview7.jpg,preview8.jpg,preview9.jpg,preview10.jpg,preview11.jpg,preview12.jpg,preview13.jpg,preview14.jpg,preview15.jpg,preview16.jpg,preview17.jpg,preview18.jpg,preview19.jpg,preview20.jpg,preview21.jpg,preview22.jpg,preview22.jpg,preview23.jpg,preview24.jpg,preview25.jpg,preview26.jpg,preview27.jpg,preview28.jpg,preview29.jpg,preview30.jpg,preview31.jpg,preview32.jpg,preview33.jpg,preview34.jpg,preview35.jpg,preview36.jpg,preview37.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+      <!-- 欧尼酱功能, 谁用谁知道 -->
+      
+            <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a target="_blank" rel="noopener" href="https://kwydy.cn/">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">这个爱酱不太聪明</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/categories">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/%E6%8F%92%E4%BB%B6/">插件</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/%E7%A0%B4%E8%A7%A3/">破解</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/java/">java</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/gallery">
+                        <i class="fa fa-tags"></i>相册
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>我和宝宝
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+<div id="sakana-widget" style="position:fixed ;bottom: 10px; right: 10px;"></div>
+<script>
+  function initSakanaWidget() {
+    new SakanaWidget().mount('#sakana-widget');
+  }
+</script>
+<script
+  async
+  onload="initSakanaWidget()"
+  src="https://cdn.jsdelivr.net/npm/sakana-widget@2.2.2/lib/sakana.min.js"
+></script>
+              <div id="gal-body">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-8 gal-right" id="mainstay">
+                      
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://wanwan-doudou/github.io">这个爱酱不太聪明</a>
+        >
+        <span>CentOS Stream 9 中通过 Go 程序修改网络配置</span>
+    </div>
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2025/02/18/CentOS-Stream-9-%E4%B8%AD%E9%80%9A%E8%BF%87-Go-%E7%A8%8B%E5%BA%8F%E4%BF%AE%E6%94%B9%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/">CentOS Stream 9 中通过 Go 程序修改网络配置</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/go/">go</a>
+                
+            </span>
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2025-02-18
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2025/02/18/CentOS-Stream-9-%E4%B8%AD%E9%80%9A%E8%BF%87-Go-%E7%A8%8B%E5%BA%8F%E4%BF%AE%E6%94%B9%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/">CentOS Stream 9 中通过 Go 程序修改网络配置</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2025-02-18
+            </p>
+            <p>
+                
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/go/">go</a>
+                
+                
+                
+            </p>
+        </center>
+    </div>
+    <div class="content-article">
+        <h1 id="CentOS-Stream-9-网络配置管理指南"><a href="#CentOS-Stream-9-网络配置管理指南" class="headerlink" title="CentOS Stream 9 网络配置管理指南"></a>CentOS Stream 9 网络配置管理指南</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>本文档详细介绍如何在 CentOS Stream 9 系统中使用 Go 程序进行网络配置管理。主要涉及以下几个方面：</p>
+<ul>
+<li>NetworkManager 配置文件结构</li>
+<li>网络接口识别</li>
+<li>配置文件生成和保存</li>
+<li>网络配置的应用</li>
+</ul>
+<h2 id="2-NetworkManager-配置文件"><a href="#2-NetworkManager-配置文件" class="headerlink" title="2. NetworkManager 配置文件"></a>2. NetworkManager 配置文件</h2><h3 id="2-1-配置文件位置"><a href="#2-1-配置文件位置" class="headerlink" title="2.1 配置文件位置"></a>2.1 配置文件位置</h3><p>CentOS Stream 9 的网络配置文件存储在以下位置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/NetworkManager/system-connections/</span><br></pre></td></tr></table></figure>
+
+<p>配置文件使用 <code>.nmconnection</code> 作为扩展名，例如：<code>ens192.nmconnection</code></p>
+<h3 id="2-2-配置文件格式"><a href="#2-2-配置文件格式" class="headerlink" title="2.2 配置文件格式"></a>2.2 配置文件格式</h3><p>标准配置文件结构如下：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[connection]</span></span><br><span class="line"></span><br><span class="line"><span class="attr">id</span>=ens192</span><br><span class="line"><span class="attr">type</span>=ethernet</span><br><span class="line"><span class="attr">interface-name</span>=ens192</span><br><span class="line"></span><br><span class="line"><span class="section">[ethernet]</span></span><br><span class="line"></span><br><span class="line"><span class="section">[ipv4]</span></span><br><span class="line"></span><br><span class="line"><span class="attr">address1</span>=<span class="number">192.168</span>.<span class="number">1.100</span>/<span class="number">24</span>,<span class="number">192.168</span>.<span class="number">1.1</span></span><br><span class="line"><span class="attr">dns</span>=<span class="number">8.8</span>.<span class="number">8.8</span><span class="comment">;8.8.4.4</span></span><br><span class="line"><span class="attr">method</span>=manual</span><br><span class="line"><span class="attr">may-fail</span>=<span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="section">[ipv6]</span></span><br><span class="line"></span><br><span class="line"><span class="attr">addr-gen-mode</span>=eui64</span><br><span class="line"><span class="attr">method</span>=auto</span><br><span class="line"></span><br><span class="line"><span class="section">[proxy]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-配置文件权限"><a href="#2-3-配置文件权限" class="headerlink" title="2.3 配置文件权限"></a>2.3 配置文件权限</h3><p>配置文件必须设置正确的权限：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">chmod</span> 600 /etc/NetworkManager/system-connections/*.nmconnection</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-网络接口识别"><a href="#3-网络接口识别" class="headerlink" title="3. 网络接口识别"></a>3. 网络接口识别</h2><h3 id="3-1-获取系统网络接口"><a href="#3-1-获取系统网络接口" class="headerlink" title="3.1 获取系统网络接口"></a>3.1 获取系统网络接口</h3><p>使用 <code>nmcli</code> 命令获取系统网络接口信息：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmcli -t -f DEVICE,TYPE device status</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-识别物理网络接口"><a href="#3-2-识别物理网络接口" class="headerlink" title="3.2 识别物理网络接口"></a>3.2 识别物理网络接口</h3><p>需要排除以下类型的接口：</p>
+<ul>
+<li>虚拟接口（以 <code>veth</code> 开头）</li>
+<li>桥接接口（以 <code>br-</code> 开头）</li>
+<li>Docker 网桥（<code>docker0</code>）</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// getDefaultInterface</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// @Description: 获取系统当前使用的默认物理网络接口</span></span><br><span class="line"><span class="comment">// @Author aiJiang &lt;mr.wan16@petalmail.com&gt;</span></span><br><span class="line"><span class="comment">// @Date 2024/2/17 15:30</span></span><br><span class="line"><span class="comment">// @return string 默认网络接口名称</span></span><br><span class="line"><span class="comment">// @return error 错误信息</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getDefaultInterface</span><span class="params">()</span></span> (<span class="type">string</span>, <span class="type">error</span>) &#123;</span><br><span class="line">    cmd := exec.Command(<span class="string">&quot;nmcli&quot;</span>, <span class="string">&quot;-t&quot;</span>, <span class="string">&quot;-f&quot;</span>, <span class="string">&quot;DEVICE,TYPE,STATE&quot;</span>, <span class="string">&quot;device&quot;</span>, <span class="string">&quot;status&quot;</span>)</span><br><span class="line">    output, err := cmd.Output()</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&quot;</span>, fmt.Errorf(<span class="string">&quot;执行 nmcli 命令失败: %v&quot;</span>, err)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 按行分割输出</span></span><br><span class="line">    lines := strings.Split(<span class="type">string</span>(output), <span class="string">&quot;\n&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span> _, line := <span class="keyword">range</span> lines &#123;</span><br><span class="line">        parts := strings.Split(line, <span class="string">&quot;:&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(parts) &gt;= <span class="number">2</span> &#123;</span><br><span class="line">            device := parts[<span class="number">0</span>]</span><br><span class="line">            deviceType := parts[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 排除虚拟接口和桥接接口</span></span><br><span class="line">            <span class="keyword">if</span> deviceType == <span class="string">&quot;ethernet&quot;</span> &amp;&amp;</span><br><span class="line">                !strings.HasPrefix(device, <span class="string">&quot;veth&quot;</span>) &amp;&amp; <span class="comment">// 排除 veth 开头的虚拟接口</span></span><br><span class="line">                !strings.HasPrefix(device, <span class="string">&quot;br-&quot;</span>) &amp;&amp; <span class="comment">// 排除桥接接口</span></span><br><span class="line">                device != <span class="string">&quot;docker0&quot;</span> &#123; <span class="comment">// 排除 docker0 接口</span></span><br><span class="line">                <span class="keyword">return</span> device, <span class="literal">nil</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&quot;</span>, fmt.Errorf(<span class="string">&quot;未找到默认物理网络接口&quot;</span>)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-网络配置管理"><a href="#4-网络配置管理" class="headerlink" title="4. 网络配置管理"></a>4. 网络配置管理</h2><h3 id="4-1-配置数据结构"><a href="#4-1-配置数据结构" class="headerlink" title="4.1 配置数据结构"></a>4.1 配置数据结构</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> NetworkConfig <span class="keyword">struct</span> &#123;</span><br><span class="line">    IPAddress <span class="type">string</span> <span class="string">`json:&quot;ipAddress&quot;`</span> <span class="comment">// ip地址</span></span><br><span class="line">    Netmask   <span class="type">string</span> <span class="string">`json:&quot;netmask&quot;`</span>   <span class="comment">// 子网掩码</span></span><br><span class="line">    Gateway   <span class="type">string</span> <span class="string">`json:&quot;gateway&quot;`</span>   <span class="comment">// 网关</span></span><br><span class="line">    DNS1      <span class="type">string</span> <span class="string">`json:&quot;dns1&quot;`</span>      <span class="comment">// 主dns</span></span><br><span class="line">    DNS2      <span class="type">string</span> <span class="string">`json:&quot;dns2&quot;`</span>      <span class="comment">// 备dns</span></span><br><span class="line">    Interface <span class="type">string</span> <span class="string">`json:&quot;interface&quot;`</span> <span class="comment">// 网卡</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-子网掩码转换"><a href="#4-2-子网掩码转换" class="headerlink" title="4.2 子网掩码转换"></a>4.2 子网掩码转换</h3><p>将点分十进制子网掩码转换为 CIDR 格式：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// netmaskToCIDR</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// @Description: 将点分十进制子网掩码转换为CIDR格式（如：255.255.255.0 -&gt; 24）</span></span><br><span class="line"><span class="comment">// @Author aiJiang &lt;mr.wan16@petalmail.com&gt;</span></span><br><span class="line"><span class="comment">// @Date  2025-02-17 13:29:42</span></span><br><span class="line"><span class="comment">// @param netmask 点分十进制格式的子网掩码</span></span><br><span class="line"><span class="comment">// @return int CIDR格式的掩码长度</span></span><br><span class="line"><span class="comment">// @return error 错误</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">netmaskToCIDR</span><span class="params">(netmask <span class="type">string</span>)</span></span> (<span class="type">int</span>, <span class="type">error</span>) &#123;</span><br><span class="line">    parts := strings.Split(netmask, <span class="string">&quot;.&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(parts) != <span class="number">4</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>, fmt.Errorf(<span class="string">&quot;invalid netmask format&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    binary := <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">for</span> _, part := <span class="keyword">range</span> parts &#123;</span><br><span class="line">        num, err := strconv.Atoi(part)</span><br><span class="line">        <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>, err</span><br><span class="line">        &#125;</span><br><span class="line">        binary += fmt.Sprintf(<span class="string">&quot;%08b&quot;</span>, num)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    count := strings.Count(binary, <span class="string">&quot;1&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> count, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-3-生成配置文件"><a href="#4-3-生成配置文件" class="headerlink" title="4.3 生成配置文件"></a>4.3 生成配置文件</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// saveNetworkConfig</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// @Description: 将网络配置保存到系统配置文件中</span></span><br><span class="line"><span class="comment">// @Author aiJiang &lt;mr.wan16@petalmail.com&gt;</span></span><br><span class="line"><span class="comment">// @Date  2025-02-17 14:34:35</span></span><br><span class="line"><span class="comment">// @param config</span></span><br><span class="line"><span class="comment">// @return error</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">saveNetworkConfig</span><span class="params">(config NetworkConfig)</span></span> <span class="type">error</span> &#123;</span><br><span class="line">    configPath := fmt.Sprintf(<span class="string">&quot;/etc/NetworkManager/system-connections/%s.nmconnection&quot;</span>, config.Interface)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 转换子网掩码为 CIDR</span></span><br><span class="line">    cidr, err := netmaskToCIDR(config.Netmask)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;无效的子网掩码: %v&quot;</span>, err)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 生成配置文件内容</span></span><br><span class="line">    content := fmt.Sprintf(<span class="string">`[connection]</span></span><br><span class="line"><span class="string">id=%s</span></span><br><span class="line"><span class="string">type=ethernet</span></span><br><span class="line"><span class="string">interface-name=%s</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[ethernet]</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[ipv4]</span></span><br><span class="line"><span class="string">address1=%s/%d,%s</span></span><br><span class="line"><span class="string">dns=%s;%s</span></span><br><span class="line"><span class="string">method=manual</span></span><br><span class="line"><span class="string">may-fail=false</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">[ipv6]</span></span><br><span class="line"><span class="string">addr-gen-mode=eui64</span></span><br><span class="line"><span class="string">method=auto</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[proxy]`</span>,</span><br><span class="line">        config.Interface,</span><br><span class="line">        config.Interface,</span><br><span class="line">        config.IPAddress,</span><br><span class="line">        cidr,</span><br><span class="line">        config.Gateway,</span><br><span class="line">        config.DNS1,</span><br><span class="line">        config.DNS2)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 写入配置文件</span></span><br><span class="line">    <span class="keyword">if</span> err := os.WriteFile(configPath, []<span class="type">byte</span>(content), <span class="number">0600</span>); err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;写入配置文件失败: %v&quot;</span>, err)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-4-应用网络配置"><a href="#4-4-应用网络配置" class="headerlink" title="4.4 应用网络配置"></a>4.4 应用网络配置</h3><p>使用 <code>nmcli</code> 命令应用新的网络配置：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// applyNetworkConfig</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// @Description: 重启网络接口以应用新的配置</span></span><br><span class="line"><span class="comment">// @Author aiJiang &lt;mr.wan16@petalmail.com&gt;</span></span><br><span class="line"><span class="comment">// @Date  2025-02-17 14:34:25</span></span><br><span class="line"><span class="comment">// @param config</span></span><br><span class="line"><span class="comment">// @return error</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">applyNetworkConfig</span><span class="params">(config NetworkConfig)</span></span> <span class="type">error</span> &#123;</span><br><span class="line">    <span class="comment">// 重启网络接口</span></span><br><span class="line">    restartCmd := fmt.Sprintf(<span class="string">&quot;nmcli connection down %s &amp;&amp; sleep 2 &amp;&amp; nmcli connection up %s&quot;</span>,</span><br><span class="line">        config.Interface, config.Interface)</span><br><span class="line"></span><br><span class="line">    command := exec.Command(<span class="string">&quot;sh&quot;</span>, <span class="string">&quot;-c&quot;</span>, restartCmd)</span><br><span class="line">    <span class="keyword">if</span> output, err := command.CombinedOutput(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;重启网络接口失败: %v, output: %s&quot;</span>, err, <span class="type">string</span>(output))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-安全考虑"><a href="#5-安全考虑" class="headerlink" title="5. 安全考虑"></a>5. 安全考虑</h2><h3 id="5-1-权限检查"><a href="#5-1-权限检查" class="headerlink" title="5.1 权限检查"></a>5.1 权限检查</h3><p>确保程序具有足够的权限：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> os.Geteuid() != <span class="number">0</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;需要 root 权限执行网络配置&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-2-配置文件权限"><a href="#5-2-配置文件权限" class="headerlink" title="5.2 配置文件权限"></a>5.2 配置文件权限</h3><p>确保配置文件具有正确的权限（0600）：</p>
+<ul>
+<li>所有者：root</li>
+<li>权限：只有所有者可读写</li>
+</ul>
+<h3 id="5-3-输入验证"><a href="#5-3-输入验证" class="headerlink" title="5.3 输入验证"></a>5.3 输入验证</h3><p>验证 IP 地址格式：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// isValidIPAddress</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// @Description: 验证IP地址格式</span></span><br><span class="line"><span class="comment">// @Author aiJiang &lt;mr.wan16@petalmail.com&gt;</span></span><br><span class="line"><span class="comment">// @Date  2025-02-17 14:34:43</span></span><br><span class="line"><span class="comment">// @param ip</span></span><br><span class="line"><span class="comment">// @return bool</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">isValidIPAddress</span><span class="params">(ip <span class="type">string</span>)</span></span> <span class="type">bool</span> &#123;</span><br><span class="line">    parts := strings.Split(ip, <span class="string">&quot;.&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(parts) != <span class="number">4</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> _, part := <span class="keyword">range</span> parts &#123;</span><br><span class="line">        <span class="comment">// strconv.Atoi()字符串（string） 转换为 整数</span></span><br><span class="line">        num, err := strconv.Atoi(part)</span><br><span class="line">        <span class="keyword">if</span> err != <span class="literal">nil</span> || num &lt; <span class="number">0</span> || num &gt; <span class="number">255</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-最佳实践"><a href="#6-最佳实践" class="headerlink" title="6. 最佳实践"></a>6. 最佳实践</h2><ol>
+<li>在修改网络配置前备份现有配置</li>
+<li>实现错误回滚机制</li>
+<li>在应用配置前进行完整性检查</li>
+<li>记录所有操作日志</li>
+<li>实现超时机制，防止命令执行卡死</li>
+<li>提供配置验证功能</li>
+</ol>
+<h2 id="7-故障排除"><a href="#7-故障排除" class="headerlink" title="7. 故障排除"></a>7. 故障排除</h2><p>常见问题及解决方案：</p>
+<ol>
+<li>权限不足：确保以 root 权限运行</li>
+<li>配置文件格式错误：检查生成的配置文件格式</li>
+<li>NetworkManager 服务未运行：检查服务状态</li>
+<li>网络接口不存在：验证接口名称</li>
+<li>配置应用失败：检查 nmcli 命令输出</li>
+</ol>
+
+    </div>
+</article>
+
+
+    <script src="https://giscus.app/client.js" data-repo="Myanswerdy/commit" data-repo-id="R_kgDOIcF7aw"
+        data-category="General" data-category-id="DIC_kwDOIcF7a84CSkbL" data-mapping="pathname" data-strict="0"
+        data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="zh-CN"
+        data-loading="lazy" crossorigin="anonymous" async>
+    </script>
+                        
+                    </div>
+                    <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~" autocomplete="off">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            这个爱酱不太聪明
+                <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg"
+                width="140" height="140" alt="个人头像" class="author-image">
+            <p class="author-description">
+                <p>技术宅改变世界</p>
+
+            </p>
+        </div>
+    </div>
+</aside>
+<!-- 引用Aplayer和metingjs -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script>
+<div>
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            歌单
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <div style="opacity: 0.4;font-weight: 600;" id="my-aplayer" class="aplayer" data-id="8692231711" data-server="tencent"
+            data-type="playlist" data-fixed="false" data-autoplay="false" data-order="list" data-volume="0.1"
+            data-theme="#cc543a" data-preload="auto" data-listFolded="false">
+        </div>
+    </div>
+</div>
+<br>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2025/02/18/CentOS-Stream-9-%E4%B8%AD%E9%80%9A%E8%BF%87-Go-%E7%A8%8B%E5%BA%8F%E4%BF%AE%E6%94%B9%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/">CentOS Stream 9 中通过 Go 程序修改网络配置</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/11/22/%E4%BD%BF%E7%94%A8docker-compose%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE/">使用docker-compose部署项目</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/11/21/%E4%BD%BF%E7%94%A8docker%E5%AE%89%E8%A3%85%E5%B8%B8%E7%94%A8%E7%8E%AF%E5%A2%83/">使用docker安装常用环境</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/11/05/%E4%BD%BF%E7%94%A8-Element-Plus-%E5%AE%9E%E7%8E%B0%E6%B7%BB%E5%8A%A0%E8%A1%8C%E6%97%B6%E5%8D%95%E5%85%83%E6%A0%BC%E5%90%88%E5%B9%B6/">使用 Element Plus 实现添加行时单元格合并</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/09/29/%E4%BD%BF%E7%94%A8docker%E5%AE%89%E8%A3%85CPU%E7%89%88%E6%9C%AC%E7%9A%84PaddleOCR/">使用docker安装PaddleOCR</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/09/25/go%E4%BD%BF%E7%94%A8%E5%8E%9F%E7%94%9Fmysql%E8%B7%A8%E5%BA%93%E6%93%8D%E4%BD%9C%E6%97%B6%E4%BF%9D%E8%AF%81%E4%BA%8B%E5%8A%A1%E4%B8%80%E8%87%B4%E6%80%A7/">go使用原生mysql跨库操作保证事务一致性</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/09/25/RabbitMQ-Web-%E7%95%8C%E9%9D%A2%E9%85%8D%E7%BD%AE%E8%A7%A3%E6%9E%90/">RabbitMQ Web 界面配置解析</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/09/11/%E8%A7%A3%E5%86%B3-Python-%E5%BC%82%E6%AD%A5-Socket-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%B6%88%E6%81%AF%E5%A0%86%E7%A7%AF%E9%97%AE%E9%A2%98/">解决 Python 异步 Socket 服务器消息堆积问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/09/05/go%E5%A4%84%E7%90%86JSON%E6%95%B0%E6%8D%AE/">go处理JSON数据</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/08/02/FinalShell%E6%BF%80%E6%B4%BB/">FinalShell激活</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/08/02/FinalShell%E6%BF%80%E6%B4%BB/">FinalShell激活</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/09/19/Python3-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Python3 基础语法</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/09/25/go%E4%BD%BF%E7%94%A8%E5%8E%9F%E7%94%9Fmysql%E8%B7%A8%E5%BA%93%E6%93%8D%E4%BD%9C%E6%97%B6%E4%BF%9D%E8%AF%81%E4%BA%8B%E5%8A%A1%E4%B8%80%E8%87%B4%E6%80%A7/">go使用原生mysql跨库操作保证事务一致性</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/12/20/java%E7%88%AC%E8%99%AB-403-%E4%BD%BF%E7%94%A8java%E7%88%AC%E8%99%AB%E8%8E%B7%E5%8F%96%E7%BD%91%E7%BB%9C%E8%B5%84%E6%BA%90403%E9%94%99%E8%AF%AF%E8%A7%A3%E5%86%B3/">java爬虫 403_使用java爬虫获取网络资源403错误解决</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2021/12/07/layui%E4%B8%ADxm-select%E7%BB%84%E4%BB%B6/">layui中xm select组件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/09/01/linux%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%8D%87%E7%BA%A7node%E7%89%88%E6%9C%AC/">linux环境下升级node版本</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/01/25/uni-app%E5%88%86%E4%BA%AB%E5%BE%AE%E4%BF%A1%E7%BE%A4%E8%81%8A%E5%8A%9F%E8%83%BD/">uni-app分享微信群聊功能</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2021/12/15/vue%E8%8E%B7%E5%8F%96ajax%E6%95%B0%E6%8D%AE%E5%B9%B6%E5%8A%A8%E6%80%81%E6%B8%B2%E6%9F%93/">vue获取ajax数据并动态渲染</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/09/29/%E4%BD%BF%E7%94%A8docker%E5%AE%89%E8%A3%85CPU%E7%89%88%E6%9C%AC%E7%9A%84PaddleOCR/">使用docker安装PaddleOCR</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/01/06/%E4%BD%BF%E7%94%A8uni-navigateTo-%E4%BC%A0%E9%80%92%E5%AF%B9%E8%B1%A1/">使用uni.navigateTo()传递对象</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+
+                
+                <li>
+                    <a href="/2025/02/18/CentOS-Stream-9-%E4%B8%AD%E9%80%9A%E8%BF%87-Go-%E7%A8%8B%E5%BA%8F%E4%BF%AE%E6%94%B9%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                
+                
+                <li>
+                    <a href="/2025/02/18/CentOS-Stream-9-%E4%B8%AD%E9%80%9A%E8%BF%87-Go-%E7%A8%8B%E5%BA%8F%E4%BF%AE%E6%94%B9%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                
+                
+                <li>
+                    <a href="/2025/02/18/CentOS-Stream-9-%E4%B8%AD%E9%80%9A%E8%BF%87-Go-%E7%A8%8B%E5%BA%8F%E4%BF%AE%E6%94%B9%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+                
+            </ul>
+            <div class="tab-content">
+                
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 8.329584666594554px;" class="tag-cloud-link">插件</a>
+    
+    <a href="/tags/%E7%A0%B4%E8%A7%A3/" style="font-size: 10.454240331244728px;" class="tag-cloud-link">破解</a>
+    
+    <a href="/tags/java/" style="font-size: 16.694021520070137px;" class="tag-cloud-link">java</a>
+    
+    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 18.97828779607833px;" class="tag-cloud-link">并发编程</a>
+    
+    <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 11.258761056448954px;" class="tag-cloud-link">前端</a>
+    
+    <a href="/tags/git/" style="font-size: 11.216646554958313px;" class="tag-cloud-link">git</a>
+    
+    <a href="/tags/Opt/" style="font-size: 18.18224312440607px;" class="tag-cloud-link">Opt</a>
+    
+    <a href="/tags/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" style="font-size: 11.351758268580157px;" class="tag-cloud-link">踩坑记录</a>
+    
+    <a href="/tags/python/" style="font-size: 19.26707520462164px;" class="tag-cloud-link">python</a>
+    
+    <a href="/tags/RabbitMQ/" style="font-size: 17.21164767839761px;" class="tag-cloud-link">RabbitMQ</a>
+    
+    <a href="/tags/stream/" style="font-size: 11.640037261745752px;" class="tag-cloud-link">stream</a>
+    
+    <a href="/tags/vue/" style="font-size: 11.023116760078125px;" class="tag-cloud-link">vue</a>
+    
+    <a href="/tags/%E6%BF%80%E6%B4%BB/" style="font-size: 13.129434172284277px;" class="tag-cloud-link">激活</a>
+    
+    <a href="/tags/echarts/" style="font-size: 8.287711861680199px;" class="tag-cloud-link">echarts</a>
+    
+    <a href="/tags/element/" style="font-size: 8.593256577348367px;" class="tag-cloud-link">element</a>
+    
+    <a href="/tags/elementUI/" style="font-size: 11.31303782105919px;" class="tag-cloud-link">elementUI</a>
+    
+    <a href="/tags/es6/" style="font-size: 13.825319116737305px;" class="tag-cloud-link">es6</a>
+    
+    <a href="/tags/go/" style="font-size: 9.85683409943837px;" class="tag-cloud-link">go</a>
+    
+    <a href="/tags/hutool/" style="font-size: 10.6619149022335px;" class="tag-cloud-link">hutool</a>
+    
+    <a href="/tags/jquery/" style="font-size: 13.891883925873138px;" class="tag-cloud-link">jquery</a>
+    
+    <a href="/tags/layui/" style="font-size: 18.431473649731593px;" class="tag-cloud-link">layui</a>
+    
+    <a href="/tags/linux/" style="font-size: 15.937314568588388px;" class="tag-cloud-link">linux</a>
+    
+    <a href="/tags/mybatis-plus/" style="font-size: 10.958458353311281px;" class="tag-cloud-link">mybatis-plus</a>
+    
+    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 15.01380207340614px;" class="tag-cloud-link">数据库</a>
+    
+    <a href="/tags/npm/" style="font-size: 12.904784333646582px;" class="tag-cloud-link">npm</a>
+    
+    <a href="/tags/sa-Token/" style="font-size: 9.106843828894068px;" class="tag-cloud-link">sa-Token</a>
+    
+    <a href="/tags/uView/" style="font-size: 17.6131210746143px;" class="tag-cloud-link">uView</a>
+    
+    <a href="/tags/uniapp/" style="font-size: 15.112447693210697px;" class="tag-cloud-link">uniapp</a>
+    
+    <a href="/tags/uni-app/" style="font-size: 11.275835688981205px;" class="tag-cloud-link">uni-app</a>
+    
+    <a href="/tags/%E8%B8%A9%E5%9D%91/" style="font-size: 10.139570236153052px;" class="tag-cloud-link">踩坑</a>
+    
+    <a href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E4%B8%AA%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 15.679681961859881px;" class="tag-cloud-link">每日一个小技巧</a>
+    
+    <a href="/tags/Vue/" style="font-size: 19.8513132778917px;" class="tag-cloud-link">Vue</a>
+    
+    <a href="/tags/docker/" style="font-size: 14.228689945675693px;" class="tag-cloud-link">docker</a>
+    
+    <a href="/tags/PaddleOCR/" style="font-size: 17.05027349925627px;" class="tag-cloud-link">PaddleOCR</a>
+    
+    <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 15.17111806405987px;" class="tag-cloud-link">设计模式</a>
+    
+    <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 8.11109403363173px;" class="tag-cloud-link">博客</a>
+    
+    <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 12.320131457684097px;" class="tag-cloud-link">正则表达式</a>
+    
+    <a href="/tags/%E5%8D%9A%E5%AE%A2%E7%BE%8E%E5%8C%96/" style="font-size: 19.15744689355126px;" class="tag-cloud-link">博客美化</a>
+    
+</div>
+                
+                
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="https://jc-meet.cn/" target="_blank">倾盖</a>
+    </li>
+    
+    <li>
+        <a href="https://wangyoustudio.cn" target="_blank">忘忧studio</a>
+    </li>
+    
+    <li>
+        <a href="https://vampireachao.gitee.io/" target="_blank">阿超</a>
+    </li>
+    
+</div>
+                
+                
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="" target="_blank">Coding</a>
+    </li>
+    
+    <li>
+        <a href="" target="_blank">知乎</a>
+    </li>
+    
+</div>
+                
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+                  </div>
+                </div>
+              </div>
+              <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2022 这个爱酱不太聪明 Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a><br>
+        <a target="_blank" rel="noopener" href="https://www.upyun.com/?utm_source=lianmeng&amp;utm_medium=referra"><img src="https://cdn.jsdelivr.net/gh/xingjiahui/CDN/又拍云_logo.png"align="absmiddle" width="59px" height="30px" /></a>
+<span>提供加速服务</span>
+
+    </div>
+    <div class="trm-footer-item">
+        本站总访问量<span id="busuanzi_value_site_pv" class="trm-accent-color"></span>次
+        本站访客数<span id="busuanzi_value_site_uv" class="trm-accent-color"></span>人次
+    </div>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</footer>
+
+<!-- 回到顶端 -->
+<!-- <div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div> -->
+<!-- 回到顶端 -->
+<div id="totop" style="position:fixed;bottom:150px;right:50px;cursor: pointer;">
+    <div id="gal-gotop">
+        <i class="fa fa-angle-up"></i>
+    </div>
+</div>
+    <script src="/js/totop.js"></script>
+
+
+  </body>
+  
+<script src="/js/activate-power-mode.js"></script>
+
+    <script>
+
+      // 配置highslide
+      hs.graphicsDir = '/js/highslide/graphics/'
+      hs.outlineType = "rounded-white";
+      hs.dimmingOpacity = 0.8;
+      hs.outlineWhileAnimating = true;
+      hs.showCredits = false;
+      hs.captionEval = "this.thumb.alt";
+      hs.numberPosition = "caption";
+      hs.align = "center";
+      hs.transitions = ["expand", "crossfade"];
+      hs.lang.number = '共%2张图, 当前是第%1张';
+      hs.addSlideshow({
+        interval: 5000,
+        repeat: true,
+        useControls: true,
+        fixedControls: "fit",
+        overlayOptions: {
+          opacity: 0.75,
+          position: "bottom center",
+          hideOnMouseOut: true
+        }
+      })
+
+      // 初始化aos
+      AOS.init({
+        duration: 1000,
+        delay: 0,
+        easing: 'ease-out-back'
+      });
+
+    </script>
+    <script>
+      POWERMODE.colorful = 'true';    // make power mode colorful
+      POWERMODE.shake = 'true';       // turn off shake
+      // TODO 这里根据具体情况修改
+      document.body.addEventListener('input', POWERMODE);
+    </script>
+    <script>
+      window.slideConfig = {
+        prefix: '/imgs/slide/background',
+        ext: 'jpg',
+        maxCount: '37'
+      }
+    </script>
+    
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+      
+            
+                  
+
+                        </html>
