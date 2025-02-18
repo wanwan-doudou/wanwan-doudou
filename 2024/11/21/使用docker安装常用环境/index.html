@@ -142,11 +142,11 @@
                         
                         
                         <li>
-                            <a href="/tags/%E6%8F%92%E4%BB%B6/">插件</a>
+                            <a href="/tags/go/">go</a>
                         </li>
                         
                         <li>
-                            <a href="/tags/go/">go</a>
+                            <a href="/tags/%E6%8F%92%E4%BB%B6/">插件</a>
                         </li>
                         
                         <li>
@@ -280,8 +280,10 @@
 
 <h4 id="配置说明："><a href="#配置说明：" class="headerlink" title="配置说明："></a>配置说明：</h4><ol>
 <li><code>config.xml</code> 是主配置文件，用于配置存储路径、监听端口等。</li>
-<li><code>users.xml</code> 是用户配置文件，用于设置用户权限、默认密码等。<br>&#96;&#96;<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># config.xml 开启远程登录</span><br><span class="line">&lt;listen_host&gt;0.0.0.0&lt;/listen_host&gt; </span><br><span class="line"># users.xml 配置密码</span><br><span class="line">&lt;password&gt;123456&lt;/password&gt;</span><br></pre></td></tr></table></figure></li>
+<li><code>users.xml</code> 是用户配置文件，用于设置用户权限、默认密码等。<br>&#96;&#96;</li>
 </ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># config.xml 开启远程登录</span><br><span class="line">&lt;listen_host&gt;0.0.0.0&lt;/listen_host&gt; </span><br><span class="line"># users.xml 配置密码</span><br><span class="line">&lt;password&gt;123456&lt;/password&gt;</span><br></pre></td></tr></table></figure>
+
 <h3 id="4-启动clickhouse容器"><a href="#4-启动clickhouse容器" class="headerlink" title="4. 启动clickhouse容器"></a>4. 启动clickhouse容器</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># 添加 CAP_SYS_NICE 容器权限，不然可能会出现这个错误get_mempolicy: Operation not permitted</span><br><span class="line"></span><br><span class="line">docker run -d \</span><br><span class="line">  --name clickhouse \</span><br><span class="line">  --restart=always \</span><br><span class="line">  --cap-add=SYS_NICE \</span><br><span class="line">  -p 8123:8123 \</span><br><span class="line">  -p 9000:9000 \</span><br><span class="line">  -p 9009:9009 \</span><br><span class="line">  -v /mydata/clickhouse/data:/var/lib/clickhouse \</span><br><span class="line">  -v /mydata/clickhouse/config/config.xml:/etc/clickhouse-server/config.xml \</span><br><span class="line">  -v /mydata/clickhouse/config/users.xml:/etc/clickhouse-server/users.xml \</span><br><span class="line">  -v /mydata/clickhouse/log:/var/log/clickhouse-server \</span><br><span class="line">  clickhouse/clickhouse-server:latest</span><br></pre></td></tr></table></figure>
 
 <h1 id="安装-MySql"><a href="#安装-MySql" class="headerlink" title="安装  MySql"></a>安装  MySql</h1><h3 id="1-MySql-镜像"><a href="#1-MySql-镜像" class="headerlink" title="1. MySql 镜像"></a>1. MySql 镜像</h3><p>首先从 Docker Hub 拉取最新的 MySql 镜像：</p>
@@ -475,43 +477,25 @@
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2025/02/18/CentOS-Stream-9-%E4%B8%AD%E9%80%9A%E8%BF%87-Go-%E7%A8%8B%E5%BA%8F%E4%BF%AE%E6%94%B9%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/">CentOS Stream 9 中通过 Go 程序修改网络配置</a>
+                    <a href="/2022/10/03/Python3-%E5%AD%97%E7%AC%A6%E4%B8%B2/">Python3 字符串</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2022/09/28/Python3-%E6%8E%A8%E5%AF%BC%E5%BC%8F/">Python3 推导式</a>
+                    <a href="/2022/01/03/Stream%E6%B5%81-1/">Stream流(1)</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2021/12/22/git%E5%90%88%E5%B9%B6%E3%80%81%E5%8F%98%E5%9F%BA/">git合并、变基</a>
+                    <a href="/2021/12/12/Win11%E6%BF%80%E6%B4%BB/">Win11激活</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2024/09/05/go%E5%A4%84%E7%90%86JSON%E6%95%B0%E6%8D%AE/">go处理JSON数据</a>
-                </span>
-            </li>
-            
-            <li class="list-group-item">
-                <span class="post-title">
-                    <a href="/2021/12/16/hutool-Opt%E5%B7%A5%E5%85%B7/">hutool Opt工具</a>
-                </span>
-            </li>
-            
-            <li class="list-group-item">
-                <span class="post-title">
-                    <a href="/2022/01/21/mybatis-plus-%E6%A0%B9%E6%8D%AE%E6%9D%A1%E4%BB%B6%E5%8A%A8%E6%80%81%E4%BF%AE%E6%94%B9%E6%9D%A1%E4%BB%B6%E6%9E%84%E9%80%A0%E5%99%A8%E5%8F%82%E6%95%B0/">mybatis-plus 根据条件动态修改条件构造器参数</a>
-                </span>
-            </li>
-            
-            <li class="list-group-item">
-                <span class="post-title">
-                    <a href="/2022/09/01/linux%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%8D%87%E7%BA%A7node%E7%89%88%E6%9C%AC/">linux环境下升级node版本</a>
+                    <a href="/2021/12/28/element-Pagination-%E5%88%86%E9%A1%B5/">element Pagination 分页</a>
                 </span>
             </li>
             
@@ -523,13 +507,31 @@
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2022/01/08/uni-app-%E7%9B%91%E5%90%AC%E5%92%8C%E8%A7%A6%E5%8F%91%E5%85%A8%E5%B1%80%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BA%8B%E4%BB%B6/">uni-app 监听和触发全局自定义事件</a>
+                    <a href="/2022/01/12/uView-Collapse%E6%8A%98%E5%8F%A0%E9%9D%A2%E6%9D%BF/">uView Collapse折叠面板</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2024/09/11/%E8%A7%A3%E5%86%B3-Python-%E5%BC%82%E6%AD%A5-Socket-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%B6%88%E6%81%AF%E5%A0%86%E7%A7%AF%E9%97%AE%E9%A2%98/">解决 Python 异步 Socket 服务器消息堆积问题</a>
+                    <a href="/2022/01/25/uni-app%E5%88%86%E4%BA%AB%E5%BE%AE%E4%BF%A1%E7%BE%A4%E8%81%8A%E5%8A%9F%E8%83%BD/">uni-app分享微信群聊功能</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2021/12/21/vue%E5%AD%90%E7%BB%84%E4%BB%B6%E7%BB%99%E7%88%B6%E7%BB%84%E4%BB%B6%E4%BC%A0%E5%80%BC/">Vue子组件给父组件传值</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2021/12/09/%E5%9F%BA%E4%BA%8Elayui%E8%A1%A8%E6%A0%BC%E7%9A%84%E6%A0%91%E5%BD%A2%E6%89%A9%E5%B1%95/">基于layui表格的树形扩展</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2021/12/17/%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC404-%E8%B7%AF%E7%94%B1%E9%85%8D%E7%BD%AE/">页面跳转404 路由配置</a>
                 </span>
             </li>
             
@@ -562,81 +564,81 @@
                 
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 8.647189814143195px;" class="tag-cloud-link">插件</a>
+    <a href="/tags/go/" style="font-size: 11.586384348046202px;" class="tag-cloud-link">go</a>
     
-    <a href="/tags/go/" style="font-size: 19.048048351162727px;" class="tag-cloud-link">go</a>
+    <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 19.998793959227967px;" class="tag-cloud-link">插件</a>
     
-    <a href="/tags/%E7%A0%B4%E8%A7%A3/" style="font-size: 8.831822349251457px;" class="tag-cloud-link">破解</a>
+    <a href="/tags/%E7%A0%B4%E8%A7%A3/" style="font-size: 19.551455401681633px;" class="tag-cloud-link">破解</a>
     
-    <a href="/tags/java/" style="font-size: 15.227463782535128px;" class="tag-cloud-link">java</a>
+    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 14.671558467856944px;" class="tag-cloud-link">并发编程</a>
     
-    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 15.740982793499704px;" class="tag-cloud-link">并发编程</a>
+    <a href="/tags/java/" style="font-size: 12.87149971621221px;" class="tag-cloud-link">java</a>
     
-    <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10.967072488442499px;" class="tag-cloud-link">前端</a>
+    <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 14.847687458616925px;" class="tag-cloud-link">前端</a>
     
-    <a href="/tags/git/" style="font-size: 19.910649384032382px;" class="tag-cloud-link">git</a>
+    <a href="/tags/git/" style="font-size: 13.36178378541215px;" class="tag-cloud-link">git</a>
     
-    <a href="/tags/Opt/" style="font-size: 13.498679690637788px;" class="tag-cloud-link">Opt</a>
+    <a href="/tags/Opt/" style="font-size: 17.985768616783076px;" class="tag-cloud-link">Opt</a>
     
-    <a href="/tags/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" style="font-size: 19.165770620463505px;" class="tag-cloud-link">踩坑记录</a>
+    <a href="/tags/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" style="font-size: 8.570154193595927px;" class="tag-cloud-link">踩坑记录</a>
     
-    <a href="/tags/python/" style="font-size: 12.707766050887741px;" class="tag-cloud-link">python</a>
+    <a href="/tags/python/" style="font-size: 18.006942817944747px;" class="tag-cloud-link">python</a>
     
-    <a href="/tags/RabbitMQ/" style="font-size: 16.685951518286945px;" class="tag-cloud-link">RabbitMQ</a>
+    <a href="/tags/RabbitMQ/" style="font-size: 13.266479006279823px;" class="tag-cloud-link">RabbitMQ</a>
     
-    <a href="/tags/stream/" style="font-size: 13.924836117475227px;" class="tag-cloud-link">stream</a>
+    <a href="/tags/stream/" style="font-size: 17.750092207274278px;" class="tag-cloud-link">stream</a>
     
-    <a href="/tags/vue/" style="font-size: 19.35602694795069px;" class="tag-cloud-link">vue</a>
+    <a href="/tags/vue/" style="font-size: 16.294749353138357px;" class="tag-cloud-link">vue</a>
     
-    <a href="/tags/%E6%BF%80%E6%B4%BB/" style="font-size: 19.193516807222558px;" class="tag-cloud-link">激活</a>
+    <a href="/tags/%E6%BF%80%E6%B4%BB/" style="font-size: 14.909137179532319px;" class="tag-cloud-link">激活</a>
     
-    <a href="/tags/element/" style="font-size: 14.22883834174603px;" class="tag-cloud-link">element</a>
+    <a href="/tags/echarts/" style="font-size: 15.117861324639698px;" class="tag-cloud-link">echarts</a>
     
-    <a href="/tags/echarts/" style="font-size: 8.5419827195621px;" class="tag-cloud-link">echarts</a>
+    <a href="/tags/element/" style="font-size: 18.372632767754048px;" class="tag-cloud-link">element</a>
     
-    <a href="/tags/elementUI/" style="font-size: 16.690755192395912px;" class="tag-cloud-link">elementUI</a>
+    <a href="/tags/elementUI/" style="font-size: 13.256675094596217px;" class="tag-cloud-link">elementUI</a>
     
-    <a href="/tags/es6/" style="font-size: 10.34109570327305px;" class="tag-cloud-link">es6</a>
+    <a href="/tags/es6/" style="font-size: 14.112994933618142px;" class="tag-cloud-link">es6</a>
     
-    <a href="/tags/hutool/" style="font-size: 17.233138034700204px;" class="tag-cloud-link">hutool</a>
+    <a href="/tags/hutool/" style="font-size: 9.43336523797941px;" class="tag-cloud-link">hutool</a>
     
-    <a href="/tags/jquery/" style="font-size: 12.321604720640305px;" class="tag-cloud-link">jquery</a>
+    <a href="/tags/jquery/" style="font-size: 8.498162156157447px;" class="tag-cloud-link">jquery</a>
     
-    <a href="/tags/layui/" style="font-size: 8.728583227459458px;" class="tag-cloud-link">layui</a>
+    <a href="/tags/layui/" style="font-size: 18.34508388035398px;" class="tag-cloud-link">layui</a>
     
-    <a href="/tags/linux/" style="font-size: 10.077685594045022px;" class="tag-cloud-link">linux</a>
+    <a href="/tags/linux/" style="font-size: 16.684471275670887px;" class="tag-cloud-link">linux</a>
     
-    <a href="/tags/mybatis-plus/" style="font-size: 18.73539606590342px;" class="tag-cloud-link">mybatis-plus</a>
+    <a href="/tags/mybatis-plus/" style="font-size: 13.776252441901445px;" class="tag-cloud-link">mybatis-plus</a>
     
-    <a href="/tags/npm/" style="font-size: 12.78958227939285px;" class="tag-cloud-link">npm</a>
+    <a href="/tags/npm/" style="font-size: 15.904779554490494px;" class="tag-cloud-link">npm</a>
     
-    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 12.827811571786233px;" class="tag-cloud-link">数据库</a>
+    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 19.100051280121995px;" class="tag-cloud-link">数据库</a>
     
-    <a href="/tags/sa-Token/" style="font-size: 12.276836432144334px;" class="tag-cloud-link">sa-Token</a>
+    <a href="/tags/sa-Token/" style="font-size: 15.443610459412161px;" class="tag-cloud-link">sa-Token</a>
     
-    <a href="/tags/uView/" style="font-size: 11.84370482845429px;" class="tag-cloud-link">uView</a>
+    <a href="/tags/uniapp/" style="font-size: 10.612381847914296px;" class="tag-cloud-link">uniapp</a>
     
-    <a href="/tags/uni-app/" style="font-size: 12.422430988051163px;" class="tag-cloud-link">uni-app</a>
+    <a href="/tags/uView/" style="font-size: 16.273051401833502px;" class="tag-cloud-link">uView</a>
     
-    <a href="/tags/uniapp/" style="font-size: 19.113303020776563px;" class="tag-cloud-link">uniapp</a>
+    <a href="/tags/uni-app/" style="font-size: 12.019861441269041px;" class="tag-cloud-link">uni-app</a>
     
-    <a href="/tags/%E8%B8%A9%E5%9D%91/" style="font-size: 9.677965018111008px;" class="tag-cloud-link">踩坑</a>
+    <a href="/tags/%E8%B8%A9%E5%9D%91/" style="font-size: 14.64204131097883px;" class="tag-cloud-link">踩坑</a>
     
-    <a href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E4%B8%AA%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 13.322892781250996px;" class="tag-cloud-link">每日一个小技巧</a>
+    <a href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E4%B8%AA%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 13.915097212031537px;" class="tag-cloud-link">每日一个小技巧</a>
     
-    <a href="/tags/Vue/" style="font-size: 9.832015216254394px;" class="tag-cloud-link">Vue</a>
+    <a href="/tags/Vue/" style="font-size: 12.124679054055921px;" class="tag-cloud-link">Vue</a>
     
-    <a href="/tags/docker/" style="font-size: 12.685865223903935px;" class="tag-cloud-link">docker</a>
+    <a href="/tags/docker/" style="font-size: 18.772672363310228px;" class="tag-cloud-link">docker</a>
     
-    <a href="/tags/PaddleOCR/" style="font-size: 16.925827949502015px;" class="tag-cloud-link">PaddleOCR</a>
+    <a href="/tags/PaddleOCR/" style="font-size: 17.228097149817735px;" class="tag-cloud-link">PaddleOCR</a>
     
-    <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 18.387641906912176px;" class="tag-cloud-link">设计模式</a>
+    <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 17.26475748044516px;" class="tag-cloud-link">设计模式</a>
     
-    <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 8.531082261226025px;" class="tag-cloud-link">博客</a>
+    <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 16.783769216984368px;" class="tag-cloud-link">博客</a>
     
-    <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 19.954479927859882px;" class="tag-cloud-link">正则表达式</a>
+    <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 14.057263374295704px;" class="tag-cloud-link">正则表达式</a>
     
-    <a href="/tags/%E5%8D%9A%E5%AE%A2%E7%BE%8E%E5%8C%96/" style="font-size: 17.431333884848662px;" class="tag-cloud-link">博客美化</a>
+    <a href="/tags/%E5%8D%9A%E5%AE%A2%E7%BE%8E%E5%8C%96/" style="font-size: 18.70671873279061px;" class="tag-cloud-link">博客美化</a>
     
 </div>
                 

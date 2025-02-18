@@ -142,11 +142,11 @@
                         
                         
                         <li>
-                            <a href="/tags/%E6%8F%92%E4%BB%B6/">插件</a>
+                            <a href="/tags/go/">go</a>
                         </li>
                         
                         <li>
-                            <a href="/tags/go/">go</a>
+                            <a href="/tags/%E6%8F%92%E4%BB%B6/">插件</a>
                         </li>
                         
                         <li>
@@ -282,8 +282,10 @@
 <li><strong>逐条处理JSON对象</strong>：在处理JSON格式的数据流时，如果数据以对象的形式逐个出现，使用流式编解码可以逐个对象进行处理，而不是将整个数据集加载到内存中。</li>
 <li><strong>节省内存</strong>：对于内存敏感的应用，流式编解码可以减少内存使用，因为它不需要一次性加载整个数据集。</li>
 <li><strong>异步处理</strong>：在异步编程模型中，流式编解码可以与异步IO操作配合使用，提高程序的并发性能。</li>
-<li><strong>数据转换</strong>：在需要将一种数据格式转换为另一种格式的过程中，流式编解码可以在转换过程中逐步处理数据，而不是将整个数据集加载到内存中进行转换。<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;  </span><br><span class="line">    <span class="comment">// 流式编码  </span></span><br><span class="line">    enc := json.NewEncoder(os.Stdout)  </span><br><span class="line">    p := Person&#123;Name: <span class="string">&quot;aiJiang&quot;</span>, Age: <span class="number">22</span>&#125;  </span><br><span class="line">    fmt.Print(<span class="string">&quot;Encoded JSON: &quot;</span>)  </span><br><span class="line">    err := enc.Encode(p)  </span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;  </span><br><span class="line">       <span class="keyword">return</span>  </span><br><span class="line">    &#125; <span class="comment">// 注意：Encode会自动在输出的JSON后面加上一个换行符  </span></span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 准备要解码的JSON数据  </span></span><br><span class="line">    data := <span class="string">`&#123;&quot;name&quot;:&quot;dou&quot;,&quot;age&quot;:23&#125;`</span>  </span><br><span class="line">    dec := json.NewDecoder(strings.NewReader(data))  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 流式解码  </span></span><br><span class="line">    <span class="keyword">var</span> p2 Person  </span><br><span class="line">    err = dec.Decode(&amp;p2)  </span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;  </span><br><span class="line">       fmt.Println(<span class="string">&quot;Error decoding JSON:&quot;</span>, err)  </span><br><span class="line">       <span class="keyword">return</span>  </span><br><span class="line">    &#125;  </span><br><span class="line">    fmt.Printf(<span class="string">&quot;Decoded struct: %+v\n&quot;</span>, p2)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><strong>数据转换</strong>：在需要将一种数据格式转换为另一种格式的过程中，流式编解码可以在转换过程中逐步处理数据，而不是将整个数据集加载到内存中进行转换。</li>
 </ol>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;  </span><br><span class="line">    <span class="comment">// 流式编码  </span></span><br><span class="line">    enc := json.NewEncoder(os.Stdout)  </span><br><span class="line">    p := Person&#123;Name: <span class="string">&quot;aiJiang&quot;</span>, Age: <span class="number">22</span>&#125;  </span><br><span class="line">    fmt.Print(<span class="string">&quot;Encoded JSON: &quot;</span>)  </span><br><span class="line">    err := enc.Encode(p)  </span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;  </span><br><span class="line">       <span class="keyword">return</span>  </span><br><span class="line">    &#125; <span class="comment">// 注意：Encode会自动在输出的JSON后面加上一个换行符  </span></span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 准备要解码的JSON数据  </span></span><br><span class="line">    data := <span class="string">`&#123;&quot;name&quot;:&quot;dou&quot;,&quot;age&quot;:23&#125;`</span>  </span><br><span class="line">    dec := json.NewDecoder(strings.NewReader(data))  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 流式解码  </span></span><br><span class="line">    <span class="keyword">var</span> p2 Person  </span><br><span class="line">    err = dec.Decode(&amp;p2)  </span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;  </span><br><span class="line">       fmt.Println(<span class="string">&quot;Error decoding JSON:&quot;</span>, err)  </span><br><span class="line">       <span class="keyword">return</span>  </span><br><span class="line">    &#125;  </span><br><span class="line">    fmt.Printf(<span class="string">&quot;Decoded struct: %+v\n&quot;</span>, p2)  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>这是运行结果<br><img src="https://files.catbox.moe/i6ty61.png" alt="i6ty61.png"></p>
 
     </div>
@@ -438,61 +440,61 @@
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2022/12/18/HttpClient%E8%8E%B7%E5%8F%96302%E5%93%8D%E5%BA%94%E4%B8%AD%E7%9A%84Location%E5%A4%B4%E4%BF%A1%E6%81%AF/">HttpClient获取302响应中的Location头信息</a>
+                    <a href="/2022/11/04/Linux%E5%BF%AB%E9%80%9F%E4%B8%8A%E4%BC%A0%E5%88%B0git%E4%BB%93%E5%BA%93/">Linux快速上传到git仓库</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2021/12/31/JavaScript-%E8%B5%8B%E5%80%BC%E9%97%AE%E9%A2%98/">JavaScript 赋值问题</a>
+                    <a href="/2022/09/20/Python3-%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Python3 基本数据类型</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2022/01/04/Opt%E9%9D%9E%E7%A9%BA%E5%88%A4%E6%96%AD/">Opt非空判断</a>
+                    <a href="/2022/01/27/Windows%E7%8E%AF%E5%A2%83%E4%B8%8Bredis%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%BF%AE%E6%94%B9%E6%B2%A1%E7%94%9F%E6%95%88%E9%97%AE%E9%A2%98/">Windows环境下redis配置文件修改没生效问题</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2022/12/15/Vuex%E6%8C%81%E4%B9%85%E5%8C%96%E6%8F%92%E4%BB%B6-vuex-persistedstate/">Vuex持久化插件(vuex-persistedstate)</a>
+                    <a href="/2022/01/22/es6%E8%A7%A3%E6%9E%84%E8%B5%8B%E5%80%BC/">es6解构赋值</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2022/12/08/element-ui%E4%B8%AD%E7%9A%84el-dropdown%EF%BC%88%E4%B8%8B%E6%8B%89%E6%A1%86%EF%BC%89%E9%98%B2%E6%AD%A2%E7%82%B9%E4%B8%80%E4%B8%8B%E5%B0%B1%E9%9A%90%E8%97%8F%E7%9A%84%E9%97%AE%E9%A2%98/">element ui中的el-dropdown（下拉框）防止点一下就隐藏的问题</a>
+                    <a href="/2021/12/16/hutool-Opt%E5%B7%A5%E5%85%B7/">hutool Opt工具</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2021/12/27/hutool-LocalDateTime%E5%B7%A5%E5%85%B7/">hutool LocalDateTime工具</a>
+                    <a href="/2021/12/20/layui%E5%88%86%E9%A1%B5%E6%A8%A1%E5%9D%97/">layui分页模块</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2022/09/01/linux%E6%9F%A5%E7%9C%8B%E5%8D%A0%E7%94%A8%E7%AB%AF%E5%8F%A3%E7%9A%84%E8%BF%9B%E7%A8%8B%E5%B9%B6%E6%9D%80%E6%AD%BB%E8%AF%A5%E8%BF%9B%E7%A8%8B/">linux查看占用端口的进程并杀死该进程</a>
+                    <a href="/2022/11/08/python%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83%E7%89%B9%E6%95%88/">python实现爱心特效</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2021/11/29/mybatis-plus-%E6%9D%A1%E4%BB%B6%E6%9E%84%E9%80%A0%E5%99%A8-%E5%8F%82%E6%95%B0%E9%97%AE%E9%A2%98/">MyBatis-Plus 条件构造器 参数问题</a>
+                    <a href="/2022/09/14/%E5%BF%AB%E9%80%9F%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AAmybatis-plus%E9%A1%B9%E7%9B%AE/">快速创建一个mybatis-plus项目</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2022/11/05/npm%E4%BF%AE%E6%94%B9%E6%BA%90%E4%B8%BA%E5%9B%BD%E5%86%85%E9%98%BF%E9%87%8C%E4%BA%91%E6%BA%90/">npm修改源为国内阿里云源</a>
+                    <a href="/2021/12/24/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2022/01/23/sa-Token%E5%85%A5%E9%97%A8/">sa-Token入门</a>
+                    <a href="/2022/09/01/%E8%AE%A9hexo%E5%9C%A8%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C/">让hexo在后台运行</a>
                 </span>
             </li>
             
@@ -525,81 +527,81 @@
                 
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 8.830553584311414px;" class="tag-cloud-link">插件</a>
+    <a href="/tags/go/" style="font-size: 13.585779850067755px;" class="tag-cloud-link">go</a>
     
-    <a href="/tags/go/" style="font-size: 12.461836924358263px;" class="tag-cloud-link">go</a>
+    <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 8.382663828536327px;" class="tag-cloud-link">插件</a>
     
-    <a href="/tags/%E7%A0%B4%E8%A7%A3/" style="font-size: 15.560939698463473px;" class="tag-cloud-link">破解</a>
+    <a href="/tags/%E7%A0%B4%E8%A7%A3/" style="font-size: 11.18757042475671px;" class="tag-cloud-link">破解</a>
     
-    <a href="/tags/java/" style="font-size: 9.72033718310797px;" class="tag-cloud-link">java</a>
+    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 17.71176172993822px;" class="tag-cloud-link">并发编程</a>
     
-    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 19.778115503866818px;" class="tag-cloud-link">并发编程</a>
+    <a href="/tags/java/" style="font-size: 16.6860430671897px;" class="tag-cloud-link">java</a>
     
-    <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 18.324669381839602px;" class="tag-cloud-link">前端</a>
+    <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 13.979327734154118px;" class="tag-cloud-link">前端</a>
     
-    <a href="/tags/git/" style="font-size: 11.810535615123538px;" class="tag-cloud-link">git</a>
+    <a href="/tags/git/" style="font-size: 16.358534987491783px;" class="tag-cloud-link">git</a>
     
-    <a href="/tags/Opt/" style="font-size: 19.46374484262184px;" class="tag-cloud-link">Opt</a>
+    <a href="/tags/Opt/" style="font-size: 17.447479749071036px;" class="tag-cloud-link">Opt</a>
     
-    <a href="/tags/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" style="font-size: 8.776494085785345px;" class="tag-cloud-link">踩坑记录</a>
+    <a href="/tags/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" style="font-size: 15.695113002965272px;" class="tag-cloud-link">踩坑记录</a>
     
-    <a href="/tags/python/" style="font-size: 18.678200288616743px;" class="tag-cloud-link">python</a>
+    <a href="/tags/python/" style="font-size: 11.301529175413442px;" class="tag-cloud-link">python</a>
     
-    <a href="/tags/RabbitMQ/" style="font-size: 14.837324692891416px;" class="tag-cloud-link">RabbitMQ</a>
+    <a href="/tags/RabbitMQ/" style="font-size: 8.392711040497066px;" class="tag-cloud-link">RabbitMQ</a>
     
-    <a href="/tags/stream/" style="font-size: 9.351310395215297px;" class="tag-cloud-link">stream</a>
+    <a href="/tags/stream/" style="font-size: 11.349090629188927px;" class="tag-cloud-link">stream</a>
     
-    <a href="/tags/vue/" style="font-size: 8.468159941686073px;" class="tag-cloud-link">vue</a>
+    <a href="/tags/vue/" style="font-size: 12.535039214473898px;" class="tag-cloud-link">vue</a>
     
-    <a href="/tags/%E6%BF%80%E6%B4%BB/" style="font-size: 15.51451069139928px;" class="tag-cloud-link">激活</a>
+    <a href="/tags/%E6%BF%80%E6%B4%BB/" style="font-size: 9.33457884774598px;" class="tag-cloud-link">激活</a>
     
-    <a href="/tags/element/" style="font-size: 15.096610420427474px;" class="tag-cloud-link">element</a>
+    <a href="/tags/echarts/" style="font-size: 12.775927207311081px;" class="tag-cloud-link">echarts</a>
     
-    <a href="/tags/echarts/" style="font-size: 15.998591349660181px;" class="tag-cloud-link">echarts</a>
+    <a href="/tags/element/" style="font-size: 9.506360555380024px;" class="tag-cloud-link">element</a>
     
-    <a href="/tags/elementUI/" style="font-size: 10.42767961722645px;" class="tag-cloud-link">elementUI</a>
+    <a href="/tags/elementUI/" style="font-size: 16.499732885008104px;" class="tag-cloud-link">elementUI</a>
     
-    <a href="/tags/es6/" style="font-size: 11.069193616881208px;" class="tag-cloud-link">es6</a>
+    <a href="/tags/es6/" style="font-size: 16.223030891916068px;" class="tag-cloud-link">es6</a>
     
-    <a href="/tags/hutool/" style="font-size: 11.83926697444991px;" class="tag-cloud-link">hutool</a>
+    <a href="/tags/hutool/" style="font-size: 9.436492468804659px;" class="tag-cloud-link">hutool</a>
     
-    <a href="/tags/jquery/" style="font-size: 13.848157534539334px;" class="tag-cloud-link">jquery</a>
+    <a href="/tags/jquery/" style="font-size: 9.270402432386486px;" class="tag-cloud-link">jquery</a>
     
-    <a href="/tags/layui/" style="font-size: 13.463168168404135px;" class="tag-cloud-link">layui</a>
+    <a href="/tags/layui/" style="font-size: 16.747773284829147px;" class="tag-cloud-link">layui</a>
     
-    <a href="/tags/linux/" style="font-size: 8.797988079208356px;" class="tag-cloud-link">linux</a>
+    <a href="/tags/linux/" style="font-size: 15.958274410616651px;" class="tag-cloud-link">linux</a>
     
-    <a href="/tags/mybatis-plus/" style="font-size: 13.616045100259303px;" class="tag-cloud-link">mybatis-plus</a>
+    <a href="/tags/mybatis-plus/" style="font-size: 17.13935730772175px;" class="tag-cloud-link">mybatis-plus</a>
     
-    <a href="/tags/npm/" style="font-size: 16.923752087663175px;" class="tag-cloud-link">npm</a>
+    <a href="/tags/npm/" style="font-size: 8.031142835984905px;" class="tag-cloud-link">npm</a>
     
-    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.908903551955454px;" class="tag-cloud-link">数据库</a>
+    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.499744104293914px;" class="tag-cloud-link">数据库</a>
     
-    <a href="/tags/sa-Token/" style="font-size: 13.035360220232604px;" class="tag-cloud-link">sa-Token</a>
+    <a href="/tags/sa-Token/" style="font-size: 16.131927651465126px;" class="tag-cloud-link">sa-Token</a>
     
-    <a href="/tags/uView/" style="font-size: 17.885445875250035px;" class="tag-cloud-link">uView</a>
+    <a href="/tags/uniapp/" style="font-size: 10.14553170979335px;" class="tag-cloud-link">uniapp</a>
     
-    <a href="/tags/uni-app/" style="font-size: 18.538896668966977px;" class="tag-cloud-link">uni-app</a>
+    <a href="/tags/uView/" style="font-size: 13.577991907979982px;" class="tag-cloud-link">uView</a>
     
-    <a href="/tags/uniapp/" style="font-size: 19.39436981303514px;" class="tag-cloud-link">uniapp</a>
+    <a href="/tags/uni-app/" style="font-size: 11.74036705275969px;" class="tag-cloud-link">uni-app</a>
     
-    <a href="/tags/%E8%B8%A9%E5%9D%91/" style="font-size: 19.64271104872786px;" class="tag-cloud-link">踩坑</a>
+    <a href="/tags/%E8%B8%A9%E5%9D%91/" style="font-size: 17.038522209412523px;" class="tag-cloud-link">踩坑</a>
     
-    <a href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E4%B8%AA%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 14.86374654491329px;" class="tag-cloud-link">每日一个小技巧</a>
+    <a href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E4%B8%AA%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 12.033528587312373px;" class="tag-cloud-link">每日一个小技巧</a>
     
-    <a href="/tags/Vue/" style="font-size: 10.594554945797722px;" class="tag-cloud-link">Vue</a>
+    <a href="/tags/Vue/" style="font-size: 17.596869973828195px;" class="tag-cloud-link">Vue</a>
     
-    <a href="/tags/docker/" style="font-size: 16.777495554387183px;" class="tag-cloud-link">docker</a>
+    <a href="/tags/docker/" style="font-size: 8.47387203950586px;" class="tag-cloud-link">docker</a>
     
-    <a href="/tags/PaddleOCR/" style="font-size: 10.364407649714323px;" class="tag-cloud-link">PaddleOCR</a>
+    <a href="/tags/PaddleOCR/" style="font-size: 17.001603346902947px;" class="tag-cloud-link">PaddleOCR</a>
     
-    <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 15.211310004272486px;" class="tag-cloud-link">设计模式</a>
+    <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 12.787069366275624px;" class="tag-cloud-link">设计模式</a>
     
-    <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 9.294782669594252px;" class="tag-cloud-link">博客</a>
+    <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 16.974027775579763px;" class="tag-cloud-link">博客</a>
     
-    <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 8.847530217998319px;" class="tag-cloud-link">正则表达式</a>
+    <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 9.328564315442394px;" class="tag-cloud-link">正则表达式</a>
     
-    <a href="/tags/%E5%8D%9A%E5%AE%A2%E7%BE%8E%E5%8C%96/" style="font-size: 13.189673046983355px;" class="tag-cloud-link">博客美化</a>
+    <a href="/tags/%E5%8D%9A%E5%AE%A2%E7%BE%8E%E5%8C%96/" style="font-size: 13.569561723379039px;" class="tag-cloud-link">博客美化</a>
     
 </div>
                 

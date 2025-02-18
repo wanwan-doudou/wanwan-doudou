@@ -142,11 +142,11 @@
                         
                         
                         <li>
-                            <a href="/tags/%E6%8F%92%E4%BB%B6/">插件</a>
+                            <a href="/tags/go/">go</a>
                         </li>
                         
                         <li>
-                            <a href="/tags/go/">go</a>
+                            <a href="/tags/%E6%8F%92%E4%BB%B6/">插件</a>
                         </li>
                         
                         <li>
@@ -257,7 +257,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;!<span class="variable constant_">DOCTYPE</span> html&gt;  </span><br><span class="line">&lt;html&gt;  </span><br><span class="line">&lt;head&gt;  </span><br><span class="line">  &lt;meta charset=&quot;utf-8&quot;&gt;  </span><br><span class="line">  &lt;title&gt;layPage快速使用&lt;/title&gt;  </span><br><span class="line">  &lt;link rel=&quot;stylesheet&quot; href=&quot;/static/build/layui.css&quot; media=&quot;all&quot;&gt;  </span><br><span class="line">&lt;/head&gt;  </span><br><span class="line">&lt;body&gt;  </span><br><span class="line">   </span><br><span class="line">&lt;div id=&quot;test1&quot;&gt;&lt;/div&gt;  </span><br><span class="line">   </span><br><span class="line">&lt;script src=&quot;/static/build/layui.js&quot;&gt;&lt;/script&gt;  </span><br><span class="line">&lt;script&gt;  </span><br><span class="line">layui.use(&#x27;laypage&#x27;, function()&#123;  </span><br><span class="line">  var laypage = layui.laypage;  </span><br><span class="line">    </span><br><span class="line">  //执行一个laypage实例  </span><br><span class="line">  laypage.render(&#123;  </span><br><span class="line">    elem: &#x27;test1&#x27; //注意，这里的 test1 是 ID，不用加 # 号  </span><br><span class="line">    ,count: 50 //数据总数，从服务端得到  </span><br><span class="line">  &#125;);  </span><br><span class="line">&#125;);  </span><br><span class="line">&lt;/script&gt;  </span><br><span class="line">&lt;/body&gt;  </span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://kwydy.oss-cn-guangzhou.aliyuncs.com/blog/20220830225209.png"></p>
-<p>当分页被切换时触发，函数返回两个参数：_obj_（当前分页的所有选项值）、first（是否首次，一般用于初始加载的判断）</p>
+<p>当分页被切换时触发，函数返回两个参数：<em>obj</em>（当前分页的所有选项值）、first（是否首次，一般用于初始加载的判断）</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">laypage.<span class="title function_">render</span>(&#123;  </span><br><span class="line">  <span class="attr">elem</span>: <span class="string">&#x27;test1&#x27;</span>  </span><br><span class="line">  ,<span class="attr">count</span>: <span class="number">70</span> <span class="comment">//数据总数，从服务端得到  </span></span><br><span class="line">  ,<span class="attr">jump</span>: <span class="keyword">function</span>(<span class="params">obj, first</span>)&#123;  </span><br><span class="line">    <span class="comment">//obj包含了当前分页的所有参数，比如：  </span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(obj.<span class="property">curr</span>); <span class="comment">//得到当前页，以便向服务端请求对应页的数据。  </span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(obj.<span class="property">limit</span>); <span class="comment">//得到每页显示的条数  </span></span><br><span class="line">      </span><br><span class="line">    <span class="comment">//首次不执行  </span></span><br><span class="line">    <span class="keyword">if</span>(!first)&#123;  </span><br><span class="line">      <span class="comment">//do something  </span></span><br><span class="line">    &#125;  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
 
@@ -413,25 +413,43 @@
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2021/12/12/Win11%E6%BF%80%E6%B4%BB/">Win11激活</a>
+                    <a href="/2021/12/11/Java-%E7%88%AC%E8%99%AB/">Java 爬虫</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2022/01/22/es6%E8%A7%A3%E6%9E%84%E8%B5%8B%E5%80%BC/">es6解构赋值</a>
+                    <a href="/2022/11/04/Linux%E5%BF%AB%E9%80%9F%E4%B8%8A%E4%BC%A0%E5%88%B0git%E4%BB%93%E5%BA%93/">Linux快速上传到git仓库</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2021/11/30/layui-%E5%AE%9E%E7%8E%B0%E4%B8%8D%E5%90%8C%E7%94%A8%E6%88%B7%E6%93%8D%E4%BD%9C%E6%9D%83%E9%99%90%E4%B8%8D%E5%90%8C/">layui 实现不同用户操作权限不同</a>
+                    <a href="/2022/09/20/Python3-%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Python3 基本数据类型</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2022/09/01/linux%E6%9F%A5%E7%9C%8B%E5%8D%A0%E7%94%A8%E7%AB%AF%E5%8F%A3%E7%9A%84%E8%BF%9B%E7%A8%8B%E5%B9%B6%E6%9D%80%E6%AD%BB%E8%AF%A5%E8%BF%9B%E7%A8%8B/">linux查看占用端口的进程并杀死该进程</a>
+                    <a href="/2023/04/24/Vue%E9%A1%B9%E7%9B%AE%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99%E2%80%9Cerror-0308010C-digital-envelope-routines-unsupported%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%E2%80%9D/">Vue项目启动报错“error:0308010C:digital envelope routines::unsupported解决办法”</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2024/09/25/go%E4%BD%BF%E7%94%A8%E5%8E%9F%E7%94%9Fmysql%E8%B7%A8%E5%BA%93%E6%93%8D%E4%BD%9C%E6%97%B6%E4%BF%9D%E8%AF%81%E4%BA%8B%E5%8A%A1%E4%B8%80%E8%87%B4%E6%80%A7/">go使用原生mysql跨库操作保证事务一致性</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/01/23/sa-Token%E5%85%A5%E9%97%A8/">sa-Token入门</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2022/11/08/python%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83%E7%89%B9%E6%95%88/">python实现爱心特效</a>
                 </span>
             </li>
             
@@ -443,31 +461,13 @@
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2022/01/26/uniapp%E9%94%AE%E7%9B%98%E5%BC%B9%E5%87%BA%EF%BC%8C%E9%A1%B5%E9%9D%A2%E5%86%85%E5%AE%B9%E8%A2%AB%E9%A1%B6%E4%B8%8A%E5%8E%BB%EF%BC%8C%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">uniapp键盘弹出，页面内容被顶上去，解决办法</a>
+                    <a href="/2022/01/21/vue-%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">vue 数据绑定注意事项</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2021/12/14/vue-props%E7%88%B6%E7%BB%84%E4%BB%B6%E5%90%91%E5%AD%90%E7%BB%84%E4%BB%B6%E4%BC%A0%E5%80%BC/">vue props父组件向子组件传值</a>
-                </span>
-            </li>
-            
-            <li class="list-group-item">
-                <span class="post-title">
-                    <a href="/2021/12/21/vue%E5%AD%90%E7%BB%84%E4%BB%B6%E7%BB%99%E7%88%B6%E7%BB%84%E4%BB%B6%E4%BC%A0%E5%80%BC/">Vue子组件给父组件传值</a>
-                </span>
-            </li>
-            
-            <li class="list-group-item">
-                <span class="post-title">
-                    <a href="/2022/10/01/win%E5%92%8Cfn%E9%94%AE%E5%A4%B1%E6%95%88/">win和fn键失效</a>
-                </span>
-            </li>
-            
-            <li class="list-group-item">
-                <span class="post-title">
-                    <a href="/2024/09/29/%E4%BD%BF%E7%94%A8docker%E5%AE%89%E8%A3%85CPU%E7%89%88%E6%9C%AC%E7%9A%84PaddleOCR/">使用docker安装PaddleOCR</a>
+                    <a href="/2022/01/06/%E4%BD%BF%E7%94%A8uni-navigateTo-%E4%BC%A0%E9%80%92%E5%AF%B9%E8%B1%A1/">使用uni.navigateTo()传递对象</a>
                 </span>
             </li>
             
@@ -500,81 +500,81 @@
                 
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 12.76743003753061px;" class="tag-cloud-link">插件</a>
+    <a href="/tags/go/" style="font-size: 11.00481359247221px;" class="tag-cloud-link">go</a>
     
-    <a href="/tags/go/" style="font-size: 17.281768082913512px;" class="tag-cloud-link">go</a>
+    <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 19.20753028702378px;" class="tag-cloud-link">插件</a>
     
-    <a href="/tags/%E7%A0%B4%E8%A7%A3/" style="font-size: 9.948863801431475px;" class="tag-cloud-link">破解</a>
+    <a href="/tags/%E7%A0%B4%E8%A7%A3/" style="font-size: 15.053424679566017px;" class="tag-cloud-link">破解</a>
     
-    <a href="/tags/java/" style="font-size: 11.817674272933512px;" class="tag-cloud-link">java</a>
+    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 8.513910462662384px;" class="tag-cloud-link">并发编程</a>
     
-    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 8.786123857764906px;" class="tag-cloud-link">并发编程</a>
+    <a href="/tags/java/" style="font-size: 18.35096824374071px;" class="tag-cloud-link">java</a>
     
-    <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 15.314993189969083px;" class="tag-cloud-link">前端</a>
+    <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 18.974453785834488px;" class="tag-cloud-link">前端</a>
     
-    <a href="/tags/git/" style="font-size: 10.325269087149728px;" class="tag-cloud-link">git</a>
+    <a href="/tags/git/" style="font-size: 16.141326342083566px;" class="tag-cloud-link">git</a>
     
-    <a href="/tags/Opt/" style="font-size: 14.085266209960126px;" class="tag-cloud-link">Opt</a>
+    <a href="/tags/Opt/" style="font-size: 14.881463766954061px;" class="tag-cloud-link">Opt</a>
     
-    <a href="/tags/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" style="font-size: 10.439213061320746px;" class="tag-cloud-link">踩坑记录</a>
+    <a href="/tags/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" style="font-size: 10.028432481828968px;" class="tag-cloud-link">踩坑记录</a>
     
-    <a href="/tags/python/" style="font-size: 15.245033051857842px;" class="tag-cloud-link">python</a>
+    <a href="/tags/python/" style="font-size: 16.22131837299867px;" class="tag-cloud-link">python</a>
     
-    <a href="/tags/RabbitMQ/" style="font-size: 17.802301643077453px;" class="tag-cloud-link">RabbitMQ</a>
+    <a href="/tags/RabbitMQ/" style="font-size: 18.437452822265573px;" class="tag-cloud-link">RabbitMQ</a>
     
-    <a href="/tags/stream/" style="font-size: 14.484665522924516px;" class="tag-cloud-link">stream</a>
+    <a href="/tags/stream/" style="font-size: 12.114621851906861px;" class="tag-cloud-link">stream</a>
     
-    <a href="/tags/vue/" style="font-size: 18.705127830627262px;" class="tag-cloud-link">vue</a>
+    <a href="/tags/vue/" style="font-size: 14.658006709408793px;" class="tag-cloud-link">vue</a>
     
-    <a href="/tags/%E6%BF%80%E6%B4%BB/" style="font-size: 14.478890739424292px;" class="tag-cloud-link">激活</a>
+    <a href="/tags/%E6%BF%80%E6%B4%BB/" style="font-size: 19.394341708282823px;" class="tag-cloud-link">激活</a>
     
-    <a href="/tags/element/" style="font-size: 14.675666154764695px;" class="tag-cloud-link">element</a>
+    <a href="/tags/echarts/" style="font-size: 15.826446808421622px;" class="tag-cloud-link">echarts</a>
     
-    <a href="/tags/echarts/" style="font-size: 8.206686021068151px;" class="tag-cloud-link">echarts</a>
+    <a href="/tags/element/" style="font-size: 8.268377276261297px;" class="tag-cloud-link">element</a>
     
-    <a href="/tags/elementUI/" style="font-size: 12.409103624807933px;" class="tag-cloud-link">elementUI</a>
+    <a href="/tags/elementUI/" style="font-size: 18.536149384439426px;" class="tag-cloud-link">elementUI</a>
     
-    <a href="/tags/es6/" style="font-size: 13.679944712451526px;" class="tag-cloud-link">es6</a>
+    <a href="/tags/es6/" style="font-size: 14.489893039296692px;" class="tag-cloud-link">es6</a>
     
-    <a href="/tags/hutool/" style="font-size: 17.149778686865744px;" class="tag-cloud-link">hutool</a>
+    <a href="/tags/hutool/" style="font-size: 10.986907003761129px;" class="tag-cloud-link">hutool</a>
     
-    <a href="/tags/jquery/" style="font-size: 15.303878496226696px;" class="tag-cloud-link">jquery</a>
+    <a href="/tags/jquery/" style="font-size: 8.455149750201127px;" class="tag-cloud-link">jquery</a>
     
-    <a href="/tags/layui/" style="font-size: 8.27243857001719px;" class="tag-cloud-link">layui</a>
+    <a href="/tags/layui/" style="font-size: 10.39966872280759px;" class="tag-cloud-link">layui</a>
     
-    <a href="/tags/linux/" style="font-size: 11.312520761279494px;" class="tag-cloud-link">linux</a>
+    <a href="/tags/linux/" style="font-size: 9.369444592089943px;" class="tag-cloud-link">linux</a>
     
-    <a href="/tags/mybatis-plus/" style="font-size: 19.97316179442906px;" class="tag-cloud-link">mybatis-plus</a>
+    <a href="/tags/mybatis-plus/" style="font-size: 8.718371577548936px;" class="tag-cloud-link">mybatis-plus</a>
     
-    <a href="/tags/npm/" style="font-size: 8.217202768088221px;" class="tag-cloud-link">npm</a>
+    <a href="/tags/npm/" style="font-size: 18.875529257973152px;" class="tag-cloud-link">npm</a>
     
-    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 16.137426381947076px;" class="tag-cloud-link">数据库</a>
+    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 16.926775476701714px;" class="tag-cloud-link">数据库</a>
     
-    <a href="/tags/sa-Token/" style="font-size: 10.490551390341324px;" class="tag-cloud-link">sa-Token</a>
+    <a href="/tags/sa-Token/" style="font-size: 17.99181010212402px;" class="tag-cloud-link">sa-Token</a>
     
-    <a href="/tags/uView/" style="font-size: 19.60819783311249px;" class="tag-cloud-link">uView</a>
+    <a href="/tags/uniapp/" style="font-size: 14.798140971187408px;" class="tag-cloud-link">uniapp</a>
     
-    <a href="/tags/uni-app/" style="font-size: 17.031279576109903px;" class="tag-cloud-link">uni-app</a>
+    <a href="/tags/uView/" style="font-size: 17.755980365305213px;" class="tag-cloud-link">uView</a>
     
-    <a href="/tags/uniapp/" style="font-size: 15.693858015386436px;" class="tag-cloud-link">uniapp</a>
+    <a href="/tags/uni-app/" style="font-size: 14.24958243477368px;" class="tag-cloud-link">uni-app</a>
     
-    <a href="/tags/%E8%B8%A9%E5%9D%91/" style="font-size: 18.420923800276473px;" class="tag-cloud-link">踩坑</a>
+    <a href="/tags/%E8%B8%A9%E5%9D%91/" style="font-size: 14.765831141630402px;" class="tag-cloud-link">踩坑</a>
     
-    <a href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E4%B8%AA%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 13.940217521750581px;" class="tag-cloud-link">每日一个小技巧</a>
+    <a href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E4%B8%AA%E5%B0%8F%E6%8A%80%E5%B7%A7/" style="font-size: 16.939394479743605px;" class="tag-cloud-link">每日一个小技巧</a>
     
-    <a href="/tags/Vue/" style="font-size: 11.883276385680995px;" class="tag-cloud-link">Vue</a>
+    <a href="/tags/Vue/" style="font-size: 15.335510775187704px;" class="tag-cloud-link">Vue</a>
     
-    <a href="/tags/docker/" style="font-size: 8.453832837303835px;" class="tag-cloud-link">docker</a>
+    <a href="/tags/docker/" style="font-size: 14.255554659650176px;" class="tag-cloud-link">docker</a>
     
-    <a href="/tags/PaddleOCR/" style="font-size: 11.439636331585705px;" class="tag-cloud-link">PaddleOCR</a>
+    <a href="/tags/PaddleOCR/" style="font-size: 8.276033086299664px;" class="tag-cloud-link">PaddleOCR</a>
     
-    <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 17.762811037938196px;" class="tag-cloud-link">设计模式</a>
+    <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 14.235251934718052px;" class="tag-cloud-link">设计模式</a>
     
-    <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 17.77422326223187px;" class="tag-cloud-link">博客</a>
+    <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 18.037868030904246px;" class="tag-cloud-link">博客</a>
     
-    <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 14.490564644597635px;" class="tag-cloud-link">正则表达式</a>
+    <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 8.577889975847118px;" class="tag-cloud-link">正则表达式</a>
     
-    <a href="/tags/%E5%8D%9A%E5%AE%A2%E7%BE%8E%E5%8C%96/" style="font-size: 11.314294973080639px;" class="tag-cloud-link">博客美化</a>
+    <a href="/tags/%E5%8D%9A%E5%AE%A2%E7%BE%8E%E5%8C%96/" style="font-size: 10.564834010478274px;" class="tag-cloud-link">博客美化</a>
     
 </div>
                 
